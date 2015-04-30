@@ -1,0 +1,60 @@
+\documentclass{article}
+
+\usepackage{subfiles}
+
+\usepackage{mathpartir}
+\usepackage{todonotes}
+\usepackage{unlist}
+
+\usepackage{ifthen}
+\usepackage{xargs}
+\usepackage{hyperref}
+\usepackage{enumerate}
+\usepackage{letltxmacro}
+
+\usepackage{xspace}
+\usepackage{latexsym,amsmath,amssymb}
+\usepackage{verbatim}
+\usepackage{graphics,graphicx}
+\usepackage{stmaryrd}
+\usepackage{amsbsy}
+\usepackage{upgreek}
+\usepackage{url}
+\usepackage{mathrsfs}
+\usepackage{braket}
+
+\usepackage{natbib}
+
+\usepackage{xparse}
+\usepackage{amsthm}
+
+\input{defs.tex}
+
+\newlmetavar{tx}{\tfont{x}}{\tcolor}
+\newlmetavar{te}{\tfont{e}}{\tcolor}
+\newlmetavar{tv}{\tfont{v}}{\tcolor}
+\newlmetavar{tty}{\tfontsym{\tau}}{\tcolor}
+\newlmetavar{sty}{\sfontsym{\sigma}}{\scolor}
+
+
+\newcommand{\trelV}[1]{\lrrel{\tfont}{V}{#1}}
+\newcommand{\srelE}[1]{\lrrel{\sfont}{E}{#1}}
+\begin{document}
+$$
+ \lmetavar{\tfont{x}}{\tcolor{1}}{}{\tprime}{1}
+ \lmetavar{\tfont{x}}{\tcolor{1}}{}{\tprime}{4}
+ \txmetavar{}{}{0}
+ \txmetavar{}{}{1}
+ \tx
+ \txpr
+ \txone
+ \txonepr
+ \txtwo
+ \txtwopr
+ \te
+ \tvone
+ \temetavar{}{}{0}
+ \trelV{\tty}
+ \srelE{\stypr}
+ $$
+\end{document}

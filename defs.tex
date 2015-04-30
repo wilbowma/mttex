@@ -1,0 +1,470 @@
+\newcommand{\todoleft}[2][]{
+  \reversemarginpar
+  \todo[#1]{#2}
+  \reversemarginpar
+}
+\newcommand{\margincomment}[2][color=green!40,nolist]{
+  \todo[#1]{#2}
+}
+\newcommand{\inlinecomment}[2][inline,color=green!40,nolist]{
+  \todo[#1]{#2}
+}
+\newcommand{\appendixcomment}[1]{#1}
+
+%% Misc commands <<<
+
+\newcommand{\secref}[1]{\S\ref{#1}}
+\newcommand{\figref}[1]{Figure~\ref{#1}}
+\newcommand{\lemref}[1]{Lemma~\ref{#1}}
+\newcommand{\thmref}[1]{Theorem~\ref{#1}}
+
+% some general macros to make life easier
+\newcommand{\pair}[2]{( #1, #2 )}
+\newcommand{\triple}[3]{( #1, #2, #3 )}
+\newcommand{\pushmap}[3]{#1 \left[ #2 \mapsto #3 \right]}
+
+% Text fonts
+\newcommand{\tbf}[1]{\textbf{#1}}
+\newcommand{\trm}[1]{\textrm{#1}}
+\newcommand{\tnl}[1]{\small{\trm{#1}}}
+
+% Math fonts
+\newcommand{\mbb}[1]{\mathbb{#1}}
+\newcommand{\mbf}[1]{\mathbf{#1}}
+\renewcommand{\mit}[1]{\mathit{#1}}
+\newcommand{\mrm}[1]{\mathrm{#1}}
+\newcommand{\mtt}[1]{\mathtt{#1}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\mfrak}[1]{\mathfrak{#1}}
+\newcommand{\msf}[1]{\mathsf{#1}}
+\newcommand{\mscr}[1]{\mathscr{#1}}
+
+% Text mode
+\newenvironment{nop}{}{}
+
+% Math mode
+\newenvironment{sdisplaymath}{
+\begin{nop}\small\begin{displaymath}}{
+\end{displaymath}\end{nop}\ignorespacesafterend}
+\newenvironment{fdisplaymath}{
+\begin{nop}\footnotesize\begin{displaymath}}{
+\end{displaymath}\end{nop}\ignorespacesafterend}
+\newenvironment{smathpar}{
+\begin{nop}\small\begin{mathpar}}{
+\end{mathpar}\end{nop}\ignorespacesafterend}
+\newenvironment{fmathpar}{
+\begin{nop}\footnotesize\begin{mathpar}}{
+\end{mathpar}\end{nop}\ignorespacesafterend}
+\newenvironment{alignS}{
+\begin{nop}\begin{align}}{
+\end{align}\end{nop}\ignorespacesafterend}
+\newenvironment{salignS}{
+\begin{nop}\small\begin{align}}{
+\end{align}\end{nop}\ignorespacesafterend}
+\newenvironment{falignS}{
+\begin{nop}\footnotesize\begin{align*}}{
+\end{align}\end{nop}\ignorespacesafterend}
+
+% Stack formatting
+\newenvironment{stackAux}[2]{%
+\setlength{\arraycolsep}{0pt}
+\begin{array}[#1]{#2}}{
+\end{array}}
+\newenvironment{stackCC}{
+\begin{stackAux}{c}{c}}{\end{stackAux}}
+\newenvironment{stackCL}{
+\begin{stackAux}{c}{l}}{\end{stackAux}}
+\newenvironment{stackTL}{
+\begin{stackAux}{t}{l}}{\end{stackAux}}
+\newenvironment{stackTR}{
+\begin{stackAux}{t}{r}}{\end{stackAux}}
+\newenvironment{stackBC}{
+\begin{stackAux}{b}{c}}{\end{stackAux}}
+\newenvironment{stackBL}{
+\begin{stackAux}{b}{l}}{\end{stackAux}}
+
+\newtheoremstyle{athm}{\topsep}{\topsep}%
+     {\itshape}%         Body font
+     {}%         Indent amount (empty = no indent, \parindent = para indent)
+     {\bfseries}% Thm head font
+     {}%        Punctuation after thm head
+%     {.8em}%     Space after thm head (\newline = linebreak)
+     {\newline}%     Space after thm head (\newline = linebreak)
+     {\thmname{#1}\thmnumber{ #2}\thmnote{~\,(#3)}}%         Thm head spec
+
+\theoremstyle{athm}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+
+%% TODO I don't know if I want any of these.
+%Theorems
+% \newcounter{thrmi}
+% \newcounter{lemi}
+% \newcounter{defni}
+% \newcounter{prfi}
+
+% %\newcommand{\qed}{\hfill$\Box$}
+
+% % \newtheorem{theoremX}{Theorem}
+% \newtheorem{theoremX}{Theorem}[section]
+% \newenvironment{theorem}[1][]{%
+% \begin{theoremX}~%
+% \ifthenelse{\equal{#1}{}}{}{\textup{\textbf{(#1)}}}~%
+% \begin{list}{}{}\item[]}{%
+% \end{list}\end{theoremX}}
+% \newenvironment{theoremE}[1][]{%
+% \begin{theoremX}~%
+% \ifthenelse{\equal{#1}{}}{}{\textup{\textbf{(#1)}}}~%
+% \begin{list}{\arabic{thrmi}.}{\usecounter{thrmi}}\item[]}{%
+% \end{list}\end{theoremX}}
+
+% \newtheorem{lemmaX}[theoremX]{Lemma}
+% \newenvironment{lemma}[1][]{%
+% \begin{lemmaX}~%
+% \ifthenelse{\equal{#1}{}}{}{\textup{\textbf{(#1)}}}~%
+% \begin{list}{}{}\item[]}{%
+% \end{list}\end{lemmaX}}
+% \newenvironment{lemmaE}[1][]{%
+% \begin{lemmaX}~%
+% \ifthenelse{\equal{#1}{}}{}{\textup{\textbf{(#1)}}}~%
+% \begin{list}{\arabic{lemi}.}{\usecounter{lemi}}}{%
+% \end{list}\end{lemmaX}}
+
+% \newtheorem{conjectureX}[theoremX]{Conjecture}
+% \newenvironment{conjecture}[1][]{%
+% \begin{conjectureX}~%
+% \ifthenelse{\equal{#1}{}}{}{\textup{\textbf{(#1)}}}~%
+% \begin{list}{}{}\item[]}{%
+% \end{list}\end{conjectureX}}
+% \newenvironment{conjectureE}[1][]{%
+% \begin{conjectureX}~%
+% \ifthenelse{\equal{#1}{}}{}{\textup{\textbf{(#1)}}}~%
+% \begin{list}{\arabic{lemi}.}{\usecounter{lemi}}}{%
+% \end{list}\end{conjectureX}}
+
+% \newtheorem{corollaryX}[theoremX]{Corollary}
+% \newenvironment{corollary}[1][]{%
+% \begin{corollaryX}~%
+% \ifthenelse{\equal{#1}{}}{}{\textup{\textbf{(#1)}}}~%
+% \begin{list}{}{}\item[]}{%
+% \end{list}\end{corollaryX}}
+% \newenvironment{corollaryE}[1][]{%
+% \begin{corollaryX}~%
+% \ifthenelse{\equal{#1}{}}{}{\textup{\textbf{(#1)}}}~%
+% \begin{list}{\arabic{thrmi}.}{\usecounter{thrmi}}}{%
+% \end{list}\end{corollaryX}}
+
+% \newtheorem{definitionX}[theoremX]{Definition}
+% \newenvironment{definition}[1][]{%
+% \begin{definitionX}~%
+% \ifthenelse{\equal{#1}{}}{}{\textup{\textbf{(#1)}}}~%
+% \begin{list}{}{}\item[]}{%
+% \end{list}\end{definitionX}}
+% \newenvironment{definitionE}[1][]{%
+% \begin{definitionX}~%
+% \ifthenelse{\equal{#1}{}}{}{\textup{\textbf{(#1)}}}~%
+% \begin{list}{\arabic{defni}.}{\usecounter{defni}}}{%
+% \end{list}\end{definitionX}}
+%
+% \newenvironment{proof}[1][]{%
+% \noindent%
+% \textbf{Proof\ifthenelse{\equal{#1}{}}{}{ (#1)}}%
+% \begin{list}{}{}\item[]}{%
+% \qed
+% \end{list}}
+% \newenvironment{proofE}[1][]{%
+% \noindent%
+% \textbf{Proof\ifthenelse{\equal{#1}{}}{}{ (#1)}}%
+% \begin{list}{\arabic{prfi}.}{\usecounter{prfi}}}{%
+% \qed
+% \end{list}}
+
+\renewenvironment{proof}[1][]{%
+\noindent%
+\textbf{Proof\ifthenelse{\equal{#1}{}}{}{ (#1)}}%
+\begin{list}{}{}\item[]}{%
+\qed
+\end{list}}
+
+\renewenvironment{cases}{\begin{description}}{\end{description}}
+\newcommand{\case}[1][]{\item[Case] #1}
+\newcommand{\scase}[1][]{\item[Sub-case] #1}
+\newcommand{\sscase}[1][]{\item[SubSub-case] #1}
+
+\newsavebox{\DetailsBox}%
+\newenvironment{details}[1][]{%
+\ifthenelse{\boolean{ShowDetailsFlag}}{}{#1 \begin{lrbox}{\DetailsBox}\begin{minipage}{\textwidth}}%
+}{%
+\ifthenelse{\boolean{ShowDetailsFlag}}{}{\end{minipage}\end{lrbox}}%
+}%
+
+%% TODO Or these
+%% \renewcommand{\thefigure}{\thesection.\arabic{figure}}
+
+% % Shading
+% \newlength{\ShadeLen}
+% \newcommand{\shade}[2]{%
+% \settoheight{\ShadeLen}{$\bnfalt$}
+% \colorbox[gray]{#1}{\mbox{\rule{0pt}{\ShadeLen}#2}}}
+
+% Meta Language
+\newcommand{\metafont}[1]{\mathrm{#1}}
+\newcommand{\dom}[1]{\metafont{dom}(#1)}
+\newcommand{\cod}[1]{\metafont{cod}(#1)}
+\newcommand{\rng}[1]{\metafont{rng}(#1)}
+\newcommand{\FV}{\metafont{fv}}
+\newcommand{\FTV}{\metafont{ftv}}
+\newcommand{\subst}[3]{{#1}[{#2}/{#3}]}
+\newcommand{\defeq}{\stackrel{\metafont{def}}{=}}
+\newcommand{\finmap}{\stackrel{\metafont{fin}}{\rightarrow}}
+\renewcommand{\iff}{\metafont{iff}}
+\newcommand{\lsem}{\left\llbracket}
+\newcommand{\rsem}{\right\rrbracket}
+\newcommand{\sembrace}[1]{\lsem{#1}\rsem}
+\newcommand{\powset}[1]{\mathscr{P}(#1)}
+\newcommand{\irred}[1]{\metafont{irred}(#1)}
+\renewcommand{\max}[2]{\metafont{max}(#1,#2)}
+\newcommand{\free}[2]{\metafont{free}(#1,#2)}
+\newcommand{\running}[2]{\mrm{running}({#1},{#2})}
+
+\newcommand{\satisfy}{\vDash}
+
+\newcommand{\plus}{+}
+\newcommand{\etal}{\textit{et al.}}
+\newcommand{\bump}{\hspace{3.5pt}}
+\newcommand{\fresh}[1]{(\mit{fresh}\:#1)}
+
+\newcommand{\lang}[1]{\mrm{\trm{#1}}}
+
+% General
+\renewcommand{\b}{\boldsymbol}
+
+\newcommand{\empctx}{\cdot}
+\newcommand{\hole}{[\cdot]}
+\newcommand{\hw}[1]{\lbrack{#1}\rbrack}
+
+\newcommand{\hooklongrightarrow}{\lhook\joinrel\longrightarrow}
+\newcommand{\redexstep}{\hookrightarrow}
+
+\newcommand{\step}{\longmapsto}
+\newcommand{\stepin}[1]{\step^{#1}}
+\newcommand{\stepstar}{\stepin{*}}
+
+\newcommand{\red}{\Downarrow}
+\newcommand{\diverg}[1]{#1 \Uparrow}
+
+\newcommand{\termin}[1]{#1\red}
+\newcommand{\terminw}[2]{\termin{#1} #2}
+
+\newcommand{\transarrow}{\leadsto}
+\newcommand{\backtransarrow}{\twoheadrightarrow}
+
+% BNF symbols
+\newcommand{\bnfalt}{{\bf \,\,\mid\,\,}}
+\newcommand{\bnfdef}{{\bf ::=}}
+
+%% Language Formatting combinators
+
+% Copy-pasta: http://tex.stackexchange.com/questions/16189/repeat-command-n-times
+\makeatletter
+\newcommand{\Repeat}[1]{%
+  \expandafter\@Repeat\expandafter{\the\numexpr #1\relax}%
+}
+
+\def\@Repeat#1{%
+  \ifnum#1>0
+    \expandafter\@@Repeat\expandafter{\the\numexpr #1-1\expandafter\relax\expandafter}%
+  \else
+    \expandafter\@gobble
+  \fi
+}
+\def\@@Repeat#1#2{%
+  \@Repeat{#1}{#2}#2%
+}
+\makeatother
+
+% \lmetavar formats a language meta-var. It takes 4 parameters:
+% #1 : a pre-formatted symbol representing the meta-var
+% #2 : a pre-formatted subscript
+% #3 : a pre-formatted superscript
+% #4 : a pre-formatted prime symbol
+% #5 : a natural number, representing the number of primes
+%
+% Usage:
+%   \newcommand{\txmetavar}[3]{
+%     \lmetavar{\tfont{x}}{\tcolor{#1}}{\tcolor{#2}}{\tprime}{#3}
+%   }
+%   \newcommand{\tx}{\txmetavar{}{}{}}
+%   \newcommand{\txone}{\txmetavar{1}{}{}}
+%   \newcommand{\txonepr}{\txmetavar{1}{}{1}}
+
+\newcommand{\lmetavar}[5]{
+  {#1}_{#2}^{#3\Repeat{#5}{#4}}
+}
+
+% \lmetavarto formats a language meta-var with only a
+% superscript, and takes 2 parameters:
+%
+% #1 : a pre-formatted symbol representing the meta-var
+% #2 : a pre-formatted superscript
+%
+% Usage:
+%   \newcommand{\txF}{\lmetavarto{\tx}{f}}
+\newcommand{\lmetavarto}[2]{\lmetavar{#1}{}{#2}{}{0}}
+
+% \lmetavarin formats a language meta-var with only a
+% subscript, takes 2 parameters:
+%
+% #1 : a pre-formatted symbol representing the meta-var
+% #2 : a pre-formatted subscript
+%
+% Usage:
+%   \newcommand{\txone}{\lmetavarto{\tx}{\tcolor{1}}}
+\newcommand{\lmetavarin}[2]{\lmetavar{#1}{#2}{}{}{0}}
+
+% \lmetavarpr formats a language meta-var with only primes, takes 3
+% parameters:
+%
+% #1 : a pre-formatted symbol representing the meta-var
+% #2 : a pre-formatted prime symbol
+% #3 : a natural number representing the number of primes
+%
+% Usage:
+%   \newcommand{\txpr}{\lmetavarto{\tx}{\prime}{1}}
+%   \newcommand{\txdubpr}{\lmetavarto{\tx}{\prime}{2}}
+\newcommand{\lmetavarpr}[3]{\lmetavarpr{#1}{}{}{#2}{#3}}
+
+% \newlmetavar generates some standard macros for formatting a meta-var,
+% and takes 3 paraemters:
+%
+% #1 : a prefix for the generated macros
+% #2 : a pre-formated version of the meta-var
+% #3 : a formatting macro for subscript, superscripts, and primes
+%
+% Usage:
+%   \newlmetavar{tx}{\tfont{x}}{\tcolor}
+% This usage would generates definitions like:
+%  \newcommand{\tx}{\tfont{x}}
+%  \newcommand{\txmetavar}[3]{
+%    \lmetvar{\tx}{\tcolor{#1}}{\tcolor{#2}}{\tcolor{\prime}}{#3}
+%  }
+%  \newcommand{\txin}[1]{ \txmetavar{#1}{}{0} }
+%  \newcommand{\txto}[1]{ \txmetavar{}{#1}{0} }
+%  \newcommand{\txpr}{\tx^{\tcolor{\prime}}}
+%  \newcommand{\txdubpr}{\tx^{\tcolor{\prime\prime}}}
+%  \newcommand{\txone}{\tx_\tcolor{1}}
+%  \newcommand{\txonepr}{\txone^{\tcolor{\prime}}}
+%  \newcommand{\txtwo}{\tx_\tcolor{2}}
+%  \newcommand{\txtwopr}{\txtwo^{\tcolor{\prime}}}
+
+\makeatletter
+\newcommand{\newlmetavar}[3]{
+  \expandafter\newcommand\csname #1metavar\endcsname[3]{
+    \lmetavar{#2}{#3{##1}}{#3{##2}}{#3{\prime}}{##3}
+  }
+  \expandafter\newcommand\csname #1\endcsname{
+    \csname #1metavar\endcsname{}{}{0}
+  }
+  \expandafter\newcommand\csname #1in\endcsname[1]{
+    \csname #1metavar\endcsname{##1}{}{0}
+  }
+  \expandafter\newcommand\csname #1to\endcsname[1]{
+    \csname #1metavar\endcsname{}{##1}{0}
+  }
+  \expandafter\newcommand\csname #1pr\endcsname{
+    \csname #1metavar\endcsname{}{}{1}
+  }
+  \expandafter\newcommand\csname #1dubpr\endcsname{
+    \csname #1metavar\endcsname{}{}{2}
+  }
+  \expandafter\newcommand\csname #1one\endcsname{
+    \csname#1metavar\endcsname{1}{}{0}
+  }
+  \expandafter\newcommand\csname #1onepr\endcsname{
+    \csname#1metavar\endcsname{1}{}{1}
+  }
+  \expandafter\newcommand\csname #1two\endcsname{
+    \csname#1metavar\endcsname{2}{}{0}
+  }
+  \expandafter\newcommand\csname #1twopr\endcsname{
+    \csname#1metavar\endcsname{2}{}{1}
+  }
+}
+
+%% TODO define \newlmetavars to generate a list of meta-vars at once
+% \newlmetavars generates some standard macros for formatting a list of
+% meta-vars, and takes 2 argument.
+% #1 : a common prefix for all the meta-vars
+% #2 : a list of meta-var, without the common prefix
+% #3 : the string name of a formatting macro for meta-vars
+% #4 : the string name of a formatting for subscripts, superscripts, and primes
+%
+% Usage:
+%   \newlmetavars{t}{x,e,v}{\tfont}{\tcolor}
+
+% \newcommand{\newlmetavars}[4]{
+%   \@for\@i:=#2\do{\expandafter\newlmetavar\expandafter{#1\@i}\expandafter{#3{\@i}}\expandafter{#4}}
+% }
+\makeatother
+
+% Standard meta-vars
+
+\newcommand{\ectxt}{E}
+\newcommand{\ctxt}{C}
+
+% Standard meta-theory
+
+\newcommand{\wf}[2]{#1 \vdash #2}
+\newcommand{\judg}[3]{#1 \vdash #2 : #3}
+
+\newcommand{\ctxeqv}{\approx^{\mit{ctx}}}
+\newcommand{\ciueqv}{\approx^{\mit{ciu}}}
+
+\newcommand{atomsym}{\mrm{Atom}}
+\newcommand{atomvalsym}{\mrm{Atom}^{\mrm{val}}}
+\newcommand{relsym}{\mrm{Rel}}
+
+% \lrrel formats a logical relation symbol. It takes 3 parameters:
+%
+% #1 : A formatting macro, such as \tfont
+% #2 : A letter for the relation, such a V or E
+% #3 : A pre-formatted type by which the relation is indexed
+%
+% Usage:
+%  \newcommand{\srelV}[1]{\lrrel{\sfont}{V}{#1}}
+%  \newcommand{\trelV}[2]{\lrrel{\tfont}{V}{#1}{#2}}
+\newcommand{\lrrel}[3]{#1{\mathcal{#2}}\sembrace{#3}}
+
+% The following help define formatting macros for the logical relation's
+% relational interpretation, normally written as \rho
+% Usage:
+%  \newcommand{\tlrrho}{\tfontsym{\rho}}
+%  \newcommand{\tlrrhoext}[4]{\lrrhoext{\tlrrho}{#1}{#2}{#3}{#4}}
+\newcommand{\lrrhoext}[5]{#1[#2 \mapsto (#3,#4,#5)]}
+\newcommand{\lrrhooneat}[2]{#1_1({#2})}
+\newcommand{\lrrhotwoat}[2]{#1_2({#2})}
+\newcommand{\lrrhorelat}[2]{#1_{R}({#2})}
+
+% TODO Add delta, gamma versions of above
+
+%% Standard Source/Target defs
+\newcommand*{\slang}{\@source-language-undefined}
+\newcommand*{\tlang}{\@target-language-undefined}
+
+\newcommand{\scolor}[1]{\textcolor{blue}{#1}}
+\newcommand{\tcolor}[1]{\textcolor{red}{#1}}
+
+\newcommand{\sfont}[1]{\mathsf{\scolor{#1}}}
+\newcommand{\tfont}[1]{\mathbf{\tcolor{#1}}}
+
+\newcommand{\sfontsym}[1]{\sfont{#1}}
+\newcommand{\tfontsym}[1]{\tfont{\b{#1}}}
+
+\newcommand{\scal}[1]{\sfontsym{\mathcal{#1}}}
+\newcommand{\tcal}[1]{\tfontsym{\mathcal{#1}}}
+
+\newcommand{\sprime}{\scolor{\prime}}
+\newcommand{\tprime}{\tcolor{\prime}}
