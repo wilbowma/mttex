@@ -371,14 +371,14 @@
   \expandafter\newcommand\csname #1in\endcsname[1]{
     \csname #1metavar\endcsname{##1}{}{0}
   }
-  \expandafter\newcommand\csname #1to\endcsname[1]{
-    \csname #1metavar\endcsname{}{##1}{0}
+  \expandafter\newcommand\csname #1to\endcsname[2][0]{
+    \csname #1metavar\endcsname{}{##2}{##1}
   }
-  \expandafter\newcommand\csname #1pr\endcsname{
-    \csname #1metavar\endcsname{}{}{1}
+  \expandafter\newcommand\csname #1pr\endcsname[1][1]{
+    \csname #1metavar\endcsname{}{}{##1}
   }
   \expandafter\newcommand\csname #1dubpr\endcsname{
-    \csname #1metavar\endcsname{}{}{2}
+    \csname #1pr\endcsname[2]
   }
   \expandafter\newcommand\csname #1one\endcsname{
     \csname#1metavar\endcsname{1}{}{0}
@@ -423,9 +423,9 @@
 \newcommand{\ctxeqv}{\approx^{\mit{ctx}}}
 \newcommand{\ciueqv}{\approx^{\mit{ciu}}}
 
-\newcommand{atomsym}{\mrm{Atom}}
-\newcommand{atomvalsym}{\mrm{Atom}^{\mrm{val}}}
-\newcommand{relsym}{\mrm{Rel}}
+\newcommand{\atomsym}{\mrm{Atom}}
+\newcommand{\atomvalsym}{\mrm{Atom}^{\mrm{val}}}
+\newcommand{\relsym}{\mrm{Rel}}
 
 % \lrrel formats a logical relation symbol. It takes 3 parameters:
 %
