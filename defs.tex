@@ -430,13 +430,14 @@
 \newcommand{\ctxt}{C}
 
 %%% Standard language features
+%%% TODO Document. Tests and examples exist in test.tex
 
 %% Standard types
 \newcommand{\funty}[3]{#2 #1{\funarrow} \, #3}
-\newcommand{\polyfunty}[4]{#1{\forall}#1{\,[}{#2}#1{].}{#3}#1{\funarrow}\,{#4}}
+\newcommand{\polyfunty}[4]{#1{\forall}\,#1{[}{#2}#1{].}{#3}#1{\funarrow}\,{#4}}
 \newcommand{\forallty}[3]{#1{\forall}#2#1{.}\,#3}
 \newcommand{\existty}[3]{#1{\exists}#2#1{.}\,#3}
-\newcommand{\muty}[4]}{#1{\upmu} #3 #2{.} #3 }
+\newcommand{\muty}[3]{#1{\upmu} #2 #1{.} #3 }
 \newcommand{\unitty}[1]{#1{1}}
 \newcommand{\voidty}[1]{#1{0}}
 \newcommand{\boolty}[1]{#1{bool}}
@@ -447,19 +448,20 @@
 \newcommand{\epolyfun}[5]{
   #1{\uplambda}\,#1{[}{#2}#1{]\,(}{#3}\,#1{:}\,#4#1{).}\,#5
 }
-\newcommand{\einst}{#2\:#1{[}{#3}#1{]}}
+\newcommand{\eabstr}[3]{#1{\Uplambda}#2#1{.}#3}
+\newcommand{\einst}[3]{#2\:#1{[}{#3}#1{]}}
 \newcommand{\eapp}[2]{#1\ #2}
 \newcommand{\epapp}[4]{#2\:#1{[}{#3}#1{]}\:#4}
 \newcommand{\eif}[4]{#1{if}\ {#2}\ #1{then}\ {#3}\ #1{else}\ #4}
 \newcommand{\epack}[5]{
   #1{pack}#2{\langle} #3 #1{,} #4 #2{\rangle}\,#1{as}\,#5
 }
-\newcommand{\eunpack}[5]{
-  #1{unpack}#2{\langle}#3 #1{,} #4 #2{\rangle\! = \,} #3 \,#1{in}\, #4
+\newcommand{\eunpack}[6]{
+  #1{unpack}#2{\langle}#3 #1{,} #4 #2{\rangle\! = \,} #5 \,#1{in}\, #6
 }
 \newcommand{\elet}[5]{#1{let}\ #3\:#2{=}\:{#4}\ #1{in}\ #5}
 \newcommand{\efold}[3]{#1{fold}_{#2} \, #3}
-\newcommand{\eunfold}[2]{#1{unfold} \, #1}
+\newcommand{\eunfold}[2]{#1{unfold} \, #2}
 \newcommand{\eunit}[1]{#1{\langle}#1{\rangle}}
 \newcommand{\etrue}[1]{#1{true}}
 \newcommand{\efalse}[1]{#1{false}}
@@ -482,7 +484,7 @@
 % #3 : The type, such as \tfont{\tau}
 \newcommand{\judg}[3]{#1 \vdash #2 : #3}
 
-\newcommand{\ctxttysh}{#2 #1{\ctxarrow} \, #3}
+\newcommand{\ctxttysh}[3]{#2 #1{\ctxarrow} \, #3}
 \newcommand{\ctxty}[5]{\ctxttysh{#1}{(\wf{#2}{#3})}{(\wf{#4}{#5})}}
 
 \newcommand{\ctxeqv}{\approx^{\mit{ctx}}}
@@ -528,7 +530,7 @@
 % \binmapext extends a map whose value is a pair.
 % It takes 4 parameters:
 % #1 : A pre-formatted symbol for the map, such as \tfont{\rho}
-% #2 : A pre-formatted key for the new mapping, such as \tfont{\alpha} 
+% #2 : A pre-formatted key for the new mapping, such as \tfont{\alpha}
 % #3 : A pre-formatted symbol for the first element of the value such as
 %   \tfont{\tau}
 % #4 : A pre-formatted symbol for the second element of the value
@@ -542,7 +544,7 @@
 % It takes 5 parameters:
 %
 % #1 : A pre-formatted symbol for the map, such as \tfont{\rho}
-% #2 : A pre-formatted key for the new mapping, such as \tfont{\alpha} 
+% #2 : A pre-formatted key for the new mapping, such as \tfont{\alpha}
 % #3 : A pre-formatted symbol for the first element of the value such as
 %   \tfont{\tau}
 % #4 : A pre-formatted symbol for the second element of the value
@@ -559,7 +561,7 @@
 % \maponeat projects the first element of the value of a map at some
 % key.
 % It takes 2 arguments.
-% 
+%
 % #1 : A pre-formatted symbol for the map, as as \tfont{\rho}
 % #2 : A pre-formatted symbol for the key
 \newcommand{\maponeat}[2]{{#1}_1({#2})}

@@ -2,35 +2,154 @@
 
 \usepackage{secctex}
 
+%% TODO Perhaps a macro such the following. It would require versions of
+%% the type and expression macros that accepted more arguments, to be
+%% amenable to automation. e.g. \tfunty* which expects \tfont as well,
+%% but simply ignores it.
+%%
+%%   \newlanguage{\tcolor}{\tfont}{\tfontsym}{t}
+%%   {x,e,v,ty,alpha} % meta-vars
+%%   {fun,polyfun,exist,bool} % types
+%%   {fun,polyfun,inst,app,app,true,false,if} % expressions
+
 \newlmetavar{tx}{\tfont{x}}{\tcolor}
 \newlmetavar{te}{\tfont{e}}{\tcolor}
+\newlmetavar{se}{\sfont{e}}{\scolor}
+\newlmetavar{sx}{\sfont{x}}{\scolor}
+\newlmetavar{sv}{\sfont{v}}{\scolor}
 \newlmetavar{tv}{\tfont{v}}{\tcolor}
 \newlmetavar{tty}{\tfontsym{\tau}}{\tcolor}
 \newlmetavar{sty}{\sfontsym{\sigma}}{\scolor}
+\newlmetavar{talpha}{\tfontsym{\alpha}}{\tcolor}
+\newlmetavar{salpha}{\sfontsym{\alpha}}{\scolor}
 
-\newcommand{\trelV}[1]{\lr{\tfontsym}{V}{#1}}
-\newcommand{\srelE}[1]{\lr{\sfont}{E}{#1}}
+\newcommand{\trelV}{\lr{\tfontsym}{V}}
+\newcommand{\srelE}{\lr{\sfont}{E}}
+
+%% TODO Create the following macro that will generate code below
+%% \newltypes{t}{funty,polyfunty,forallty,existty}{\tfontsym}{\tfont}
+\newcommand{\tfunty}{\funty{\tfontsym}}
+\newcommand{\tpfunty}{\polyfunty{\tfontsym}}
+\newcommand{\tforallty}{\forallty{\tfontsym}}
+\newcommand{\texistty}{\existty{\tfontsym}}
+\newcommand{\tmuty}{\muty{\tfontsym}}
+\newcommand{\tunitty}{\unitty{\tfont}}
+\newcommand{\tvoidty}{\voidty{\tfont}}
+\newcommand{\tboolty}{\boolty{\tfont}}
+\newcommand{\tpairty}{\pairty{\tfontsym}}
+
+\newcommand{\sefun}{\efun{\sfontsym}}
+\newcommand{\sepolyfun}{\epolyfun{\sfontsym}}
+\newcommand{\seabstr}{\eabstr{\sfontsym}}
+\newcommand{\seinst}{\einst{\sfontsym}}
+\newcommand{\seapp}{\eapp}
+\newcommand{\sepapp}{\epapp{\sfontsym}}
+
+\newcommand{\seif}{\eif{\sfont}}
+\newcommand{\sepack}{\epack{\sfont}{\sfontsym}}
+\newcommand{\seunpack}{\eunpack{\sfont}{\sfontsym}}
+\newcommand{\telet}{\elet{\tfont}{\tfontsym}}
+\newcommand{\selet}{\elet{\sfont}{\sfontsym}}
+\newcommand{\sefold}{\efold{\sfont}}
+\newcommand{\seunfold}{\eunfold{\sfont}}
+\newcommand{\seunit}{\eunit{\sfontsym}}
+\newcommand{\setrue}{\etrue{\sfont}}
+\newcommand{\sefalse}{\efalse{\sfont}}
+\newcommand{\sepair}{\epair{\sfontsym}}
+
 \begin{document}
-$$
- \lmetavar{\tfont{x}}{\tcolor{1}}{}{\tprime}{1}
- \lmetavar{\tfont{x}}{\tcolor{1}}{}{\tprime}{4}
- \txmetavar{}{}{0}
- \txmetavar{}{}{1}
- \tx
- \txpr
- \txdubpr
- \txpr[5]
- \txone
- \txonepr
- \txtwo
- \txtwopr
- \te
- \tvone
- \temetavar{}{}{0}
- \trelV{\tty}
- \srelE{\stypr}
- \lrV{\tfont}{\tty}
- \tfont{\Gamma}
- \tfontsym{\Gamma}
- $$
+\begin{smathpar}
+  \lmetavar{\tfont{x}}{\tcolor{1}}{}{\tprime}{1}
+
+  \lmetavar{\tfont{x}}{\tcolor{1}}{}{\tprime}{4}
+
+  \txmetavar{}{}{0}
+
+  \txmetavar{}{}{1}
+
+  \tx
+
+  \txpr
+
+  \txdubpr
+
+  \txpr[5]
+
+  \txone
+
+  \txonepr
+
+  \txtwo
+
+  \txtwopr
+
+  \te
+
+  \tvone
+
+  \temetavar{}{}{0}
+
+  \trelV{\tty}
+
+  \srelE{\stypr}
+
+  \lrV{\tfont}{\tty}
+
+  \tfont{\Gamma}
+
+  \tfontsym{\Gamma}
+
+  \tfunty{\ttyone}{\ttytwo}
+
+  \tpfunty{\talpha}{\ttyone}{\ttytwo}
+
+  \tforallty{\talpha}{\tty}
+
+  \texistty{\talpha}{\tty}
+
+  \tmuty{\talpha}{\tty}
+
+  \tunitty
+
+  \tvoidty
+
+  \tboolty
+
+  \tpairty{\ttyone}{\ttytwo}
+
+  \sefun{\sx}{\sty}{\seone}
+
+  \sepolyfun{\salpha}{\sx}{\sty}{\sepr}
+
+  \seabstr{\salpha}{\sty}
+
+  \seinst{\se}{\sty}
+
+  \seapp{\seone}{\setwo}
+
+  \sepapp{\seone}{\stypr}{\setwopr}
+
+  \seif{\sv}{\seone}{\setwo}
+
+  \sepack{\sx}{\salpha}{\seone}
+
+  \seunpack{\sv}{\sty}{\svpr}{\seone}
+
+  \telet{\tx}{\te}{\teone}
+
+  \selet{\sx}{\se}{\seone}
+
+  \sefold{\tmuty{\salpha}{\styone}}{\sty}
+
+  \seunfold{\seone}
+
+  \seunit
+  
+  \setrue
+
+  \sefalse
+
+  \sepair{\seone}{\svtwopr}
+
+\end{smathpar}
 \end{document}
