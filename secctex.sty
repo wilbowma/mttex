@@ -1,0 +1,75 @@
+\ProvidesPackage{secctex}
+
+\usepackage{subfiles}
+
+\usepackage{mathpartir}
+\usepackage{todonotes}
+\usepackage{unlist}
+
+\usepackage{ifthen}
+%\usepackage{xargs}
+\usepackage{hyperref}
+\usepackage{enumerate}
+\usepackage{letltxmacro}
+
+\usepackage{xspace}
+\usepackage{latexsym,amsmath,amssymb}
+%\usepackage{verbatim}
+%\usepackage{graphics,graphicx}
+\usepackage{stmaryrd}
+\usepackage{amsbsy}
+\usepackage{upgreek}
+\usepackage{url}
+\usepackage{mathrsfs}
+%\usepackage{braket}
+
+%\usepackage{xparse}
+\usepackage{amsthm}
+
+\newcommand{\omitthis}[1]{#1}
+\DeclareOption{omit}{
+  \renewcommand{\omitthis}[1]{}
+}
+
+\LetLtxMacro{\oldtodo}{\todo}
+\renewcommand{\todo}[2][]{\omitthis{\oldtodo[#1]{#2}}}
+\DeclareOption{todo}{
+  \renewcommand{\todo}[2][]{\oldtodo[#1]{#2}}
+}
+
+\newif\ifsecc@sigplan
+\secc@sigplantrue
+
+\DeclareOption{nosigplan}{\secc@sigplanfalse}
+
+\newif\ifsecc@techrpt
+\secc@techrptfalse
+
+\DeclareOption{techrpt}{\secc@techrpttrue}
+\DeclareOption{paper}{\secc@techrptfalse}
+
+\ProcessOptions\relax
+
+\ifsecc@sigplan
+  \usepackage{natbib}
+  \bibpunct{[}{]}{,}{n}{}{,}
+  \let\cite=\citep
+\fi
+
+\ifsecc@techrpt
+  \usepackage{fullpage}
+  \renewcommand{\baselinestretch}{1.0}
+\else
+  \usepackage{microtype}
+  \ifsecc@sigplan
+  \renewcommand\bibsection%
+  {
+    \makeatletter
+    \section*{\refname\@mkboth{\MakeUppercase{\refname}}{\MakeUppercase{\refname}}}
+    \makeatother
+  }
+  \fi
+\fi
+
+\input{defs}
+\endinput
