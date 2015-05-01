@@ -261,6 +261,9 @@
 \newcommand{\transarrow}{\leadsto}
 \newcommand{\backtransarrow}{\twoheadrightarrow}
 
+\newcommand{\funarrow}{\rightarrow}
+\newcommand{\ctxarrow}{\Rightarrow}
+
 % BNF symbols
 \newcommand{\bnfalt}{{\bf \,\,\mid\,\,}}
 \newcommand{\bnfdef}{{\bf ::=}}
@@ -391,6 +394,18 @@
   \expandafter\newcommand\csname #1twopr\endcsname{
     \csname#1metavar\endcsname{2}{}{1}
   }
+  \expandafter\newcommand\csname #1n\endcsname{
+    \csname#1metavar\endcsname{n}{}{0}
+  }
+  \expandafter\newcommand\csname #1npr\endcsname{
+    \csname#1metavar\endcsname{n}{}{1}
+  }
+  \expandafter\newcommand\csname #1i\endcsname{
+    \csname#1metavar\endcsname{i}{}{0}
+  }
+  \expandafter\newcommand\csname #1ipr\endcsname{
+    \csname#1metavar\endcsname{i}{}{1}
+  }
 }
 
 %% TODO define \newlmetavars to generate a list of meta-vars at once
@@ -414,6 +429,42 @@
 \newcommand{\ectxt}{E}
 \newcommand{\ctxt}{C}
 
+%%% Standard language features
+
+%% Standard types
+\newcommand{\funty}[3]{#2 #1{\funarrow} \, #3}
+\newcommand{\polyfunty}[4]{#1{\forall}#1{\,[}{#2}#1{].}{#3}#1{\funarrow}\,{#4}}
+\newcommand{\forallty}[3]{#1{\forall}#2#1{.}\,#3}
+\newcommand{\existty}[3]{#1{\exists}#2#1{.}\,#3}
+\newcommand{\muty}[4]}{#1{\upmu} #3 #2{.} #3 }
+\newcommand{\unitty}[1]{#1{1}}
+\newcommand{\voidty}[1]{#1{0}}
+\newcommand{\boolty}[1]{#1{bool}}
+\newcommand{\pairty}[3]{#2 \, #1{\times} \, #3}
+
+%% Standard expression
+\newcommand{\efun}[4]{#1{\uplambda (}{#2}\,#1{:}\,#3#1{).}\,#4}
+\newcommand{\epolyfun}[5]{
+  #1{\uplambda}\,#1{[}{#2}#1{]\,(}{#3}\,#1{:}\,#4#1{).}\,#5
+}
+\newcommand{\einst}{#2\:#1{[}{#3}#1{]}}
+\newcommand{\eapp}[2]{#1\ #2}
+\newcommand{\epapp}[4]{#2\:#1{[}{#3}#1{]}\:#4}
+\newcommand{\eif}[4]{#1{if}\ {#2}\ #1{then}\ {#3}\ #1{else}\ #4}
+\newcommand{\epack}[5]{
+  #1{pack}#2{\langle} #3 #1{,} #4 #2{\rangle}\,#1{as}\,#5
+}
+\newcommand{\eunpack}[5]{
+  #1{unpack}#2{\langle}#3 #1{,} #4 #2{\rangle\! = \,} #3 \,#1{in}\, #4
+}
+\newcommand{\elet}[5]{#1{let}\ #3\:#2{=}\:{#4}\ #1{in}\ #5}
+\newcommand{\efold}[3]{#1{fold}_{#2} \, #3}
+\newcommand{\eunfold}[2]{#1{unfold} \, #1}
+\newcommand{\eunit}[1]{#1{\langle}#1{\rangle}}
+\newcommand{\etrue}[1]{#1{true}}
+\newcommand{\efalse}[1]{#1{false}}
+\newcommand{\epair}[4]{#1{\langle}#2#1{,}#3{#1{\rangle}}}
+
 %% Standard meta-theory
 
 % \wf formats a well-formedness judgment.
@@ -430,6 +481,9 @@
 % #2 : The term, such as \tfont{e}
 % #3 : The type, such as \tfont{\tau}
 \newcommand{\judg}[3]{#1 \vdash #2 : #3}
+
+\newcommand{\ctxttysh}{#2 #1{\ctxarrow} \, #3}
+\newcommand{\ctxty}[5]{\ctxttysh{#1}{(\wf{#2}{#3})}{(\wf{#4}{#5})}}
 
 \newcommand{\ctxeqv}{\approx^{\mit{ctx}}}
 \newcommand{\ciueqv}{\approx^{\mit{ciu}}}
@@ -541,3 +595,4 @@
 
 \newcommand{\sprime}{\scolor{\prime}}
 \newcommand{\tprime}{\tcolor{\prime}}
+
