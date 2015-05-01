@@ -21,7 +21,6 @@
 % some general macros to make life easier
 \newcommand{\pair}[2]{( #1, #2 )}
 \newcommand{\triple}[3]{( #1, #2, #3 )}
-\newcommand{\pushmap}[3]{#1 \left[ #2 \mapsto #3 \right]}
 
 % Text fonts
 \newcommand{\tbf}[1]{\textbf{#1}}
@@ -38,6 +37,7 @@
 \newcommand{\mfrak}[1]{\mathfrak{#1}}
 \newcommand{\msf}[1]{\mathsf{#1}}
 \newcommand{\mscr}[1]{\mathscr{#1}}
+\renewcommand{\b}{\boldsymbol}
 
 % Text mode
 \newenvironment{nop}{}{}
@@ -210,7 +210,7 @@
 % \settoheight{\ShadeLen}{$\bnfalt$}
 % \colorbox[gray]{#1}{\mbox{\rule{0pt}{\ShadeLen}#2}}}
 
-% Meta Language
+%% Meta Language
 \newcommand{\metafont}[1]{\mathrm{#1}}
 \newcommand{\dom}[1]{\metafont{dom}(#1)}
 \newcommand{\cod}[1]{\metafont{cod}(#1)}
@@ -239,8 +239,7 @@
 
 \newcommand{\lang}[1]{\mrm{\trm{#1}}}
 
-% General
-\renewcommand{\b}{\boldsymbol}
+%% Standard symbols
 
 \newcommand{\empctx}{\cdot}
 \newcommand{\hole}{[\cdot]}
@@ -410,58 +409,132 @@
 % }
 \makeatother
 
-% Standard meta-vars
+%% Standard meta-vars
 
 \newcommand{\ectxt}{E}
 \newcommand{\ctxt}{C}
 
-% Standard meta-theory
+%% Standard meta-theory
 
+% \wf formats a well-formedness judgment.
+% It takes 2 parameters.
+%
+% #1 : The assumptions, such as \tfont{\Delta}
+% #2 : The proposition, such as \tfont{\alpha}
 \newcommand{\wf}[2]{#1 \vdash #2}
+
+% \judg formats a well-typedness judgment.
+% It takes 3 parameters.
+%
+% #1 : The assumptions, such as \tfont{\Delta};\tfont{\Gamma}
+% #2 : The term, such as \tfont{e}
+% #3 : The type, such as \tfont{\tau}
 \newcommand{\judg}[3]{#1 \vdash #2 : #3}
 
 \newcommand{\ctxeqv}{\approx^{\mit{ctx}}}
 \newcommand{\ciueqv}{\approx^{\mit{ciu}}}
 
-\newcommand{\atomsym}{\mrm{Atom}}
-\newcommand{\atomvalsym}{\mrm{Atom}^{\mrm{val}}}
-\newcommand{\relsym}{\mrm{Rel}}
+\newcommand{\lratomsym}{\mrm{Atom}}
+\newcommand{\lratomvalsym}{\mrm{Atom}^{\mrm{val}}}
+\newcommand{\lrrelsym}{\mrm{Rel}}
 
-% \lrrel formats a logical relation symbol. It takes 3 parameters:
+% \lr formats a logical relation set. It takes 3 parameters:
 %
 % #1 : A formatting macro, such as \tfont
 % #2 : A letter for the relation, such a V or E
-% #3 : A pre-formatted type by which the relation is indexed
+% #3 : A pre-formatted index for the relation
 %
 % Usage:
-%  \newcommand{\srelV}[1]{\lrrel{\sfont}{V}{#1}}
-%  \newcommand{\trelV}[2]{\lrrel{\tfont}{V}{#1}{#2}}
-\newcommand{\lrrel}[3]{#1{\mathcal{#2}}\sembrace{#3}}
+%  \newcommand{\srelV}[1]{\lr{\sfont}{V}{#1}}
+%  \newcommand{\trelV}[2]{\lr{\tfont}{V}{#1}{#2}}
+\newcommand{\lr}[3]{#1{\mathcal{#2}}\sembrace{#3}}
 
-% The following help define formatting macros for the logical relation's
-% relational interpretation, normally written as \rho
+% \lrV,\lrE,\lrG,\lrD,\lrK,\lrO format logical relation set. They takes
+% 2 parameters:
+%
+% #1 : A formatting macro, such as \tfont
+% #2 : A pre-formatted index for relation
+%
 % Usage:
-%  \newcommand{\tlrrho}{\tfontsym{\rho}}
-%  \newcommand{\tlrrhoext}[4]{\lrrhoext{\tlrrho}{#1}{#2}{#3}{#4}}
-\newcommand{\lrrhoext}[5]{#1[#2 \mapsto (#3,#4,#5)]}
-\newcommand{\lrrhooneat}[2]{#1_1({#2})}
-\newcommand{\lrrhotwoat}[2]{#1_2({#2})}
-\newcommand{\lrrhorelat}[2]{#1_{R}({#2})}
+%  \newcommand{\srelV}[1]{\lrV{\sfont}{#1}}
+%  \newcommand{\trelV}[2]{\lrV{\tfont}{#1}{#2}}
+\newcommand{\lrV}[2]{\lr{#1}{V}{#2}}
+\newcommand{\lrE}[2]{\lr{#1}{E}{#2}}
+\newcommand{\lrG}[2]{\lr{#1}{G}{#2}}
+\newcommand{\lrD}[2]{\lr{#1}{D}{#2}}
+\newcommand{\lrK}[2]{\lr{#1}{K}{#2}}
+\newcommand{\lrO}[2]{\lr{#1}{O}{#2}}
 
-% TODO Add delta, gamma versions of above
+%% The following help define formatting macros relational
+%% interpretations and substitution, normally written as \rho, \delta,
+%% and \gamma
 
-%% Standard Source/Target defs
+%% TODO Maybe these should use \pair and \triple
+
+% \binmapext extends a map whose value is a pair.
+% It takes 4 parameters:
+% #1 : A pre-formatted symbol for the map, such as \tfont{\rho}
+% #2 : A pre-formatted key for the new mapping, such as \tfont{\alpha} 
+% #3 : A pre-formatted symbol for the first element of the value such as
+%   \tfont{\tau}
+% #4 : A pre-formatted symbol for the second element of the value
+%
+% Usage:
+%  \newcommand{\slrgamma}{\sfont{\gamma}}
+%  \newcommand{\slrgammaext}[3]{\binmapext{\slrgamma}{#1}{#2}{#3}}
+\newcommand{\binmapext}[4]{#1[#2 \mapsto (#3,#4)]}
+
+% \trimapext is like \binmapext, but extends a map whose value is a triple.
+% It takes 5 parameters:
+%
+% #1 : A pre-formatted symbol for the map, such as \tfont{\rho}
+% #2 : A pre-formatted key for the new mapping, such as \tfont{\alpha} 
+% #3 : A pre-formatted symbol for the first element of the value such as
+%   \tfont{\tau}
+% #4 : A pre-formatted symbol for the second element of the value
+% #5 : A pre-formatted symbol for the third element of the value
+%
+% Usage:
+%  \newcommand{\tlrrho}{\tfont{\rho}}
+%  \newcommand{\tlrrhoext}[4]{\trimapext{\tlrrho}{#1}{#2}{#3}{#4}}
+\newcommand{\trimapext}[5]{#1[#2 \mapsto (#3,#4,#5)]}
+
+%% TODO These should probably accept formatting macros for the
+%% subscript.
+
+% \maponeat projects the first element of the value of a map at some
+% key.
+% It takes 2 arguments.
+% 
+% #1 : A pre-formatted symbol for the map, as as \tfont{\rho}
+% #2 : A pre-formatted symbol for the key
+\newcommand{\maponeat}[2]{{#1}_1({#2})}
+
+% \maptwoat is like \maponeat but projects the second element.
+% The interface is the same
+\newcommand{\maptwoat}[2]{{#1}_2({#2})}
+
+% \maprelat is like \maponeat but projects the third element, which is
+% assumed to be a relation.
+\newcommand{\maprelat}[2]{{#1}_R({#2})}
+
+%% Standard Source/Target formatting
+\makeatletter
 \newcommand*{\slang}{\@source-language-undefined}
 \newcommand*{\tlang}{\@target-language-undefined}
+\makeatother
 
 \newcommand{\scolor}[1]{\textcolor{blue}{#1}}
 \newcommand{\tcolor}[1]{\textcolor{red}{#1}}
+
+\newcommand{\sfonttext}[1]{\textsf{\scolor{#1}}}
+\newcommand{\tfonttext}[1]{\textsf{\tcolor{#1}}}
 
 \newcommand{\sfont}[1]{\mathsf{\scolor{#1}}}
 \newcommand{\tfont}[1]{\mathbf{\tcolor{#1}}}
 
 \newcommand{\sfontsym}[1]{\sfont{#1}}
-\newcommand{\tfontsym}[1]{\tfont{\b{#1}}}
+\newcommand{\tfontsym}[1]{\b{\tfont{#1}}}
 
 \newcommand{\scal}[1]{\sfontsym{\mathcal{#1}}}
 \newcommand{\tcal}[1]{\tfontsym{\mathcal{#1}}}
