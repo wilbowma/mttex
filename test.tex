@@ -1,34 +1,6 @@
 \documentclass{article}
 
-\usepackage{subfiles}
-
-\usepackage{mathpartir}
-\usepackage{todonotes}
-\usepackage{unlist}
-
-\usepackage{ifthen}
-\usepackage{xargs}
-\usepackage{hyperref}
-\usepackage{enumerate}
-\usepackage{letltxmacro}
-
-\usepackage{xspace}
-\usepackage{latexsym,amsmath,amssymb}
-\usepackage{verbatim}
-\usepackage{graphics,graphicx}
-\usepackage{stmaryrd}
-\usepackage{amsbsy}
-\usepackage{upgreek}
-\usepackage{url}
-\usepackage{mathrsfs}
-\usepackage{braket}
-
-\usepackage{natbib}
-
-\usepackage{xparse}
-\usepackage{amsthm}
-
-\input{defs.tex}
+\usepackage{secctex}
 
 \newlmetavar{tx}{\tfont{x}}{\tcolor}
 \newlmetavar{te}{\tfont{e}}{\tcolor}
@@ -36,9 +8,8 @@
 \newlmetavar{tty}{\tfontsym{\tau}}{\tcolor}
 \newlmetavar{sty}{\sfontsym{\sigma}}{\scolor}
 
-
-\newcommand{\trelV}[1]{\lrrel{\tfont}{V}{#1}}
-\newcommand{\srelE}[1]{\lrrel{\sfont}{E}{#1}}
+\newcommand{\trelV}[1]{\lr{\tfontsym}{V}{#1}}
+\newcommand{\srelE}[1]{\lr{\sfont}{E}{#1}}
 \begin{document}
 $$
  \lmetavar{\tfont{x}}{\tcolor{1}}{}{\tprime}{1}
@@ -58,5 +29,8 @@ $$
  \temetavar{}{}{0}
  \trelV{\tty}
  \srelE{\stypr}
+ \lrV{\tfont}{\tty}
+ \tfont{\Gamma}
+ \tfontsym{\Gamma}
  $$
 \end{document}
