@@ -23,19 +23,40 @@
 \RequirePackage[utf8]{inputenc}
 \RequirePackage[T1]{fontenc}
 
-% Automagic title case
+%% Automagic title case
 
 \RequirePackage{titlecaps}
 \Addlcwords{for a is but and with of in as the etc on to if}
-\LetLtxMacro{\titleS}{\title}
-\LetLtxMacro{\sectionS}{\section}
-\LetLtxMacro{\subsectionS}{\subsection}
-\LetLtxMacro{\subsubsectionS}{\subsubsection}
 
-\renewcommand{\title}[2][]{\titleS[#1]{\titlecap{#2}}}
-\renewcommand{\section}[2][]{\sectionS[#1]{\titlecap{#2}}}
-\renewcommand{\subsection}[2][]{\subsectionS[#1]{\titlecap{#2}}}
-\renewcommand{\subsubsection}[2][]{\subsubsectionS[#1]{\titlecap{#2}}}
+% TODO I'd rather like to hide these internal things, but I guess I'll
+% settle for making them internal
+\makeatletter
+\LetLtxMacro{\@title}{\title}
+\LetLtxMacro{\@section}{\section}
+\LetLtxMacro{\@subsection}{\subsection}
+\LetLtxMacro{\@subsubsection}{\subsubsection}
+
+\newcommand{\@titlecrafter}[3]{
+  \if\relax\detokenize{#2}\relax
+  #1{\titlecap{#3}}
+  \else
+  #1[#2]{\titlecap{#3}}
+  \fi
+}
+
+\renewcommand{\title}[2][]{
+  \@titlecrafter{\@title}{#1}{#2}
+}
+
+\renewcommand{\section}[2][]{
+  \@titlecrafter{\@section}{#1}{#2}
+}
+\renewcommand{\subsection}[2][]{
+  \@titlecrafter{\@subsection}{#1}{#2}
+}
+\renewcommand{\subsubsection}[2][]{
+  \@titlecrafter{\@subsubsection}{#1}{#2}
+}
 
 %% omitthis
 \newcommand{\omitthis}[1]{#1}
@@ -44,12 +65,12 @@
 }
 
 %% todo
-\LetLtxMacro{\oldtodo}{\todo}
+\LetLtxMacro{\@todo}{\todo}
 
-\renewcommand{\todo}[2][]{\omitthis{\oldtodo[#1]{#2}}}
+\renewcommand{\todo}[2][]{\omitthis{\@todo[#1]{#2}}}
 
 \DeclareOption{todo}{
-  \renewcommand{\todo}[2][]{\oldtodo[#1]{#2}}
+  \renewcommand{\todo}[2][]{\@todo[#1]{#2}}
 }
 
 %% ACM/SIGPLAN format
@@ -89,12 +110,11 @@
 \else
   \ifsecc@sigplan
   \renewcommand{\bibsection}{
-    \makeatletter
     \section*{\refname\@mkboth{\MakeUppercase{\refname}}{\MakeUppercase{\refname}}}
-    \makeatother
   }
   \fi
 \fi
+\makeatother
 
 \input{defs}
 \endinput
