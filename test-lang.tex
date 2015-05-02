@@ -1,0 +1,57 @@
+\documentclass{article}
+
+\usepackage{secctex}
+
+\newlanguage{\scolor}{\sfont}{\sfontsym}{s}
+{x,e,v}
+{alpha/\alpha,ty/\sigma}
+{fun,bool}
+{fun,app,if,true,false}
+
+\newlanguage{\tcolor}{\tfont}{\tfontsym}{t}
+{x,e,v}
+{alpha/\alpha,ty/\tau}
+{fun,bool}
+{fun,app,if,true,false}
+
+\newcommand{\acolor}[1]{\textcolor{orange}{#1}}
+\newcommand{\afont}[1]{\mathsf{\acolor{#1}}}
+\newcommand{\afontsym}[1]{\b{\afont{#1}}}
+
+\newlanguage{\acolor}{\afont}{\afontsym}{a}
+{y,x,e,v}
+{ty/A}
+{fun,bool,pair,sum}
+{fun,app,if,true,false,pair,prj,sum,case}
+\begin{document}
+\begin{smathpar}
+
+  \sx
+
+  \se
+
+  \sv
+
+  \svtwo
+
+  \salpha
+
+  \stypr[4]
+
+  \sfunty{\styone}{\stytwo}
+
+  \sfune{\sx}{\sty}{\seone}
+
+  \sboolty
+
+  \tfune{\tx}{\ttyone}{\teone}
+
+  \asume{1}{\aepr}
+
+  \asume{2}{\aepr}
+
+  \acasee{\ae}{\ax}{\aeone}{\ay}{\aetwo}
+
+\end{smathpar}
+
+\end{document}

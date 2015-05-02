@@ -2,17 +2,6 @@
 
 \usepackage{secctex}
 
-%% TODO Perhaps a macro such the following. It would require versions of
-%% the type and expression macros that accepted more arguments, to be
-%% amenable to automation. e.g. \tfunty* which expects \tfont as well,
-%% but simply ignores it.
-%%
-%%   \newlanguage{\tcolor}{\tfont}{\tfontsym}{t}
-%%   {x,e,v,ty,alpha} % meta-vars
-%%   {x,e,v,\tau,\alpha} % meta-var displays
-%%   {fun,polyfun,exist,bool} % types
-%%   {fun,polyfun,inst,app,app,true,false,if} % expressions
-
 \newcommand{\newtmetavar}{\newlmetavar{\tfontsym}{\tcolor}{t}}
 \newcommand{\newsmetavar}{\newlmetavar{\sfontsym}{\scolor}{s}}
 
@@ -40,41 +29,31 @@
 \newcommand{\trelV}{\lr{\tfontsym}{V}}
 \newcommand{\srelE}{\lr{\sfont}{E}}
 
-%% TODO Create the following macro that will generate code below
-%% \newltypes{t}{funty,polyfunty,forallty,existty}{\tfontsym}{\tfont}
-%\newcommand{\tfunty}{\funty{\tfontsym}}
-%\newcommand{\tpfunty}{\polyfunty{\tfontsym}}
-%\newcommand{\tforallty}{\forallty{\tfontsym}}
-%\newcommand{\texistty}{\existty{\tfontsym}}
-%\newcommand{\tmuty}{\muty{\tfontsym}}
-%\newcommand{\tunitty}{\unitty{\tfont}}
-%\newcommand{\tvoidty}{\voidty{\tfont}}
-%\newcommand{\tboolty}{\boolty{\tfont}}
-%\newcommand{\tpairty}{\pairty{\tfontsym}}
-
-\newltypes{\tfontsym}{\tfont}{t}
+\newcommand{\newtconstrs}{\newlconstrs{\tfontsym}{\tfont}{t}}
+\newtconstrs{ty}
 {fun,polyfun,forall,exist,mu,bool,unit,void,pair}
+\newtconstrs{e}
+{let,fun,polyfun,app,papp,abstr,inst,pack,unpack,fold,unfold,if,true,false,unit,pair}
 
 \newcommand{\tpfunty}{\tpolyfunty}
 
-\newcommand{\sefun}{\efun{\sfontsym}}
-\newcommand{\sepolyfun}{\epolyfun{\sfontsym}}
-\newcommand{\seabstr}{\eabstr{\sfontsym}}
-\newcommand{\seinst}{\einst{\sfontsym}}
-\newcommand{\seapp}{\eapp}
-\newcommand{\sepapp}{\epapp{\sfontsym}}
+\newcommand{\sfune}{\fune{\sfontsym}}
+\newcommand{\spolyfune}{\polyfune{\sfontsym}}
+\newcommand{\sabstre}{\abstre{\sfontsym}}
+\newcommand{\sinste}{\inste{\sfontsym}}
+\newcommand{\sappe}{\appe}
+\newcommand{\spappe}{\pappe{\sfontsym}}
 
-\newcommand{\seif}{\eif{\sfont}}
-\newcommand{\sepack}{\epack{\sfont}{\sfontsym}}
-\newcommand{\seunpack}{\eunpack{\sfont}{\sfontsym}}
-\newcommand{\telet}{\elet{\tfont}{\tfontsym}}
-\newcommand{\selet}{\elet{\sfont}{\sfontsym}}
-\newcommand{\sefold}{\efold{\sfont}}
-\newcommand{\seunfold}{\eunfold{\sfont}}
-\newcommand{\seunit}{\eunit{\sfontsym}}
-\newcommand{\setrue}{\etrue{\sfont}}
-\newcommand{\sefalse}{\efalse{\sfont}}
-\newcommand{\sepair}{\epair{\sfontsym}}
+\newcommand{\sife}{\ife{\sfont}}
+\newcommand{\spacke}{\packe{\sfont}{\sfontsym}}
+\newcommand{\sunpacke}{\unpacke{\sfont}{\sfontsym}}
+\newcommand{\slete}{\lete{\sfont}{\sfontsym}}
+\newcommand{\sfolde}{\folde{\sfont}}
+\newcommand{\sunfolde}{\unfolde{\sfont}}
+\newcommand{\sunite}{\unite{\sfontsym}}
+\newcommand{\struee}{\truee{\sfont}}
+\newcommand{\sfalsee}{\falsee{\sfont}}
+\newcommand{\spaire}{\paire{\sfontsym}}
 
 \newcommand{\txdubpr}{\txpr[2]}
 \begin{document}
@@ -137,39 +116,45 @@
 
   \tpairty{\ttyone}{\ttytwo}
 
-  \sefun{\sx}{\sty}{\seone}
+  \tfune{\tx}{\tty}{\teone}
 
-  \sepolyfun{\salpha}{\sx}{\sty}{\sepr}
+  \ttruee
 
-  \seabstr{\salpha}{\sty}
+  \tfalsee
 
-  \seinst{\se}{\sty}
+  \sfune{\sx}{\sty}{\seone}
 
-  \seapp{\seone}{\setwo}
+  \spolyfune{\salpha}{\sx}{\sty}{\sepr}
 
-  \sepapp{\seone}{\stypr}{\setwopr}
+  \sabstre{\salpha}{\sty}
 
-  \seif{\sv}{\seone}{\setwo}
+  \sinste{\se}{\sty}
 
-  \sepack{\sx}{\salpha}{\seone}
+  \sappe{\seone}{\setwo}
 
-  \seunpack{\sv}{\sty}{\svpr}{\seone}
+  \spappe{\seone}{\stypr}{\setwopr}
 
-  \telet{\tx}{\te}{\teone}
+  \sife{\sv}{\seone}{\setwo}
 
-  \selet{\sx}{\se}{\seone}
+  \spacke{\sx}{\salpha}{\seone}
 
-  \sefold{\tmuty{\salpha}{\styone}}{\sty}
+  \sunpacke{\sv}{\sty}{\svpr}{\seone}
 
-  \seunfold{\seone}
+  \tlete{\tx}{\te}{\teone}
 
-  \seunit
+  \slete{\sx}{\se}{\seone}
 
-  \setrue
+  \sfolde{\tmuty{\salpha}{\styone}}{\sty}
 
-  \sefalse
+  \sunfolde{\seone}
 
-  \sepair{\seone}{\svtwopr}
+  \sunite
+
+  \struee
+
+  \sfalsee
+
+  \spaire{\seone}{\svtwopr}
 
   \stx
 
@@ -179,5 +164,11 @@
   \stxonepr[5]
 
 \end{smathpar}
+
+%{
+%  \newcommand{\meow}{meow}
+%
+%}
+%\meow
 
 \end{document}
