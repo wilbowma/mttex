@@ -23,6 +23,20 @@
 \RequirePackage[utf8]{inputenc}
 \RequirePackage[T1]{fontenc}
 
+% Automagic title case
+
+\RequirePackage{titlecaps}
+\Addlcwords{for a is but and with of in as the etc on to if}
+\LetLtxMacro{\titleS}{\title}
+\LetLtxMacro{\sectionS}{\section}
+\LetLtxMacro{\subsectionS}{\subsection}
+\LetLtxMacro{\subsubsectionS}{\subsubsection}
+
+\renewcommand{\title}[2][]{\titleS[#1]{\titlecap{#2}}}
+\renewcommand{\section}[2][]{\sectionS[#1]{\titlecap{#2}}}
+\renewcommand{\subsection}[2][]{\subsectionS[#1]{\titlecap{#2}}}
+\renewcommand{\subsubsection}[2][]{\subsubsectionS[#1]{\titlecap{#2}}}
+
 %% omitthis
 \newcommand{\omitthis}[1]{#1}
 \DeclareOption{omit}{
