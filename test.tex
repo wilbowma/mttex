@@ -23,31 +23,39 @@
 \newtmetavar*{ty}{\tfontsym{\tau}}
 
 \newcommand{\newsmetavars}{\newlmetavars{\sfont}{\scolor}{s}}
-% TODO Non-star variant is currently broken
-%\newsmetavars{x, e, v}
-\newsmetavars*{x/x, e/e, v/v}
-\newsmetavars*{ty/\sigma, alpha/\alpha}
+\newcommand{\newsmetavarsS}{\newlmetavarsS{\sfontsym}{\scolor}{s}}
+\newsmetavars{x, e, v}
+% TODO Star convention is difficult over lists
+%\newsmetavars*{x/x, e/e, v/v}
+\newsmetavarsS{ty/\sigma, alpha/\alpha}
 
 \newcommand{\stcolor}[1]{\textcolor{orange}{#1}}
 \newcommand{\stfont}[1]{\mathbf{\stcolor{#1}}}
+\newcommand{\stfontsym}{\stfont}
 
 \newcommand{\newstmetavars}{\newlmetavars{\stfont}{\stcolor}{st}}
-\newstmetavars*{x/x, v/v, e/e, alpha/\alpha}
+\newcommand{\newstmetavarsS}{\newlmetavarsS{\stfontsym}{\stcolor}{st}}
+\newstmetavarsS{x/x, v/v, e/e, alpha/\alpha}
 
 \newcommand{\trelV}{\lr{\tfontsym}{V}}
 \newcommand{\srelE}{\lr{\sfont}{E}}
 
 %% TODO Create the following macro that will generate code below
 %% \newltypes{t}{funty,polyfunty,forallty,existty}{\tfontsym}{\tfont}
-\newcommand{\tfunty}{\funty{\tfontsym}}
-\newcommand{\tpfunty}{\polyfunty{\tfontsym}}
-\newcommand{\tforallty}{\forallty{\tfontsym}}
-\newcommand{\texistty}{\existty{\tfontsym}}
-\newcommand{\tmuty}{\muty{\tfontsym}}
-\newcommand{\tunitty}{\unitty{\tfont}}
-\newcommand{\tvoidty}{\voidty{\tfont}}
-\newcommand{\tboolty}{\boolty{\tfont}}
-\newcommand{\tpairty}{\pairty{\tfontsym}}
+%\newcommand{\tfunty}{\funty{\tfontsym}}
+%\newcommand{\tpfunty}{\polyfunty{\tfontsym}}
+%\newcommand{\tforallty}{\forallty{\tfontsym}}
+%\newcommand{\texistty}{\existty{\tfontsym}}
+%\newcommand{\tmuty}{\muty{\tfontsym}}
+%\newcommand{\tunitty}{\unitty{\tfont}}
+%\newcommand{\tvoidty}{\voidty{\tfont}}
+%\newcommand{\tboolty}{\boolty{\tfont}}
+%\newcommand{\tpairty}{\pairty{\tfontsym}}
+
+\newltypes{\tfontsym}{\tfont}{t}
+{fun,polyfun,forall,exist,mu,bool,unit,void,pair}
+
+\newcommand{\tpfunty}{\tpolyfunty}
 
 \newcommand{\sefun}{\efun{\sfontsym}}
 \newcommand{\sepolyfun}{\epolyfun{\sfontsym}}

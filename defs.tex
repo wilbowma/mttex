@@ -428,7 +428,7 @@
 % TODO DOCUMENT
 % Usage:
 %   \newlmetavars{\tfont}{\tcolor}{t}{x/x,e/e,v/v,alpha/\tfontsym{\alpha}}
-\newcommand{\newlmetavarsStar}[4]{
+\newcommand{\newlmetavarsS}[4]{
   {
     \edef\@olddef{\def}
     \let\def\gdef
@@ -440,23 +440,16 @@
   }
 }
 
-\newcommand{\newlmetavarsNoStar}[4]{
-  \def\@meow{\aftergroup#1}
-  \show\@meow
-  \foreach \n in {#1} {
-    \edef \@cat{\noexpand\newlmetavarStar{\noexpand#2}{\noexpand#3}{#4}{\n}{\n}}
-    \@cat
-  }
-}
-
-\newcommand{\newlmetavarsmaybestar}{
-  \@ifstar
-  \newlmetavarsStar
-  \newlmetavarsNoStar
-}
-
 \newcommand{\newlmetavars}[4]{
-  \newlmetavarsmaybestar{#4}{#1}{#2}{#3}
+  {
+    \edef\@olddef{\def}
+    \let\def\gdef
+    \foreach \n in {#4} {
+      \edef \@meow{\noexpand\newlmetavarStar{\noexpand#1}{\noexpand#2}{#3}{\n}{\n}}
+      \@meow
+    }
+    \let\def\@olddef
+  }
 }
 
 \makeatother
@@ -471,14 +464,43 @@
 
 %% Standard types
 \newcommand{\funty}[3]{#2 #1{\funarrow} \, #3}
+\newcommand{\funtyS}[4]{\funty{#1}{#3}{#4}}
+
 \newcommand{\polyfunty}[4]{#1{\forall}\,#1{[}{#2}#1{].}{#3}#1{\funarrow}\,{#4}}
+\newcommand{\polyfuntyS}[5]{\polyfunty{#1}{#2}{#3}{#4}}
+
 \newcommand{\forallty}[3]{#1{\forall}#2#1{.}\,#3}
+\newcommand{\foralltyS}[4]{\forallty{#1}{#3}{#4}}
+
 \newcommand{\existty}[3]{#1{\exists}#2#1{.}\,#3}
+\newcommand{\existtyS}[4]{\existty{#1}{#3}{#4}}
+
 \newcommand{\muty}[3]{#1{\upmu} #2 #1{.} #3 }
+\newcommand{\mutyS}[4]{\muty{#1}{#3}{#4}}
+
 \newcommand{\unitty}[1]{#1{1}}
+\newcommand{\unittyS}[2]{\unitty{#2}}
+
 \newcommand{\voidty}[1]{#1{0}}
+\newcommand{\voidtyS}[2]{\voidty{#2}}
+
 \newcommand{\boolty}[1]{#1{bool}}
+\newcommand{\booltyS}[2]{\boolty{#2}}
+
 \newcommand{\pairty}[3]{#2 \, #1{\times} \, #3}
+\newcommand{\pairtyS}[4]{\pairty{#1}{#3}{#4}}
+
+\newcommand{\newltypes}[4]{
+  {
+    \let\def\gdef
+    \foreach \t in {#4}{
+      \expandafter\newcommand\csname #3\t ty\endcsname{
+        \csname\t tyS\endcsname{#1}{#2}
+      }
+    }
+  }
+}
+
 
 %% Standard expression
 \newcommand{\efun}[4]{#1{\uplambda (}{#2}\,#1{:}\,#3#1{).}\,#4}
