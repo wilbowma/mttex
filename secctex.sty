@@ -1,47 +1,56 @@
 \ProvidesPackage{secctex}
 
-\usepackage{subfiles}
+\RequirePackage{mathpartir}
+\RequirePackage{todonotes}
+\RequirePackage{unlist}
+\RequirePackage{hyperref}
+\RequirePackage{letltxmacro}
 
-\usepackage{mathpartir}
-\usepackage{todonotes}
-\usepackage{unlist}
+\RequirePackage{latexsym,amsmath,amssymb}
+\RequirePackage{stmaryrd}
+%% stmry doesn't have a bold defined, so define bold to be normal
+\SetSymbolFont{stmry}{bold}{U}{stmry}{m}{n}
 
-\usepackage{ifthen}
-%\usepackage{xargs}
-\usepackage{hyperref}
-\usepackage{enumerate}
-\usepackage{letltxmacro}
+\RequirePackage{amsbsy}
+\RequirePackage{upgreek}
+\RequirePackage{url}
+\RequirePackage{mathrsfs}
 
-\usepackage{xspace}
-\usepackage{latexsym,amsmath,amssymb}
-%\usepackage{verbatim}
-%\usepackage{graphics,graphicx}
-\usepackage{stmaryrd}
-\usepackage{amsbsy}
-\usepackage{upgreek}
-\usepackage{url}
-\usepackage{mathrsfs}
-%\usepackage{braket}
+\RequirePackage{amsthm}
 
-%\usepackage{xparse}
-\usepackage{amsthm}
+% ACM recommended packages
+\RequirePackage{microtype}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[T1]{fontenc}
 
+%% omitthis
 \newcommand{\omitthis}[1]{#1}
 \DeclareOption{omit}{
   \renewcommand{\omitthis}[1]{}
 }
 
+%% todo
 \LetLtxMacro{\oldtodo}{\todo}
+
 \renewcommand{\todo}[2][]{\omitthis{\oldtodo[#1]{#2}}}
+
 \DeclareOption{todo}{
   \renewcommand{\todo}[2][]{\oldtodo[#1]{#2}}
 }
 
+%% ACM/SIGPLAN format
 \newif\ifsecc@sigplan
 \secc@sigplantrue
 
 \DeclareOption{nosigplan}{\secc@sigplanfalse}
 
+%% balance the last page?
+\newif\ifsecc@balance
+\secc@balancefalse
+
+\DeclareOption{balance}{\secc@balancetrue}
+
+%% techrpt or paper?
 \newif\ifsecc@techrpt
 \secc@techrptfalse
 
@@ -51,19 +60,21 @@
 \ProcessOptions\relax
 
 \ifsecc@sigplan
-  \usepackage{natbib}
+  \RequirePackage{natbib}
   \bibpunct{[}{]}{,}{n}{}{,}
   \let\cite=\citep
 \fi
 
+\ifsecc@balance
+  \RequirePackage{flushend}
+\fi
+
 \ifsecc@techrpt
-  \usepackage{fullpage}
+  \RequirePackage{fullpage}
   \renewcommand{\baselinestretch}{1.0}
 \else
-  \usepackage{microtype}
   \ifsecc@sigplan
-  \renewcommand\bibsection%
-  {
+  \renewcommand{\bibsection}{
     \makeatletter
     \section*{\refname\@mkboth{\MakeUppercase{\refname}}{\MakeUppercase{\refname}}}
     \makeatother
