@@ -9,19 +9,30 @@
 %%
 %%   \newlanguage{\tcolor}{\tfont}{\tfontsym}{t}
 %%   {x,e,v,ty,alpha} % meta-vars
+%%   {x,e,v,\tau,\alpha} % meta-var displays
 %%   {fun,polyfun,exist,bool} % types
 %%   {fun,polyfun,inst,app,app,true,false,if} % expressions
 
-\newlmetavar{tx}{\tfont{x}}{\tcolor}
-\newlmetavar{te}{\tfont{e}}{\tcolor}
-\newlmetavar{se}{\sfont{e}}{\scolor}
-\newlmetavar{sx}{\sfont{x}}{\scolor}
-\newlmetavar{sv}{\sfont{v}}{\scolor}
-\newlmetavar{tv}{\tfont{v}}{\tcolor}
-\newlmetavar{tty}{\tfontsym{\tau}}{\tcolor}
-\newlmetavar{sty}{\sfontsym{\sigma}}{\scolor}
-\newlmetavar{talpha}{\tfontsym{\alpha}}{\tcolor}
-\newlmetavar{salpha}{\sfontsym{\alpha}}{\scolor}
+\newcommand{\newtmetavar}{\newlmetavar{\tfontsym}{\tcolor}{t}}
+\newcommand{\newsmetavar}{\newlmetavar{\sfontsym}{\scolor}{s}}
+
+\newtmetavar{x}
+\newtmetavar{e}
+\newtmetavar*{alpha}{\tfontsym{\alpha}}
+\newtmetavar{v}
+\newtmetavar*{ty}{\tfontsym{\tau}}
+
+\newcommand{\newsmetavars}{\newlmetavars{\sfont}{\scolor}{s}}
+% TODO Non-star variant is currently broken
+%\newsmetavars{x, e, v}
+\newsmetavars*{x/x, e/e, v/v}
+\newsmetavars*{ty/\sigma, alpha/\alpha}
+
+\newcommand{\stcolor}[1]{\textcolor{orange}{#1}}
+\newcommand{\stfont}[1]{\mathbf{\stcolor{#1}}}
+
+\newcommand{\newstmetavars}{\newlmetavars{\stfont}{\stcolor}{st}}
+\newstmetavars*{x/x, v/v, e/e, alpha/\alpha}
 
 \newcommand{\trelV}{\lr{\tfontsym}{V}}
 \newcommand{\srelE}{\lr{\sfont}{E}}
@@ -57,6 +68,7 @@
 \newcommand{\sefalse}{\efalse{\sfont}}
 \newcommand{\sepair}{\epair{\sfontsym}}
 
+\newcommand{\txdubpr}{\txpr[2]}
 \begin{document}
 \begin{smathpar}
   \lmetavar{\tfont{x}}{\tcolor{1}}{}{\tprime}{1}
@@ -144,12 +156,20 @@
   \seunfold{\seone}
 
   \seunit
-  
+
   \setrue
 
   \sefalse
 
   \sepair{\seone}{\svtwopr}
 
+  \stx
+
+  \stalphaonepr
+
+  \stxpr[100]
+  \stxonepr[5]
+
 \end{smathpar}
+
 \end{document}
