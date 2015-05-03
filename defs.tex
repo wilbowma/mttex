@@ -87,7 +87,6 @@
      {}%         Indent amount (empty = no indent, \parindent = para indent)
      {\bfseries}% Thm head font
      {}%        Punctuation after thm head
-%     {.8em}%     Space after thm head (\newline = linebreak)
      {\newline}%     Space after thm head (\newline = linebreak)
      {\thmname{#1}\thmnumber{ #2}\thmnote{~\,(#3)}}%         Thm head spec
 
@@ -183,7 +182,7 @@
 
 \renewenvironment{proof}[1][]{%
 \noindent%
-\textbf{Proof\ifthenelse{\equal{#1}{}}{}{ (#1)}}%
+\textbf{Proof\if\relax\detokenize{#1}\relax\else~(#1)\fi}%
 \begin{list}{}{}\item[]}{%
 \qed
 \end{list}}
@@ -193,14 +192,14 @@
 \newcommand{\scase}[1][]{\item[Sub-case] #1}
 \newcommand{\sscase}[1][]{\item[SubSub-case] #1}
 
-\newsavebox{\DetailsBox}%
-\newenvironment{details}[1][]{%
-\ifthenelse{\boolean{ShowDetailsFlag}}{}{#1 \begin{lrbox}{\DetailsBox}\begin{minipage}{\textwidth}}%
-}{%
-\ifthenelse{\boolean{ShowDetailsFlag}}{}{\end{minipage}\end{lrbox}}%
-}%
-
 %% TODO Or these
+%\newsavebox{\DetailsBox}%
+%\newenvironment{details}[1][]{%
+%\ifthenelse{\boolean{ShowDetailsFlag}}{}{#1 \begin{lrbox}{\DetailsBox}\begin{minipage}{\textwidth}}%
+%}{%
+%\ifthenelse{\boolean{ShowDetailsFlag}}{}{\end{minipage}\end{lrbox}}%
+%}%
+
 %% \renewcommand{\thefigure}{\thesection.\arabic{figure}}
 
 % % Shading
