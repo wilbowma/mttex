@@ -17,6 +17,7 @@ macro.
 ## Table of Contents
 
 * Options
+* How to read the documentation
 * Automagic Title-case
 * TODO and comments
 * Reference
@@ -42,6 +43,19 @@ This package defines the following options:
   option is on by default.
 * `balance` balances the column on the last page.
 
+## How to read the documentation
+Until I get around to make the documentation more readable, use this
+guide to translate.
+
+Each documented macro is preceded by documentation that explains the
+purpose of the macro and each of its arguments. The arguments are
+numbered in the same way they are used in LaTeX. Below the documentation
+the macro is show with its interface, i.e., the number of arguments, and
+the default value of the optional argument (if any).
+
+Macros may be undocumented but given with their interface or their
+definitions if they merely provide shorthand or match a standard
+interface.
 
 ## Automagic Title-case
 This package redefines the following standard macros. These macros match
@@ -75,6 +89,12 @@ You can control which words should be left lower-case the macro
 ## TODO and comments
 This package provides the following macros for adding TODO comments.
 ```latex
+% \omitthis does not render its argument if the omit option is
+% specified.
+% 
+% #1 : A comment to potentially omit.
+\omitthis[1]
+
 % \todo adds a margin comment, and registers the comment into a todo list.
 %
 % #1 : Formatting options for the todo macro. See the todonotes package
@@ -270,7 +290,7 @@ format multi-language meta-theory.
 %   {alpha/\alpha,ty/\sigma}
 %   {fun,bool}
 %   {fun,app,if,true,false}
-\renewcommand{\newlanguage}[8]
+\newlanguage[8]
 ```
 
 ### Meta-variables
@@ -285,7 +305,7 @@ obnoxious. So this package provides combinators for meta-variables.
 %   \newcommand{\newtmetavar}{\newlmetavar{\tfont}{\tcolor}{t}}
 %   \newtmetavar{x}
 %   \newtmetavar*{ty}{\tau}
-\newcommand{\newlmetavar}[4]
+\newlmetavar[4]
 
 % \newlmetavarStar generates some standard macros for formatting a meta-var,
 % and takes 5 paraemters:
@@ -317,7 +337,7 @@ obnoxious. So this package provides combinators for meta-variables.
 %  \newcommand{\ttyipr}[1][1]{ \ttymetavar{i}{}{#1} }
 %  \newcommand{\ttyn}{ \ttymetavar{n}{}{} }
 %  \newcommand{\ttynpr}[1][1]{ \ttymetavar{n}{}{#1} }
-\newcommand{\newlmetavarStar}[5]
+\newlmetavarStar[5]
 
 % \newlmetavarNoStar is like \netlmetavarStar, but assumes the name of
 % the macro is also the display symbol.
@@ -335,7 +355,7 @@ obnoxious. So this package provides combinators for meta-variables.
 %
 % This usage is equivalent to
 %   \newlmetavarStar{\tfont}{\tcolor}{t}{x}{x}
-\newcommand{\newlmetavarNoStar}[4]
+\newlmetavarNoStar[4]
 
 % \lmetavar formats a language meta-var.
 %
@@ -352,7 +372,7 @@ obnoxious. So this package provides combinators for meta-variables.
 %   \newcommand{\tx}{\txmetavar{}{}{}}
 %   \newcommand{\txone}{\txmetavar{1}{}{}}
 %   \newcommand{\txonepr}{\txmetavar{1}{}{1}}
-\newcommand{\lmetavar}[5]
+\lmetavar[5]
 
 % \lmetavarto formats a language meta-var with only a superscript.
 %
@@ -361,7 +381,7 @@ obnoxious. So this package provides combinators for meta-variables.
 %
 % Usage:
 %   \newcommand{\txF}{\lmetavarto{\tx}{f}}
-\newcommand{\lmetavarto}[2]
+\lmetavarto[2]
 
 % \lmetavarin formats a language meta-var with only a subscript.
 %
@@ -370,7 +390,7 @@ obnoxious. So this package provides combinators for meta-variables.
 %
 % Usage:
 %   \newcommand{\txone}{\lmetavarto{\tx}{\tcolor{1}}}
-\newcommand{\lmetavarin}[2]
+\lmetavarin[2]
 
 % \lmetavarpr formats a language meta-var with only primes, takes 3
 % parameters:
@@ -382,7 +402,7 @@ obnoxious. So this package provides combinators for meta-variables.
 % Usage:
 %   \newcommand{\txpr}{\lmetavarto{\tx}{\prime}{1}}
 %   \newcommand{\txdubpr}{\lmetavarto{\tx}{\prime}{2}}
-\newcommand{\lmetavarpr}[3]
+\lmetavarpr[3]
 ```
 
 ### Lists of meta-variables
@@ -404,7 +424,7 @@ provides combinators for lists of meta-variables.
 %   \newlmetavars{\tfont}{\tcolor}{t}{x,e,v}
 %   \newcommand{\newsmetavars}{\newlmetavars{\sfont}{\scolor}{s}}
 %   \newsmetavars{x,e,v}
-\newcommand{\newlmetavars}[4]
+\newlmetavars[4]
 
 % \newlmetavarS defines new metavar macros for a list of name/symbol
 % pairs. Essentially, it calls \newlmetavar* for each name/symbol pair
@@ -420,7 +440,7 @@ provides combinators for lists of meta-variables.
 %   \newlmetavarsS{\tfont}{\tcolor}{t}{x/x,e/e,v/v,alpha/\b{\alpha}}
 %   \newcommand{\newsmetavarsS}{\newlmetavarsS{\sfontsym}{\scolor}{s}}
 %   \newsmetavarsS{\alpha/\alpha, ty/\sigma}
-\newcommand{\newlmetavarsS}[4]
+\newlmetavarsS[4]
 ```
 
 ### Formatting types and expressions
@@ -482,7 +502,7 @@ typing, and logical relations.
 %
 % Renders like:
 % Δ ⊢ α
-\newcommand{\wf}[2]
+\wf[2]
 
 % \judg formats a well-typedness judgment.
 %
@@ -495,7 +515,7 @@ typing, and logical relations.
 %
 % Renders like:
 % Δ;Γ ⊢ e : τ
-\newcommand{\judg}[3]
+\judg[3]
 ```
 
 ### Context Typing
@@ -505,7 +525,7 @@ typing, and logical relations.
 % #1 : A formatting macro for symbols, such as \stfontsym
 % #2 : The type of the hole
 % #3 : The type of the result
-\newcommand{\ctxtarrowty}[3]
+\ctxtarrowty[3]
 
 % \ctxtty formats a context type, with different typing contexts for the
 % hole and result
@@ -515,7 +535,7 @@ typing, and logical relations.
 % #3 : The type of the hole
 % #4 : The typing contexts for the result
 % #5 : The type of the result
-\newcommand{\ctxtty}[5]
+\ctxtty[5]
 
 % \ctxttyjudg formats a context typing judgment.
 %
@@ -525,7 +545,7 @@ typing, and logical relations.
 % #4 : The type of the hole
 % #5 : The typing contexts for the result
 % #6 : The type of the result
-\newcommand{\ctxttyjudg}[6]
+\ctxttyjudg[6]
 ```
 
 ### Contextual Equivalence
@@ -537,7 +557,7 @@ typing, and logical relations.
 % #2 : A pre-formatted expression
 % #3 : A pre-formatted c.i.u. equivalent expression
 % #4 : A pre-formatted type for the expressions
-\newcommand{\ciueqvjudg}[4]
+\ciueqvjudg[4]
 
 % \ctxeqvjudg formats a contextual equivalence judgment.
 %
@@ -546,7 +566,7 @@ typing, and logical relations.
 % #2 : A pre-formatted expression
 % #3 : A pre-formatted contextually equivalent expression
 % #4 : A pre-formatted type for the expressions
-\newcommand{\ctxeqvjudg}[4]
+\ctxeqvjudg[4]
 ```
 
 ### Logical Relations
@@ -560,7 +580,7 @@ typing, and logical relations.
 % Usage:
 %  \newcommand{\srelV}[1]{\lr{\sfont}{V}{#1}}
 %  \newcommand{\trelV}[2]{\lr{\tfont}{V}{#1}{#2}}
-\newcommand{\lr}[3]
+\lr[3]
 
 % \lrV,\lrE,\lrG,\lrD,\lrK,\lrO format logical relation sets.
 %
@@ -570,12 +590,12 @@ typing, and logical relations.
 % Usage:
 %  \newcommand{\srelV}[1]{\lrV{\sfont}{#1}}
 %  \newcommand{\trelV}[2]{\lrV{\tfont}{#1}{#2}}
-\newcommand{\lrV}[2]
-\newcommand{\lrE}[2]
-\newcommand{\lrG}[2]
-\newcommand{\lrD}[2]
-\newcommand{\lrK}[2]
-\newcommand{\lrO}[2]
+\lrV[2]
+\lrE[2]
+\lrG[2]
+\lrD[2]
+\lrK[2]
+\lrO[2]
 
 % \binmapext extends a map whose value is a pair.
 %
@@ -588,7 +608,7 @@ typing, and logical relations.
 % Usage:
 %  \newcommand{\slrgamma}{\sfont{\gamma}}
 %  \newcommand{\slrgammaext}{\binmapext{\slrgamma}}
-\newcommand{\binmapext}[4]
+\binmapext[4]
 
 % \trimapext is like \binmapext, but extends a map whose value is a triple.
 %
@@ -602,20 +622,20 @@ typing, and logical relations.
 % Usage:
 %  \newcommand{\tlrrho}{\tfont{\rho}}
 %  \newcommand{\tlrrhoext}{\trimapext{\tlrrho}}
-\newcommand{\trimapext}[5]
+\trimapext[5]
 
 % \maponeat projects the first element of the value of a map at some
 % key.
 %
 % #1 : A pre-formatted symbol for the map, as as \tfont{\rho}
 % #2 : A pre-formatted symbol for the key
-\newcommand{\maponeat}[2]
+\maponeat[2]
 
 % \maptwoat is like \maponeat but projects the second element.
 % The interface is the same
-\newcommand{\maptwoat}[2]
+\maptwoat[2]
 
 % \maprelat is like \maponeat but projects the third element, which is
 % assumed to be a relation.
-\newcommand{\maprelat}[2]
+\maprelat[2]
 ```
