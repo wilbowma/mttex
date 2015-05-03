@@ -29,11 +29,10 @@
 \newcommand{\trelV}{\lr{\tfontsym}{V}}
 \newcommand{\srelE}{\lr{\sfont}{E}}
 
-\newcommand{\newtconstrs}{\newlconstrs{\tfontsym}{\tfont}{t}}
-\newtconstrs{ty}
-{fun,polyfun,forall,exist,mu,bool,unit,void,pair}
-\newtconstrs{e}
-{let,fun,polyfun,app,papp,abstr,inst,pack,unpack,fold,unfold,if,true,false,unit,pair}
+\newcommand{\newttypes}{\newltypes{\tfontsym}{\tfont}{t}{ty}}
+\newcommand{\newtexprs}{\newlexprs{\tfontsym}{\tfont}{te}{}}
+\newttypes{fun,polyfun,forall,exist,mu,bool,unit,void,pair}
+\newtexprs{let,fun,polyfun,app,papp,abstr,inst,pack,unpack,fold,unfold,if,true,false,unit,pair}
 
 \newcommand{\tpfunty}{\tpolyfunty}
 
@@ -116,11 +115,11 @@
 
   \tpairty{\ttyone}{\ttytwo}
 
-  \tfune{\tx}{\tty}{\teone}
+  \tefun{\tx}{\tty}{\teone}
 
-  \ttruee
+  \tetrue
 
-  \tfalsee
+  \tefalse
 
   \sfune{\sx}{\sty}{\seone}
 
@@ -140,7 +139,7 @@
 
   \sunpacke{\sv}{\sty}{\svpr}{\seone}
 
-  \tlete{\tx}{\te}{\teone}
+  \telet{\tx}{\te}{\teone}
 
   \slete{\sx}{\se}{\seone}
 

@@ -552,31 +552,34 @@ the combinator.
 ### Lists of Types
 Generating type macros one at a time is annoying, so this package
 provides combinators for lists of types. The macros are generated
-attaching a prefix to the tag, followed by ty. For instance, the macro
-generate for `fun` when using the prefix `s` is `\sfunty`.
-
+attaching a prefix and suffix to the tag, followed by ty.  For instance,
+the macro generate for `fun` when using the prefix `s` and suffix `ty`
+is `\sfunty`.
 ```latex
 % \newltypes generates type formatting macros given a list of tags.
 %
 % #1 : A formatting macro for symbols, such as \tfontsym
 % #2 : A formatting macro for text, such as \tfont
-% #3 : A list of type tags, such as {fun,bool,void,unit}
-% #4 : A prefix for the name of each macro.
-\newltypes[4]
+% #3 : A prefix for the name of each macro, such as t
+% #4 : A suffix for the name of each macro, such as ty
+% #5 : A list of type tags, such as {fun,bool,void,unit}
+\newltypes[5]
 ```
+
 ### Lists of Expressions
 Generating expression macros one at a time is annoying, so this package
 provides combinators for lists of expressions. The macros are generated
-attaching a prefix to the tag, followed by e. For instance, the macro
-generate for `fun` when using the prefix `s` is `\sfune`.
+attaching a prefix and suffice to the tag. For instance, the macro
+generate for `fun` when using the prefix `s` and suffix `e` is `\sfune`.
 ```latex
-% \newetypes generates type formatting macros given a list of tags.
+% \newlexprs generates type formatting macros given a list of tags.
 %
-% #1 : A formatting macro for symbols, such as \tfontsym
-% #2 : A formatting macro for text, such as \tfont
-% #3 : A list of type tags, such as {fun,bool,void,unit}
-% #4 : A prefix for the name of each macro, such as s.
-\newetypes[4]
+% #1 : A formatting macro for symbols, such as \sfontsym
+% #2 : A formatting macro for text, such as \sfont
+% #3 : A prefix for the name of each macro, such as s
+% #4 : A suffix for the name of each macro, such as e
+% #5 : A list of type tags, such as {fun,bool,void,unit}
+\newlexprs[5]
 ```
 
 ## Meta-Theory Combinators
