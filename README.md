@@ -17,14 +17,16 @@ to produce a new macro.
 ## Table of Contents
 
 * Options
-* How to read the documentation
+* How to Read
 * Automagic Title-case
-* TODO and comments
-* Label references
-* Font shorthand
-* Math environments
-* Language combinators
-* Meta-theory combinators
+* TODO and Comments
+* Label References
+* Font Shorthand
+* Math Environments
+* Meta-Language Macros
+* Language Symbol Macros
+* Language Combinators
+* Meta-Theory Combinators
 
 ## Options
 This package defines the following options:
@@ -43,7 +45,7 @@ This package defines the following options:
   option is on by default.
 * `balance` balances the column on the last page.
 
-## How to read the documentation
+## How to Read
 Until I get around to make the documentation more readable, use this
 guide to translate.
 
@@ -86,12 +88,12 @@ You can control which words should be left lower-case the macro
 \Addlcwords{for a is but and with of in as the etc on to if}
 ```
 
-## TODO and comments
+## TODO and Comments
 This package provides the following macros for adding TODO comments.
 ```latex
 % \omitthis does not render its argument if the omit option is
 % specified.
-% 
+%
 % #1 : A comment to potentially omit.
 \omitthis[1]
 
@@ -114,7 +116,7 @@ This package provides the following macros for adding TODO comments.
 \inlinecomment[2][]
 ```
 
-## Reference
+## Label References
 This package provides the following macros for referring to sections,
 figures, lemmas, and theorems.
 ```latex
@@ -139,7 +141,7 @@ figures, lemmas, and theorems.
 \thmref[1]
 ```
 
-## Font shorthand
+## Font Shorthand
 This package provides the following shorthand for fonts:
 ```latex
 % Text fonts
@@ -160,10 +162,10 @@ This package provides the following shorthand for fonts:
 \renewcommand{\b}{\boldsymbol}
 ```
 
-## Math environments
+## Math Environments
 This package provides the following extra math environments:
 
-### Math paragraph and math display
+### Math Paragraph and Math Display
 ```latex
 % sdisplaymath is like the displaymath environment, but makes
 % everything \small
@@ -180,7 +182,7 @@ This package provides the following extra math environments:
 \newenvironment{fmathpar}
 ```
 
-### Align environments
+### Align Environments
 ```latex
 % alignS is like align, but ignores space after the end of the
 % environment
@@ -193,7 +195,7 @@ This package provides the following extra math environments:
 \newenvironment{falignS}
 ```
 
-### Stack environments
+### Stack Environments
 The stack environments format each line by stacking them atop each
 other, similar to the array environment with one column.
 
@@ -223,7 +225,7 @@ other, similar to the array environment with one column.
 \newenvironment{stackBL}
 ```
 
-### Cases and subcases
+### Cases and Subcases
 This package redefines the `cases` environment, and provides cases and
 subcases. This helps format nested proofs.
 ```latex
@@ -233,7 +235,7 @@ subcases. This helps format nested proofs.
 \newcommand{\sscase}[1][]
 ```
 
-## Standard source/target macros
+## Standard Source/Target Macros
 This package provides a few standard formatting macros for source/target
 languages. They assume the source should be in a blue, sans-serif font,
 while the target should be in a bold, red, serif font.
@@ -257,14 +259,76 @@ while the target should be in a bold, red, serif font.
 \newcommand{\tprime}{\tcolor{\prime}}
 ```
 
-## Language, meta-theory, and meta-language macros
-Best you just look at the `%% Meta Language` section of defs.tex
+## Meta-Language Macros
+```latex
+\newcommand{\metafont}[1]{\mathrm{#1}}
+\newcommand{\dom}[1]{\metafont{dom}(#1)}
+\newcommand{\cod}[1]{\metafont{cod}(#1)}
+\newcommand{\rng}[1]{\metafont{rng}(#1)}
+\newcommand{\FV}{\metafont{fv}}
+\newcommand{\FTV}{\metafont{ftv}}
+\newcommand{\subst}[3]{{#1}[{#2}/{#3}]}
+\newcommand{\defeq}{\stackrel{\metafont{def}}{=}}
+\newcommand{\finmap}{\stackrel{\metafont{fin}}{\rightarrow}}
+\renewcommand{\iff}{\metafont{iff}}
+\newcommand{\lsem}{\left\llbracket}
+\newcommand{\rsem}{\right\rrbracket}
+\newcommand{\sembrace}[1]{\lsem{#1}\rsem}
+\newcommand{\powset}[1]{\mathscr{P}(#1)}
+\newcommand{\irred}[1]{\metafont{irred}(#1)}
+\renewcommand{\max}[2]{\metafont{max}(#1,#2)}
+\newcommand{\free}[2]{\metafont{free}(#1,#2)}
+\newcommand{\running}[2]{\metafont{running}({#1},{#2})}
+\newcommand{\pair}[2]{( #1, #2 )}
+\newcommand{\triple}[3]{( #1, #2, #3 )}
 
-## Language combinators
+\newcommand{\satisfy}{\vDash}
+
+\newcommand{\plus}{+}
+\newcommand{\etal}{\textit{et al.}}
+\newcommand{\bump}{\hspace{3.5pt}}
+\newcommand{\fresh}[1]{(\mit{fresh}\:#1)}
+\newcommand{\where}[1]{\mrm{where}\:#1}
+
+\newcommand{\lang}[1]{\mrm{\trm{#1}}}
+```
+
+## Language Symbol Macros
+```latex
+\newcommand{\empctx}{\cdot}
+\newcommand{\hole}{[\cdot]}
+\newcommand{\hw}[1]{\lbrack{#1}\rbrack}
+\newcommand{\ectxt}{E}
+\newcommand{\ctxt}{C}
+
+\newcommand{\hooklongrightarrow}{\lhook\joinrel\longrightarrow}
+\newcommand{\redexstep}{\hookrightarrow}
+
+\newcommand{\step}{\longmapsto}
+\newcommand{\stepin}[1]{\step^{#1}}
+\newcommand{\stepstar}{\stepin{*}}
+
+\newcommand{\red}{\Downarrow}
+\newcommand{\diverg}[1]{#1 \Uparrow}
+
+\newcommand{\termin}[1]{#1\red}
+\newcommand{\terminw}[2]{\termin{#1} #2}
+
+\newcommand{\transarrow}{\leadsto}
+\newcommand{\backtransarrow}{\twoheadrightarrow}
+
+\newcommand{\funarrow}{\rightarrow}
+\newcommand{\ctxarrow}{\Rightarrow}
+
+\newcommand{\bnfalt}{{\bf \,\,\mid\,\,}}
+\newcommand{\bnfdef}{{\bf ::=}}
+```
+
+## Language Combinators
 This package provides various combinators for generating macros that
 format multi-language meta-theory.
 
-### Generating a language
+### Generating a Language
 ```latex
 % \newlanguage generates macros for formatting meta-variables, types,
 % and expressions of a language.
@@ -293,7 +357,7 @@ format multi-language meta-theory.
 \newlanguage[8]
 ```
 
-### Meta-variables
+### Meta-Variables
 Writing all the macros to properly format language meta-variables is
 obnoxious. So this package provides combinators for meta-variables.
 ```latex
@@ -405,7 +469,7 @@ obnoxious. So this package provides combinators for meta-variables.
 \lmetavarpr[3]
 ```
 
-### Lists of meta-variables
+### Lists of Meta-Variables
 Generating meta-variables one at a time is annoying, so this package
 provides combinators for lists of meta-variables.
 
@@ -443,7 +507,7 @@ provides combinators for lists of meta-variables.
 \newlmetavarsS[4]
 ```
 
-### Formatting types and expressions
+### Formatting Types and Expressions
 This package provides combinators for formatting lambda calculus types
 and expressions.
 
@@ -485,7 +549,37 @@ the combinator.
 * case: case expressions
 * let: let expressions
 
-## Meta-theory combinator
+### Lists of Types
+Generating type macros one at a time is annoying, so this package
+provides combinators for lists of types. The macros are generated
+attaching a prefix to the tag, followed by ty. For instance, the macro
+generate for `fun` when using the prefix `s` is `\sfunty`.
+
+```latex
+% \newltypes generates type formatting macros given a list of tags.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
+% #3 : A list of type tags, such as {fun,bool,void,unit}
+% #4 : A prefix for the name of each macro.
+\newltypes[4]
+```
+### Lists of Expressions
+Generating expression macros one at a time is annoying, so this package
+provides combinators for lists of expressions. The macros are generated
+attaching a prefix to the tag, followed by e. For instance, the macro
+generate for `fun` when using the prefix `s` is `\sfune`.
+```latex
+% \newetypes generates type formatting macros given a list of tags.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
+% #3 : A list of type tags, such as {fun,bool,void,unit}
+% #4 : A prefix for the name of each macro, such as s.
+\newetypes[4]
+```
+
+## Meta-Theory Combinators
 This package provides combinators for formatting meta-theory, including
 well-formedness and typing judgments, contextual equivalence, context
 typing, and logical relations.

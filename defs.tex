@@ -728,7 +728,20 @@
 }
 \makeatother
 
+% \newltypes generates type formatting macros given a list of tags.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
+% #3 : A list of type tags, such as {fun,bool,void,unit}
+% #4 : A prefix for the name of each macro.
 \newcommand{\newltypes}[3]{\newlconstrs{#1}{#2}{#3}{ty}}
+
+% \newetypes generates type formatting macros given a list of tags.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
+% #3 : A list of type tags, such as {fun,bool,void,unit}
+% #4 : A prefix for the name of each macro, such as s.
 \newcommand{\newlexprs}[3]{\newlconstrs{#1}{#2}{#3}{e}}
 
 % \newlanguage generates macros for formatting meta-variables, types,
