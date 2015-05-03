@@ -20,7 +20,7 @@ to produce a new macro.
 * How to read the documentation
 * Automagic Title-case
 * TODO and comments
-* Reference
+* Label references
 * Font shorthand
 * Math environments
 * Language combinators
