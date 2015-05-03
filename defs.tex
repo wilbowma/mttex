@@ -341,35 +341,21 @@
 %   \newcommand{\txdubpr}{\lmetavarto{\tx}{\prime}{2}}
 \newcommand{\lmetavarpr}[3]{\lmetavarpr{#1}{}{}{#2}{#3}}
 
-% \newlmetavar* generates some standard macros for formatting a meta-var,
-% and takes 5 paraemters:
-%
-% #1 : A formatting macro for the meta-var, such a \tfont
-% #2 : A formatting macro for the subscripts, superscripts, and primes,
-%   such as \tcolor
-% #3 : A string prefix for the name of the macro, such as t
-% #4 : A string name of the macro, such as ty
-% #5 : A string to format and display this meta-variable as, such as
-%   \tau
-%
-% Usage:
-%   \newlmetavar*{\tfont}{\tcolor}{t}{x}{x}
-% This usage would generates definitions like:
-%  \newcommand{\tx}{\tfont{x}}
-%  \newcommand{\txmetavar}[3]{
-%    \lmetvar{\tx}{\tcolor{#1}}{\tcolor{#2}}{\tcolor{\prime}}{#3}
-%  }
-%  \newcommand{\txin}[1]{ \txmetavar{#1}{}{0} }
-%  \newcommand{\txto}[1]{ \txmetavar{}{#1}{0} }
-%  \newcommand{\txpr}{\tx^{\tcolor{\prime}}}
-%  \newcommand{\txdubpr}{\tx^{\tcolor{\prime\prime}}}
-%  \newcommand{\txone}{\tx_\tcolor{1}}
-%  \newcommand{\txonepr}{\txone^{\tcolor{\prime}}}
-%  \newcommand{\txtwo}{\tx_\tcolor{2}}
-%  \newcommand{\txtwopr}{\txtwo^{\tcolor{\prime}}}
-
 \makeatletter
 
+% \@globalshadowedcommand generates a new global macro. However, when
+% the macro is already defined, it warns the user via a compile time
+% message that the macro has been shadowed.
+%
+% #1 : A default value for the optional argument of the new macro
+% #2 : The name of the macro to be defined
+% #3 : The number of arguments the macro takes
+% #4 : The body of the macro to be defined
+%
+% Usage:
+%  \@globalshadowedcommand{\ae}{0}{
+%    \lmetavar{\tfont{x}}{}{}{}{0}
+%  }
 \newcommand{\@globalshadowedcommand}[4][]{
   {
     \let\def\gdef
@@ -392,6 +378,36 @@
   }
 }
 
+% \newlmetavarStar generates some standard macros for formatting a meta-var,
+% and takes 5 paraemters:
+%
+% #1 : A formatting macro for the meta-var, such a \tfont
+% #2 : A formatting macro for the subscripts, superscripts, and primes,
+%   such as \tcolor
+% #3 : A string prefix for the name of the macro, such as t
+% #4 : A string name of the macro, such as ty
+% #5 : A string to format and display this meta-variable as, such as
+%   \tau
+%
+% Usage:
+%   \newlmetavarStar{\tfont}{\tcolor}{t}{ty}{\tau}
+%
+% This usage generates the following definitions:
+%  \newcommand{\ttymetavar}[3]{
+%    \lmetvar{\tfont{\tau}}{\tcolor{#1}}{\tcolor{#2}}{\tcolor{\prime}}{#3}
+%  }
+%  \newcommand{\tty}{ \ttymetavar{}{}{} }
+%  \newcommand{\ttyin}[1]{ \ttymetavar{#1}{}{0} }
+%  \newcommand{\ttyto}[1]{ \ttymetavar{}{#1}{0} }
+%  \newcommand{\ttypr}[1][1]{ \ttymetavar{}{}{#1} }
+%  \newcommand{\ttyone}{ \ttymetavar{1}{}{} }
+%  \newcommand{\ttyonepr}[1][1]{ \ttymetavar{1}{}{#1}}
+%  \newcommand{\ttytwo}{ \ttymetavar{2}{}{} }
+%  \newcommand{\ttytwopr}{ \ttymetavar{2}{}{1} }
+%  \newcommand{\ttyi}{ \ttymetavar{i}{}{} }
+%  \newcommand{\ttyipr}[1][1]{ \ttymetavar{i}{}{#1} }
+%  \newcommand{\ttyn}{ \ttymetavar{n}{}{} }
+%  \newcommand{\ttynpr}[1][1]{ \ttymetavar{n}{}{#1} }
 \newcommand{\newlmetavarStar}[5]{
   \@globalshadowedcommand{#3#4metavar}{3}{
     \lmetavar{#1{#5}}{#2{##1}}{#2{##2}}{#2{\prime}}{##3}
@@ -434,37 +450,92 @@
   }
 }
 
+% \newlmetavarNoStar is like \netlmetavarStar, but assumes the name of
+% the macro is also the display symbol.
+% It takes 4 paraemters:
+%
+% #1 : A formatting macro for the meta-var, such a \tfont
+% #2 : A formatting macro for the subscripts, superscripts, and primes,
+%   such as \tcolor
+% #3 : A string prefix for the name of the macro, such as t
+% #4 : A string name of the macro and symbol to format and display, such
+% as x
+%
+% Usage:
+%   \newlmetavarNoStar{\tfont}{\tcolor}{t}{x}
+%
+% This usage is equivalent to
+%   \newlmetavarStar{\tfont}{\tcolor}{t}{x}{x}
 \newcommand{\newlmetavarNoStar}[4]{
   \newlmetavarStar{#2}{#3}{#4}{#1}{#1}
 }
 
-\newcommand{\newlmetavarmaybestar}{
+\newcommand{\@newlmetavarmaybestar}{
   \@ifstar
   \newlmetavarStar
   \newlmetavarNoStar
 }
 
+% \newlmetavar implement the * LaTeX idiom after currying. It expands in
+% to either \newlmetavarStar or \newlmetavarNoStar depending on whether the
+% character following its 3rd argument is a * or not.
+%
+% Usage:
+%   \newcommand{\newtmetavar}{\newlmetavar{\tfont}{\tcolor}{t}}
+%   \newtmetavar{x}
+%   \newtmetavar*{ty}{\tau}
 \newcommand{\newlmetavar}[4]{
-  \newlmetavarmaybestar#4{#1}{#2}{#3}
+  \@newlmetavarmaybestar#4{#1}{#2}{#3}
 }
 
-% TODO Use \@ for more internal vars and such
-% TODO DOCUMENT
+% \newlmetavarS defines new metavar macros for a list of name/symbol
+% pairs. Essentially, it calls \newlmetavar* for each name/symbol pair
+% in its 4th parameter.
+%
+% #1 : A formatting macro for the meta-var, such a \tfont
+% #2 : A formatting macro for the subscripts, superscripts, and primes,
+%   such as \tcolor
+% #3 : A string prefix for the name of the macro, such as t
+% #4 : A list of name/symbol pairs, separated literally by a /.
+%
 % Usage:
-%   \newlmetavars{\tfont}{\tcolor}{t}{x/x,e/e,v/v,alpha/\tfontsym{\alpha}}
+%   \newlmetavarsS{\tfont}{\tcolor}{t}{x/x,e/e,v/v,alpha/\b{\alpha}}
+%   \newcommand{\newsmetavarsS}{\newlmetavarsS{\sfontsym}{\scolor}{s}}
+%   \newsmetavarsS{\alpha/\alpha, ty/\sigma}
 \newcommand{\newlmetavarsS}[4]{
   \foreach \@n/\@d in {#4} {
     \edef \@meow{\noexpand\newlmetavarStar{\noexpand#1}{\noexpand#2}{#3}{\@n}{\@d}}
     \@meow
   }
+  \def\@meow{\undefined}
+  \def\@n{\undefined}
+  \def\@d{\undefined}
 }
 
+% \newlmetavar defines new metavar macros for a list of names, assuming
+% each metavar will be displayed via the symbol it is named.
+% Essentially, it calls \newlmetavar for each name in its 4th parameter.
+%
+% #1 : A formatting macro for the meta-var, such a \tfont
+% #2 : A formatting macro for the subscripts, superscripts, and primes,
+%   such as \tcolor
+% #3 : A string prefix for the name of the macro, such as t
+% #4 : A list of names.
+%
+% Usage:
+%   \newlmetavars{\tfont}{\tcolor}{t}{x,e,v}
+%   \newcommand{\newsmetavars}{\newlmetavars{\sfont}{\scolor}{s}}
+%   \newsmetavars{x,e,v}
 \newcommand{\newlmetavars}[4]{
   \foreach \@n in {#4} {
     \edef \@meow{\noexpand\newlmetavarStar{\noexpand#1}{\noexpand#2}{#3}{\@n}{\@n}}
     \@meow
   }
+  \def\@meow{\undefined}
+  \def\@n{\undefined}
 }
+
+% TODO Figure out that currying issue with lists
 
 \makeatother
 
@@ -477,34 +548,155 @@
 %%% TODO Document. Tests and examples exist in test.tex
 
 %% Standard types
+
+% \funty formats a function type.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : The pre-formatted argument to the function
+% #3 : The pre-formatted result of the function
 \newcommand{\funty}[3]{#2 #1{\funarrow} \, #3}
+
+% \funtyS is like \funty, but accepts both a symbol formatting macro and
+% text formatting macro, making it suitable for automation.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
+% #3 : The pre-formatted argument to the function
+% #4 : The pre-formatted result of the function
 \newcommand{\funtyS}[4]{\funty{#1}{#3}{#4}}
 
+% \polyfunty formats a polymorphic function type.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : The pre-formatted type-variable to bind
+% #3 : The pre-formatted argument to the function
+% #4 : The pre-formatted result of the function
 \newcommand{\polyfunty}[4]{#1{\forall}\,#1{[}{#2}#1{].}{#3}#1{\funarrow}\,{#4}}
+
+% \polyfuntyS is like \polyfunty, but accepts both a symbol formatting
+% macro and text formatting macro, making it suitable for automation.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
+% #3 : The pre-formatted type-variable to bind
+% #4 : The pre-formatted argument to the function
+% #5 : The pre-formatted result of the function
 \newcommand{\polyfuntyS}[5]{\polyfunty{#1}{#3}{#4}{#5}}
 
+% \forallty formats a polymorphic type.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : The pre-formatted type-variable to bind
+% #3 : The pre-formatted result in which the type-variable is bound
 \newcommand{\forallty}[3]{#1{\forall}#2#1{.}\,#3}
+
+% \foralltyS is like \forallty, but accepts both a symbol formatting
+% macro and text formatting macro, making it suitable for automation.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
+% #3 : The pre-formatted type-variable to bind
+% #4 : The pre-formatted result in which the type-variable is bound
 \newcommand{\foralltyS}[4]{\forallty{#1}{#3}{#4}}
 
+% \existty formats an existential type.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : The pre-formatted type-variable to bind
+% #3 : The pre-formatted result in which the type-variable is bound
 \newcommand{\existty}[3]{#1{\exists}#2#1{.}\,#3}
+
+% \existtyS is like \existty, but accepts both a symbol formatting
+% macro and text formatting macro, making it suitable for automation.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
+% #3 : The pre-formatted type-variable to bind
+% #4 : The pre-formatted result in which the type-variable is bound
 \newcommand{\existtyS}[4]{\existty{#1}{#3}{#4}}
 
+% \muty formats a recursive type.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : The pre-formatted type-variable to bind
+% #3 : The pre-formatted result in which the type-variable is bound
 \newcommand{\muty}[3]{#1{\upmu} #2 #1{.} #3 }
+
+% \mutyS is like \muty, but accepts both a symbol formatting
+% macro and text formatting macro, making it suitable for automation.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
+% #3 : The pre-formatted type-variable to bind
+% #4 : The pre-formatted result in which the type-variable is bound
 \newcommand{\mutyS}[4]{\muty{#1}{#3}{#4}}
 
+% \unitty formats a unit type.
+%
+% #1 : A formatting macro for text, such as \tfont
 \newcommand{\unitty}[1]{#1{1}}
+
+% \unittyS is like \unitty, but accepts both a symbol formatting
+% macro and text formatting macro, making it suitable for automation.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
 \newcommand{\unittyS}[2]{\unitty{#2}}
 
+% \voidty formats a void type.
+%
+% #1 : A formatting macro for text, such as \tfont
 \newcommand{\voidty}[1]{#1{0}}
+
+% \voidtyS is like \voidty, but accepts both a symbol formatting
+% macro and text formatting macro, making it suitable for automation.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
 \newcommand{\voidtyS}[2]{\voidty{#2}}
 
+% \boolty formats a bool type.
+%
+% #1 : A formatting macro for text, such as \tfont
 \newcommand{\boolty}[1]{#1{bool}}
+
+% \booltyS is like \boolty, but accepts both a symbol formatting
+% macro and text formatting macro, making it suitable for automation.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
 \newcommand{\booltyS}[2]{\boolty{#2}}
 
+% \pairty formats a pair type.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : The pre-formatted type for the first component of the pair
+% #3 : The pre-formatted type for the second component of the pair
 \newcommand{\pairty}[3]{#2 \, #1{\times} \, #3}
+
+% \pairtyS is like \pairty, but accepts both a symbol formatting
+% macro and text formatting macro, making it suitable for automation.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
+% #3 : The pre-formatted type for the first component of the pair
+% #4 : The pre-formatted type for the second component of the pair
 \newcommand{\pairtyS}[4]{\pairty{#1}{#3}{#4}}
 
+% \sumty formats a sum type.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : The pre-formatted type for the first component of the sum
+% #3 : The pre-formatted type for the second component of the sum
 \newcommand{\sumty}[3]{#2 \, #1{\plus} \, #3}
+
+% \sumtyS is like \sumty, but accepts both a symbol formatting
+% macro and text formatting macro, making it suitable for automation.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
+% #3 : The pre-formatted type for the first component of the sum
+% #4 : The pre-formatted type for the second component of the sum
 \newcommand{\sumtyS}[4]{\sumty{#1}{#3}{#4}}
 
 %% Standard expression
@@ -586,6 +778,8 @@
       \edef\@meow{\noexpand\newlconstr{\noexpand#1}{\noexpand#2}{#3}{\@n#4}}
       \@meow
     }
+    \def\@meow{\undefined}
+    \def\@n{\undefined}
   }
 }
 \makeatother
@@ -593,6 +787,23 @@
 \newcommand{\newltypes}[3]{\newlconstrs{#1}{#2}{#3}{ty}}
 \newcommand{\newlexprs}[3]{\newlconstrs{#1}{#2}{#3}{e}}
 
+% \newlanguage generates macros for formatting meta-variables, types,
+% and expressions of a language.
+%
+% #1 : A formatting macro for super-scripts, sub-scripts, and primes in
+%   this language, such as \tcolor
+% #2 : A formatting macro for math text in this language, such as \tfont
+% #3 : A formatting macro for symbols in this language, such as
+%   \tfontsym
+% #4 : A language prefix for the macros, such as t
+% #5 : A list of meta-variables for which to generate macros via
+%   \newlmetavars, such as {x, e, v}
+% #6 : A list of meta-variables for which to generate macros via
+%   \newlmetavarsS, such as {ty/\tau,alpha\alpha}
+% #7 : A list of types for which to generate macros via \newltypes, such
+%   as {fun, forall, exist, pair, bool, unit}
+% #8 : A list of expressions for which to generate macros via
+%   \newlexprs, such as {fun, app, if, true, false, unit}
 \renewcommand{\newlanguage}[8]{
   \newlmetavars{#2}{#1}{#4}{#5}
   \newlmetavarsS{#3}{#1}{#4}{#6}
