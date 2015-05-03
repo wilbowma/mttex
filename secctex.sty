@@ -1,10 +1,14 @@
 \ProvidesPackage{secctex}
 
+% Local packages
 \RequirePackage{mathpartir}
-\RequirePackage{todonotes}
 \RequirePackage{unlist}
+
+% CTAN packages
+\RequirePackage{todonotes}
 \RequirePackage{letltxmacro}
 \RequirePackage{bookmark}
+\RequirePackage{ifthen}
 
 \RequirePackage{latexsym,amsmath,amssymb}
 \RequirePackage{stmaryrd}
@@ -17,46 +21,14 @@
 \RequirePackage{mathrsfs}
 
 \RequirePackage{amsthm}
+\RequirePackage{titlecaps}
 
 % ACM recommended packages
 \RequirePackage{microtype}
 \RequirePackage[utf8]{inputenc}
 \RequirePackage[T1]{fontenc}
 
-%% Automagic title case
-
-\RequirePackage{titlecaps}
-\Addlcwords{for a is but and with of in as the etc on to if}
-
-% TODO I'd rather like to hide these internal things, but I guess I'll
-% settle for making them internal
-\makeatletter
-\LetLtxMacro{\@title}{\title}
-\LetLtxMacro{\@section}{\section}
-\LetLtxMacro{\@subsection}{\subsection}
-\LetLtxMacro{\@subsubsection}{\subsubsection}
-
-\newcommand{\@titlecrafter}[3]{
-  \if\relax\detokenize{#2}\relax
-  #1[#3]{\titlecap{#3}}
-  \else
-  #1[#2]{\titlecap{#3}}
-  \fi
-}
-
-\renewcommand{\title}[2][]{
-  \@titlecrafter{\@title}{#1}{#2}
-}
-
-\renewcommand{\section}[2][]{
-  \@titlecrafter{\@section}{#1}{#2}
-}
-\renewcommand{\subsection}[2][]{
-  \@titlecrafter{\@subsection}{#1}{#2}
-}
-\renewcommand{\subsubsection}[2][]{
-  \@titlecrafter{\@subsubsection}{#1}{#2}
-}
+%%% Conditional definitions
 
 %% omitthis
 \newcommand{\omitthis}[1]{#1}
