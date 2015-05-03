@@ -3,8 +3,8 @@
 \RequirePackage{mathpartir}
 \RequirePackage{todonotes}
 \RequirePackage{unlist}
-\RequirePackage{hyperref}
 \RequirePackage{letltxmacro}
+\RequirePackage{bookmark}
 
 \RequirePackage{latexsym,amsmath,amssymb}
 \RequirePackage{stmaryrd}
@@ -38,7 +38,7 @@
 
 \newcommand{\@titlecrafter}[3]{
   \if\relax\detokenize{#2}\relax
-  #1{\titlecap{#3}}
+  #1[#3]{\titlecap{#3}}
   \else
   #1[#2]{\titlecap{#3}}
   \fi
