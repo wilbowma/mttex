@@ -20,7 +20,7 @@ macro.
 * Automagic Title-case
 * TODO and comments
 * Reference
-* Font shothand
+* Font shorthand
 * Math environments
 * Language combinators
 * Meta-theory combinators
@@ -383,6 +383,7 @@ obnoxious. So this package provides combinators for meta-variables.
 %   \newcommand{\txpr}{\lmetavarto{\tx}{\prime}{1}}
 %   \newcommand{\txdubpr}{\lmetavarto{\tx}{\prime}{2}}
 \newcommand{\lmetavarpr}[3]
+```
 
 ### Lists of meta-variables
 Generating meta-variables one at a time is annoying, so this package
