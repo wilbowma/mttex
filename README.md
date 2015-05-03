@@ -7,8 +7,7 @@ list of packages.
 
 This package provides numerous macros for formatting multi-language
 meta-theory. This README provides sections describing various aspects of
-the package. The first few sections are dedicated to features that are not
-specific to multi-language meta-theory.
+the package.
 
 In this README, I use "combinator" to mean a macro that takes macros as
 inputs and defines new macros, or a macro that can be partially applied
@@ -23,6 +22,7 @@ to produce a new macro.
 * Label References
 * Font Shorthand
 * Math Environments
+* Standard Source/Target Macros
 * Meta-Language Macros
 * Language Symbol Macros
 * Language Combinators
