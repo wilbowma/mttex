@@ -49,11 +49,16 @@ This package defines the following options:
 Until I get around to make the documentation more readable, use this
 guide to translate.
 
-Each documented macro is preceded by documentation that explains the
-purpose of the macro and each of its arguments. The arguments are
-numbered in the same way they are used in LaTeX. Below the documentation
-the macro is show with its interface, i.e., the number of arguments, and
-the default value of the optional argument (if any).
+Each documented macro starts with the name of the macro and an interface
+declaring the number of arguments, possibly followed by the default
+value for #1. The interface is followed by an explanation of the macro's
+purpose and its arguments.
+```latex
+\macroname[<args>][default-value]
+Has this purpose.
+  #1 : A thing that does something
+  #2 : Another argument
+```
 
 Macros may be undocumented but given with their interface or their
 definitions if they merely provide shorthand or match a standard
@@ -70,16 +75,14 @@ the titles in title-case.
 \subsubsection[2][]
 ```
 
-The original macro are still accessible, though they are @ protected.
+The original macro are still accessible, though they are @ protected. To
+access these, you need to surround their uses with `\makeatletter` and
+`\makeatother`.
 ```latex
-\makeatletter
-
 \@title[2][]
 \@section[2][]
 \@subsection[2][]
 \@subsubsection[2][]
-
-\makeatother
 ```
 
 You can control which words should be left lower-case the macro
@@ -91,25 +94,37 @@ You can control which words should be left lower-case the macro
 ## TODO and Comments
 This package provides the following macros for adding TODO comments.
 ```latex
-\omitthis[1]: does not render its argument if the omit option is
-specified.
+\omitthis[1]
+Does not render its argument if the omit option is specified.
   #1 : A comment to potentially omit.
+```
 
-\todo[2][]: adds a margin comment, and registers the comment into a todo list.
+```latex
+\todo[2][]
+Add a margin comment, and registers the comment into a todo list.
   #1 : Formatting options for the todo macro. See the todonotes package
     for more information.
   #2 : The todo comment
+```
 
-% \todoleft is like \todo, but adds the comment to the left margin.
+```latex
+\todolist
+Formats a list containing all comments added by calls to \todo.
+```
+
+```latex
 \todoleft[2][]
+Like \todo, but adds the comment to the left margin.
+```
 
-% \margincomment is like \todo, but colors the comment in green and does
-% not add it to the todolist
+```latex
 \margincomment[2][]
+Like \todo, but colors the comment in green and does not add it to the todolist
+```
 
-% \inlinecomment is like \margincomment, but places the comment inline
-% rather than in the margin.
+```latex
 \inlinecomment[2][]
+Like \margincomment, but places the comment inline rather than in the margin.
 ```
 
 ## Label References
