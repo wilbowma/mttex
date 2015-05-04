@@ -1,6 +1,13 @@
 # SeCCTex
 Welcome to the Secure and Correct Compilers Tex package.
 
+This package provides numerous macros and combinators for formatting
+multi-language meta-theory. I use "combinator" to mean a macro that
+takes macros as inputs and defines new macros, or a macro that can be
+partially applied to produce a new macro. This README provides sections
+describing various aspects of the package.
+
+## Required Packages
 This package includes several packages not available on CTAN, and
 requires several that are on CTAN.
 
@@ -30,15 +37,6 @@ available on CTAN. These are included in standard LaTeX installations.
 * `microtype`
 * `inputenc`
 * `fontenc`
-
-
-This package provides numerous macros for formatting multi-language
-meta-theory. This README provides sections describing various aspects of
-the package.
-
-In this README, I use "combinator" to mean a macro that takes macros as
-inputs and defines new macros, or a macro that can be partially applied
-to produce a new macro.
 
 ## Table of Contents
 
