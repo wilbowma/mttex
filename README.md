@@ -685,7 +685,7 @@ generate for `fun` when using the prefix `s` and suffix `e` is `\sfune`.
 \sumty[4]
 ```
 
-#### Detailed Type Combinator Documentation
+#### Detailed Expression Combinator Documentation
 ```latex
 % \fune formats a function expression.
 %
