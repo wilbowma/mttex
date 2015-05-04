@@ -510,7 +510,7 @@ Formats a language meta-var with only a subscript.
   #2 : a pre-formatted subscript
 
 Usage:
-  \newcommand{\txone}{\metavarto{\tx}{\tcolor{1}}}
+  \newcommand{\txone}{\metavarin{\tx}{\tcolor{1}}}
 ```
 
 ```latex
@@ -521,8 +521,8 @@ Formats a language meta-var with only primes, takes 3 parameters:
   #3 : a natural number representing the number of primes
 
 Usage:
-  \newcommand{\txpr}{\metavarto{\tx}{\prime}{1}}
-  \newcommand{\txdubpr}{\metavarto{\tx}{\prime}{2}}
+  \newcommand{\txpr}{\metavarpr{\tx}{\prime}{1}}
+  \newcommand{\txdubpr}{\metavarpr{\tx}{\prime}{2}}
 ```
 
 ### List-of-Meta-Variables Combinators
