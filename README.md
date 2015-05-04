@@ -30,9 +30,10 @@ out how to do LaTeX packages. From a git repository that could use this
 project, do
 ```bash
 git submodule add git@github.ccs.neu.edu:coqatoos/secctex
+ln -s secctex/* .
 ```
 
-Then add `\usepackage{secctex/secctex}` to your main TeX file.
+Then add `\usepackage{secctex}` to your main TeX file.
 
 ## Required Packages
 This package includes several packages not available on CTAN, and
