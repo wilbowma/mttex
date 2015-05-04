@@ -105,7 +105,7 @@ Add a margin comment, and registers the comment into a todo list.
 ```
 
 ```latex
-\todolist
+\listoftodos
 Formats a list containing all comments added by calls to \todo.
 ```
 

@@ -36,13 +36,14 @@
   \renewcommand{\omitthis}[1]{}
 }
 
+\makeatletter
 %% todo
-\LetLtxMacro{\@todo}{\todo}
+\LetLtxMacro{\savedtodo}{\todo}
 
-\renewcommand{\todo}[2][]{\omitthis{\@todo[#1]{#2}}}
+\renewcommand{\todo}[2][]{\omitthis{\savedtodo[#1]{#2}}}
 
 \DeclareOption{todo}{
-  \renewcommand{\todo}[2][]{\@todo[#1]{#2}}
+  \renewcommand{\todo}[2][]{\savedtodo[#1]{#2}}
 }
 
 %% ACM/SIGPLAN format
