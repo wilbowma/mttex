@@ -1,5 +1,5 @@
-# SeCCTex
-Welcome to the Secure and Correct Compilers Tex package.
+# SeCCTeX
+Welcome to the Secure and Correct Compilers TeX package.
 
 This package provides numerous macros and combinators for formatting
 multi-language meta-theory. I use "combinator" to mean a macro that
@@ -9,6 +9,7 @@ describing various aspects of the package.
 
 ## Table of Contents
 
+* [Installation](#installation)
 * [Required Packages](#required-packages)
 * [Options](#options)
 * [How to Read](#how-to-read)
@@ -23,6 +24,15 @@ describing various aspects of the package.
 * [Language Combinators](#language-combinators)
 * [Meta-Theory Combinators](#meta-theory-combinators)
 
+## Installation
+I recommend installing this package via git submodules until I figure
+out how to do LaTeX packages. From a git repository that could use this
+project, do
+```bash
+git submodule add git@github.ccs.neu.edu:coqatoos/secctex
+```
+
+Then add `\usepackage{secctex/secctex}` to your main TeX file.
 
 ## Required Packages
 This package includes several packages not available on CTAN, and
