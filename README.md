@@ -91,18 +91,14 @@ You can control which words should be left lower-case the macro
 ## TODO and Comments
 This package provides the following macros for adding TODO comments.
 ```latex
-% \omitthis does not render its argument if the omit option is
-% specified.
-%
-% #1 : A comment to potentially omit.
-\omitthis[1]
+\omitthis[1]: does not render its argument if the omit option is
+specified.
+  #1 : A comment to potentially omit.
 
-% \todo adds a margin comment, and registers the comment into a todo list.
-%
-% #1 : Formatting options for the todo macro. See the todonotes package
-%   for more information.
-% #2 : The todo comment
-\todo[2][]
+\todo[2][]: adds a margin comment, and registers the comment into a todo list.
+  #1 : Formatting options for the todo macro. See the todonotes package
+    for more information.
+  #2 : The todo comment
 
 % \todoleft is like \todo, but adds the comment to the left margin.
 \todoleft[2][]
