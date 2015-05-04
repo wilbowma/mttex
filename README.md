@@ -361,10 +361,10 @@ format multi-language meta-theory.
 ### Language Combinator TOC
 * [Generating a Language](#generating-a-language)
 * [Meta-Variables](#meta-variables)
-* [List of Meta-Variables Combinators](#list-of-meta-variables-combinators)
+* [List-of-Meta-Variables Combinators](#list-of-meta-variables-combinators)
 * [Formatting Types and Expressions](#formatting-types-and-expressions)
-* [List of Types Combinators](#list-of-types-combinators)
-* [List of Expressions Combinators](#list-of-types-combinators)
+* [List-of-Types Combinators](#list-of-types-combinators)
+* [List-of-Expressions Combinators](#list-of-types-combinators)
 * [Detailed Type Combinator Documentation](#detailed-type-combinator-documentation)
 * [Detailed Expression Combinator Documentation](#detailed-expression-combinator-documentation)
 
@@ -407,7 +407,7 @@ Writing all the macros to properly format language meta-variables is
 obnoxious. So this package provides combinators for meta-variables.
 ```latex
 \newmetavar[3]
-Implement the * LaTeX idiom after currying. It expands in to either
+Implements the * LaTeX idiom after currying. It expands in to either
 \newmetavarStar{#1}{#2}{#3} or \newmetavarNoStar{#1}{#2}{#3} depending
 on whether the character following its 3rd argument is a * or not.
   #1 : A formatting macro for the meta-var, such a \tfont
@@ -528,7 +528,7 @@ Usage:
   \newcommand{\txdubpr}{\metavarto{\tx}{\prime}{2}}
 ```
 
-### List of Meta-Variables Combinators
+### List-of-Meta-Variables Combinators
 Generating meta-variables one at a time is annoying, so this package
 provides combinators for lists of meta-variables.
 
@@ -609,7 +609,7 @@ the combinator.
 * case: case expressions
 * let: let expressions
 
-### List of Types Combinators
+### List-of-Types Combinator
 Generating type macros one at a time is annoying, so this package
 provides combinators for lists of types. The macros are generated
 attaching a prefix and suffix to the tag, followed by ty.  For instance,
@@ -625,7 +625,7 @@ Generates type formatting macros given a list of tags.
   #5 : A list of type tags, such as {fun,bool,void,unit}
 ```
 
-### Lists of Expressions Combinators
+### List-of-Expressions Combinator
 Generating expression macros one at a time is annoying, so this package
 provides combinators for lists of expressions. The macros are generated
 attaching a prefix and suffice to the tag. For instance, the macro
