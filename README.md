@@ -7,6 +7,23 @@ takes macros as inputs and defines new macros, or a macro that can be
 partially applied to produce a new macro. This README provides sections
 describing various aspects of the package.
 
+## Table of Contents
+
+* [Required Packages](#required-packages)
+* [Options](#options)
+* [How to Read](#how-to-read)
+* [Automagic Title-case](#automagic-title-case)
+* [TODO and Comments](#todo-and-comments)
+* [Label References](#label-references)
+* [Font Shorthand](#font-shorthand)
+* [Math Environments](#math-environments)
+* [Standard Source/Target Macros](#standard-source-target-macros)
+* [Meta-Language Macros](#meta-language-macros)
+* [Language Symbol Macros](#language-symbol-macros)
+* [Language Combinators](#language-combinators)
+* [Meta-Theory Combinators](#meta-theory-combinators)
+
+
 ## Required Packages
 This package includes several packages not available on CTAN, and
 requires several that are on CTAN.
@@ -37,21 +54,6 @@ available on CTAN. These are included in standard LaTeX installations.
 * `microtype`
 * `inputenc`
 * `fontenc`
-
-## Table of Contents
-
-* [Options](#options)
-* [How to Read](#how-to-read)
-* [Automagic Title-case](#automagic-title-case)
-* [TODO and Comments](#todo-and-comments)
-* [Label References](#label-references)
-* [Font Shorthand](#font-shorthand)
-* [Math Environments](#math-environments)
-* [Standard Source/Target Macros](#standard-source-target-macros)
-* [Meta-Language Macros](#meta-language-macros)
-* [Language Symbol Macros](#language-symbol-macros)
-* [Language Combinators](#language-combinators)
-* [Meta-Theory Combinators](#meta-theory-combinators)
 
 ## Options
 This package defines the following options:
