@@ -1,5 +1,7 @@
 \ProvidesPackage{secctex}
 
+%%% -------------------------- Packages -------------------------------
+
 % Local packages
 \RequirePackage{mathpartir}
 \RequirePackage{unlist}
@@ -28,7 +30,7 @@
 \RequirePackage[utf8]{inputenc}
 \RequirePackage[T1]{fontenc}
 
-%%% Conditional definitions
+%%% -------------------------- Options -------------------------------
 
 %% omitthis
 \newcommand{\omitthis}[1]{#1}
@@ -89,5 +91,1212 @@
 \fi
 \makeatother
 
-\input{defs}
+%%% ----------------------- Definitions -----------------------------
+
+%% Automaigc titlecase
+\Addlcwords{for a is but and with of in as the etc on to if}
+
+% TODO I'd rather like to hide these internal things, but I guess I'll
+% settle for making them @ protected
+\makeatletter
+\LetLtxMacro{\@title}{\title}
+\LetLtxMacro{\@section}{\section}
+\LetLtxMacro{\@subsection}{\subsection}
+\LetLtxMacro{\@subsubsection}{\subsubsection}
+
+\newcommand{\@titlecrafter}[3]{
+  \ifthenelse{\equal{#2}{}}
+  {#1[#3]{\titlecap{#3}}}
+  {#1[#2]{\titlecap{#3}}}
+}
+
+\renewcommand{\title}[2][]{
+  \@titlecrafter{\@title}{#1}{#2}
+}
+
+\renewcommand{\section}[2][]{
+  \@titlecrafter{\@section}{#1}{#2}
+}
+\renewcommand{\subsection}[2][]{
+  \@titlecrafter{\@subsection}{#1}{#2}
+}
+\renewcommand{\subsubsection}[2][]{
+  \@titlecrafter{\@subsubsection}{#1}{#2}
+}
+\makeatother
+
+\newcommand{\todoleft}[2][]{
+  \reversemarginpar
+  \todo[#1]{#2}
+  \reversemarginpar
+}
+
+\newcommand{\margincomment}[2][color=green!40,nolist]{
+  \todo[#1]{#2}
+}
+
+\newcommand{\inlinecomment}[2][inline,color=green!40,nolist]{
+  \todo[#1]{#2}
+}
+
+%% Misc commands <<<
+
+\newcommand{\secref}[1]{\S\ref{#1}}
+\newcommand{\figref}[1]{Figure~\ref{#1}}
+\newcommand{\lemref}[1]{Lemma~\ref{#1}}
+\newcommand{\thmref}[1]{Theorem~\ref{#1}}
+
+% Text fonts
+\newcommand{\tbf}[1]{\textbf{#1}}
+\newcommand{\trm}[1]{\textrm{#1}}
+\newcommand{\tnl}[1]{\small{\trm{#1}}}
+
+% Math fonts
+\newcommand{\mbb}[1]{\mathbb{#1}}
+\newcommand{\mbf}[1]{\mathbf{#1}}
+\renewcommand{\mit}[1]{\mathit{#1}}
+\newcommand{\mrm}[1]{\mathrm{#1}}
+\newcommand{\mtt}[1]{\mathtt{#1}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\mfrak}[1]{\mathfrak{#1}}
+\newcommand{\msf}[1]{\mathsf{#1}}
+\newcommand{\mscr}[1]{\mathscr{#1}}
+\renewcommand{\b}{\boldsymbol}
+
+% Text mode
+\newenvironment{nop}{}{}
+
+% Math mode
+\newenvironment{sdisplaymath}{
+\begin{nop}\small\begin{displaymath}}{
+\end{displaymath}\end{nop}\ignorespacesafterend}
+\newenvironment{fdisplaymath}{
+\begin{nop}\footnotesize\begin{displaymath}}{
+\end{displaymath}\end{nop}\ignorespacesafterend}
+\newenvironment{smathpar}{
+\begin{nop}\small\begin{mathpar}}{
+\end{mathpar}\end{nop}\ignorespacesafterend}
+\newenvironment{fmathpar}{
+\begin{nop}\footnotesize\begin{mathpar}}{
+\end{mathpar}\end{nop}\ignorespacesafterend}
+\newenvironment{alignS}{
+\begin{nop}\begin{align}}{
+\end{align}\end{nop}\ignorespacesafterend}
+\newenvironment{salignS}{
+\begin{nop}\small\begin{align}}{
+\end{align}\end{nop}\ignorespacesafterend}
+\newenvironment{falignS}{
+\begin{nop}\footnotesize\begin{align*}}{
+\end{align}\end{nop}\ignorespacesafterend}
+
+% Stack formatting
+\newenvironment{stackAux}[2]{%
+\setlength{\arraycolsep}{0pt}
+\begin{array}[#1]{#2}}{
+\end{array}}
+\newenvironment{stackCC}{
+\begin{stackAux}{c}{c}}{\end{stackAux}}
+\newenvironment{stackCL}{
+\begin{stackAux}{c}{l}}{\end{stackAux}}
+\newenvironment{stackTL}{
+\begin{stackAux}{t}{l}}{\end{stackAux}}
+\newenvironment{stackTR}{
+\begin{stackAux}{t}{r}}{\end{stackAux}}
+\newenvironment{stackBC}{
+\begin{stackAux}{b}{c}}{\end{stackAux}}
+\newenvironment{stackBL}{
+\begin{stackAux}{b}{l}}{\end{stackAux}}
+
+%% Theorems
+\newtheoremstyle{athm}{\topsep}{\topsep}%
+     {\itshape}%         Body font
+     {}%         Indent amount (empty = no indent, \parindent = para indent)
+     {\bfseries}% Thm head font
+     {}%        Punctuation after thm head
+     {\newline}%     Space after thm head (\newline = linebreak)
+     {\thmname{#1}\thmnumber{ #2}\thmnote{~\,(#3)}}%         Thm head spec
+
+\theoremstyle{athm}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+
+\renewenvironment{proof}[1][]{%
+\noindent%
+\textbf{Proof\if\relax\detokenize{#1}\relax\else~(#1)\fi}%
+\begin{list}{}{}\item[]}{%
+\qed
+\end{list}}
+
+\renewenvironment{cases}{\begin{description}}{\end{description}}
+\newcommand{\case}[1][]{\item[Case] #1}
+\newcommand{\scase}[1][]{\item[Sub-case] #1}
+\newcommand{\sscase}[1][]{\item[SubSub-case] #1}
+
+%% TODO Or these
+%\newsavebox{\DetailsBox}%
+%\newenvironment{details}[1][]{%
+%\ifthenelse{\boolean{ShowDetailsFlag}}{}{#1 \begin{lrbox}{\DetailsBox}\begin{minipage}{\textwidth}}%
+%}{%
+%\ifthenelse{\boolean{ShowDetailsFlag}}{}{\end{minipage}\end{lrbox}}%
+%}%
+
+%% \renewcommand{\thefigure}{\thesection.\arabic{figure}}
+
+% % Shading
+% \newlength{\ShadeLen}
+% \newcommand{\shade}[2]{%
+% \settoheight{\ShadeLen}{$\bnfalt$}
+% \colorbox[gray]{#1}{\mbox{\rule{0pt}{\ShadeLen}#2}}}
+
+%% Meta Language
+\newcommand{\metafont}[1]{\mathrm{#1}}
+\newcommand{\dom}[1]{\metafont{dom}(#1)}
+\newcommand{\cod}[1]{\metafont{cod}(#1)}
+\newcommand{\rng}[1]{\metafont{rng}(#1)}
+\newcommand{\FV}{\metafont{fv}}
+\newcommand{\FTV}{\metafont{ftv}}
+\newcommand{\subst}[3]{{#1}[{#2}/{#3}]}
+\newcommand{\defeq}{\stackrel{\metafont{def}}{=}}
+\newcommand{\finmap}{\stackrel{\metafont{fin}}{\rightarrow}}
+\renewcommand{\iff}{\metafont{iff}}
+\newcommand{\lsem}{\left\llbracket}
+\newcommand{\rsem}{\right\rrbracket}
+\newcommand{\sembrace}[1]{\lsem{#1}\rsem}
+\newcommand{\powset}[1]{\mathscr{P}(#1)}
+\newcommand{\irred}[1]{\metafont{irred}(#1)}
+\renewcommand{\max}[2]{\metafont{max}(#1,#2)}
+\newcommand{\free}[2]{\metafont{free}(#1,#2)}
+\newcommand{\running}[2]{\metafont{running}({#1},{#2})}
+\newcommand{\pair}[2]{( #1, #2 )}
+\newcommand{\triple}[3]{( #1, #2, #3 )}
+
+\newcommand{\satisfy}{\vDash}
+
+\newcommand{\plus}{+}
+\newcommand{\etal}{\textit{et al.}}
+\newcommand{\bump}{\hspace{3.5pt}}
+\newcommand{\fresh}[1]{(\mit{fresh}\:#1)}
+\newcommand{\where}[1]{\mrm{where}\:#1}
+
+\newcommand{\lang}[1]{\mrm{\trm{#1}}}
+
+%% Standard symbols
+
+\newcommand{\empctx}{\cdot}
+\newcommand{\hole}{[\cdot]}
+\newcommand{\hw}[1]{\lbrack{#1}\rbrack}
+\newcommand{\ectxt}{E}
+\newcommand{\ctxt}{C}
+
+\newcommand{\hooklongrightarrow}{\lhook\joinrel\longrightarrow}
+\newcommand{\redexstep}{\hookrightarrow}
+
+\newcommand{\step}{\longmapsto}
+\newcommand{\stepin}[1]{\step^{#1}}
+\newcommand{\stepstar}{\stepin{*}}
+
+\newcommand{\red}{\Downarrow}
+\newcommand{\diverg}[1]{#1 \Uparrow}
+
+\newcommand{\termin}[1]{#1\red}
+\newcommand{\terminw}[2]{\termin{#1} #2}
+
+\newcommand{\transarrow}{\leadsto}
+\newcommand{\backtransarrow}{\twoheadrightarrow}
+
+\newcommand{\funarrow}{\rightarrow}
+\newcommand{\ctxarrow}{\Rightarrow}
+
+% BNF symbols
+\newcommand{\bnfalt}{{\bf \,\,\mid\,\,}}
+\newcommand{\bnfdef}{{\bf ::=}}
+
+%% Language Formatting combinators
+
+% Copy-pasta: http://tex.stackexchange.com/questions/16189/repeat-command-n-times
+\makeatletter
+\newcommand{\Repeat}[1]{%
+  \expandafter\@Repeat\expandafter{\the\numexpr #1\relax}%
+}
+
+\def\@Repeat#1{%
+  \ifnum#1>0
+    \expandafter\@@Repeat\expandafter{\the\numexpr #1-1\expandafter\relax\expandafter}%
+  \else
+    \expandafter\@gobble
+  \fi
+}
+\def\@@Repeat#1#2{%
+  \@Repeat{#1}{#2}{#2}
+}
+\makeatother
+
+% \metavar formats a language meta-var.
+%
+% #1 : a pre-formatted symbol representing the meta-variable
+% #2 : a pre-formatted subscript
+% #3 : a pre-formatted superscript
+% #4 : a pre-formatted prime symbol
+% #5 : a natural number, representing the number of primes
+%
+% Usage:
+%   \newcommand{\txmetavar}[3]{
+%     \metavar{\tfont{x}}{\tcolor{#1}}{\tcolor{#2}}{\tprime}{#3}
+%   }
+%   \newcommand{\tx}{\txmetavar{}{}{}}
+%   \newcommand{\txone}{\txmetavar{1}{}{}}
+%   \newcommand{\txonepr}{\txmetavar{1}{}{1}}
+
+\newcommand{\metavar}[5]{
+  {#1}_{#2}^{{#3}\Repeat{#5}{#4}}
+}
+
+% \metavarto formats a language meta-var with only a superscript.
+%
+% #1 : a pre-formatted symbol representing the meta-var
+% #2 : a pre-formatted superscript
+%
+% Usage:
+%   \newcommand{\txF}{\metavarto{\tx}{f}}
+\newcommand{\metavarto}[2]{\metavar{#1}{}{#2}{}{0}}
+
+% \metavarin formats a language meta-var with only a subscript.
+%
+% #1 : a pre-formatted symbol representing the meta-var
+% #2 : a pre-formatted subscript
+%
+% Usage:
+%   \newcommand{\txone}{\metavarin{\tx}{\tcolor{1}}}
+\newcommand{\metavarin}[2]{\metavar{#1}{#2}{}{}{0}}
+
+% \metavarpr formats a language meta-var with only primes, takes 3
+% parameters:
+%
+% #1 : a pre-formatted symbol representing the meta-var
+% #2 : a pre-formatted prime symbol
+% #3 : a natural number representing the number of primes
+%
+% Usage:
+%   \newcommand{\txpr}{\metavarpr{\tx}{\prime}{1}}
+%   \newcommand{\txdubpr}{\metavarpr{\tx}{\prime}{2}}
+\newcommand{\metavarpr}[3]{\metavarpr{#1}{}{}{#2}{#3}}
+
+\makeatletter
+
+% \@globalshadowedcommand generates a new global macro. However, when
+% the macro is already defined, it warns the user via a compile time
+% message that the macro has been shadowed.
+%
+% #1 : A default value for the optional argument of the new macro
+% #2 : The name of the macro to be defined
+% #3 : The number of arguments the macro takes
+% #4 : The body of the macro to be defined
+%
+% Usage:
+%  \@globalshadowedcommand{\ae}{0}{
+%    \metavar{\tfont{x}}{}{}{}{0}
+%  }
+\newcommand{\@globalshadowedcommand}[4][]{
+  {
+    \let\def\gdef
+    \ifcsname#2\endcsname
+    \message{
+      ^^J^^J
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!^^J
+      !! secctex Warning: shadowed \@backslashchar#2 when defining metavar macros.^^J
+      !! If you need this macro, use \@backslashchar LetLtxMacro to save it.^^J
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!^^J
+      ^^J
+    }
+    \let\newcommand\renewcommand
+    \fi
+    \if\relax\detokenize{#1}\relax
+    \expandafter\newcommand\csname #2\endcsname[#3]{#4}
+    \else
+    \expandafter\newcommand\csname #2\endcsname[#3][#1]{#4}
+    \fi
+  }
+}
+
+% \newmetavarStar generates some standard macros for formatting a meta-var,
+% and takes 5 paraemters:
+%
+% #1 : A formatting macro for the meta-var, such a \tfont
+% #2 : A formatting macro for the subscripts, superscripts, and primes,
+%   such as \tcolor
+% #3 : A string prefix for the name of the macro, such as t
+% #4 : A string name of the macro, such as ty
+% #5 : A string to format and display this meta-variable as, such as
+%   \tau
+%
+% Usage:
+%   \newmetavarStar{\tfont}{\tcolor}{t}{ty}{\tau}
+%
+% This usage generates the following definitions:
+%
+%  \newcommand{\ttymetavar}[3]{
+%    \metavar{\tfont{\tau}}{\tcolor{#1}}{\tcolor{#2}}{\tcolor{\prime}}{#3}
+%  }
+%
+%  \newcommand{\tty}{ \ttymetavar{}{}{} }
+%  \newcommand{\ttyin}[1]{ \ttymetavar{#1}{}{0} }
+%  \newcommand{\ttyto}[1]{ \ttymetavar{}{#1}{0} }
+%  \newcommand{\ttypr}[1][1]{ \ttymetavar{}{}{#1} }
+%  \newcommand{\ttyone}{ \ttymetavar{1}{}{} }
+%  \newcommand{\ttyonepr}[1][1]{ \ttymetavar{1}{}{#1}}
+%  \newcommand{\ttytwo}{ \ttymetavar{2}{}{} }
+%  \newcommand{\ttytwopr}{ \ttymetavar{2}{}{1} }
+%  \newcommand{\ttyi}{ \ttymetavar{i}{}{} }
+%  \newcommand{\ttyipr}[1][1]{ \ttymetavar{i}{}{#1} }
+%  \newcommand{\ttyn}{ \ttymetavar{n}{}{} }
+%  \newcommand{\ttynpr}[1][1]{ \ttymetavar{n}{}{#1} }
+%
+%   \ttymetavar takes an unformatted sub-script, super-script, and
+%   a natural number n indicating the number of primes. It then formats
+%   the sub-script, the super-script, and n primes and attaches them to
+%   the formatted meta-variable.
+\newcommand{\newmetavarStar}[5]{
+  \@globalshadowedcommand{#3#4metavar}{3}{
+    \metavar{#1{#5}}{#2{##1}}{#2{##2}}{#2{\prime}}{##3}
+  }
+  \@globalshadowedcommand{#3#4}{0}{
+    \csname #3#4metavar\endcsname{}{}{0}
+  }
+  \@globalshadowedcommand{#3#4in}{1}{
+    \csname #3#4metavar\endcsname{##1}{}{0}
+  }
+  \@globalshadowedcommand[0]{#3#4to}{2}{
+    \csname #3#4metavar\endcsname{}{##2}{##1}
+  }
+  \@globalshadowedcommand[1]{#3#4pr}{1}{
+    \csname #3#4metavar\endcsname{}{}{##1}
+  }
+  \@globalshadowedcommand{#3#4one}{0}{
+    \csname #3#4metavar\endcsname{1}{}{0}
+  }
+  \@globalshadowedcommand[1]{#3#4onepr}{1}{
+    \csname#3#4metavar\endcsname{1}{}{##1}
+  }
+  \@globalshadowedcommand{#3#4two}{0}{
+    \csname #3#4metavar\endcsname{2}{}{0}
+  }
+  \@globalshadowedcommand[1]{#3#4twopr}{1}{
+    \csname #3#4metavar\endcsname{2}{}{##1}
+  }
+  \@globalshadowedcommand{#3#4n}{0}{
+    \csname #3#4metavar\endcsname{n}{}{0}
+  }
+  \@globalshadowedcommand[1]{#3#4npr}{1}{
+    \csname #3#4metavar\endcsname{n}{}{##1}
+  }
+  \@globalshadowedcommand{#3#4i}{0}{
+    \csname #3#4metavar\endcsname{i}{}{0}
+  }
+  \@globalshadowedcommand[1]{#3#4ipr}{1}{
+    \csname #3#4metavar\endcsname{i}{}{##1}
+  }
+}
+
+% \newmetavarNoStar is like \netmetavarStar, but assumes the name of
+% the macro is also the display symbol.
+% It takes 4 paraemters:
+%
+% #1 : A formatting macro for the meta-var, such a \tfont
+% #2 : A formatting macro for the subscripts, superscripts, and primes,
+%   such as \tcolor
+% #3 : A string prefix for the name of the macro, such as t
+% #4 : A string name of the macro and symbol to format and display, such
+%   as x
+%
+% Usage:
+%   \newmetavarNoStar{\tfont}{\tcolor}{t}{x}
+%
+% This usage is equivalent to
+%   \newmetavarStar{\tfont}{\tcolor}{t}{x}{x}
+\newcommand{\newmetavarNoStar}[4]{
+  \newmetavarStar{#2}{#3}{#4}{#1}{#1}
+}
+
+\newcommand{\@newmetavarmaybestar}{
+  \@ifstar
+  \newmetavarStar
+  \newmetavarNoStar
+}
+
+% \newmetavar implement the * LaTeX idiom after currying. It expands in
+% to either \newmetavarStar or \newmetavarNoStar depending on whether the
+% character following its 3rd argument is a * or not.
+%
+% Usage:
+%   \newcommand{\newtmetavar}{\newmetavar{\tfont}{\tcolor}{t}}
+%   \newtmetavar{x}
+%   \newtmetavar*{ty}{\tau}
+\newcommand{\newmetavar}[4]{
+  \@newmetavarmaybestar#4{#1}{#2}{#3}
+}
+
+% \newmetavarS defines new metavar macros for a list of name/symbol
+% pairs. Essentially, it calls \newmetavar* for each name/symbol pair
+% in its 4th parameter.
+%
+% #1 : A formatting macro for the meta-var, such a \tfont
+% #2 : A formatting macro for the subscripts, superscripts, and primes,
+%   such as \tcolor
+% #3 : A string prefix for the name of the macro, such as t
+% #4 : A list of name/symbol pairs, separated literally by a /.
+%
+% Usage:
+%   \newmetavarsS{\tfont}{\tcolor}{t}{x/x,e/e,v/v,alpha/\b{\alpha}}
+%   \newcommand{\newsmetavarsS}{\newmetavarsS{\sfontsym}{\scolor}{s}}
+%   \newsmetavarsS{\alpha/\alpha, ty/\sigma}
+\newcommand{\newmetavarsS}[4]{
+  \foreach \@n/\@d in {#4} {
+    \edef \@meow{\noexpand\newmetavarStar{\noexpand#1}{\noexpand#2}{#3}{\@n}{\@d}}
+    \@meow
+  }
+  \def\@meow{\undefined}
+  \def\@n{\undefined}
+  \def\@d{\undefined}
+}
+
+% \newmetavar defines new metavar macros for a list of names, assuming
+% each metavar will be displayed via the symbol it is named.
+% Essentially, it calls \newmetavar for each name in its 4th parameter.
+%
+% #1 : A formatting macro for the meta-var, such a \tfont
+% #2 : A formatting macro for the subscripts, superscripts, and primes,
+%   such as \tcolor
+% #3 : A string prefix for the name of the macro, such as t
+% #4 : A list of names.
+%
+% Usage:
+%   \newmetavars{\tfont}{\tcolor}{t}{x,e,v}
+%   \newcommand{\newsmetavars}{\newmetavars{\sfont}{\scolor}{s}}
+%   \newsmetavars{x,e,v}
+\newcommand{\newmetavars}[4]{
+  \foreach \@n in {#4} {
+    \edef \@meow{\noexpand\newmetavarStar{\noexpand#1}{\noexpand#2}{#3}{\@n}{\@n}}
+    \@meow
+  }
+  \def\@meow{\undefined}
+  \def\@n{\undefined}
+}
+
+% TODO Figure out that currying issue with lists
+
+%%% ----------------- Standard language features ----------------------
+
+%% ----------------------- Standard types ----------------------------
+
+% \@funty formats a function type.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : The pre-formatted argument to the function
+% #3 : The pre-formatted result of the function
+\newcommand{\@funty}[3]{#2 #1{\funarrow} \, #3}
+
+% \funty is like \@funty but provides a interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
+% #3 : The pre-formatted argument to the function
+% #4 : The pre-formatted result of the function
+\newcommand{\funty}[2]{\@funty{#1}}
+
+% \@polyfunty formats a polymorphic function type
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : The pre-formatted type-variable to bind
+% #3 : The pre-formatted argument to the function
+% #4 : The pre-formatted result of the function
+\newcommand{\@polyfunty}[4]{#1{\forall}\,#1{[}{#2}#1{].}{#3}#1{\funarrow}\,{#4}}
+
+% \polyfunty is like \@polyfunty but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
+% #3 : The pre-formatted type-variable to bind
+% #4 : The pre-formatted argument to the function
+% #5 : The pre-formatted result of the function
+\newcommand{\polyfunty}[2]{\@polyfunty{#1}}
+
+% \@forallty formats a polymorphic type.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : The pre-formatted type-variable to bind
+% #3 : The pre-formatted result in which the type-variable is bound
+\newcommand{\@forallty}[3]{#1{\forall}#2#1{.}\,#3}
+
+% \forallty is like \@forallty, but provides a standard interface
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
+% #3 : The pre-formatted type-variable to bind
+% #4 : The pre-formatted result in which the type-variable is bound
+\newcommand{\forallty}[2]{\@forallty{#1}}
+
+% \@existty formats an existential type.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : The pre-formatted type-variable to bind
+% #3 : The pre-formatted result in which the type-variable is bound
+\newcommand{\@existty}[3]{#1{\exists}#2#1{.}\,#3}
+
+% \existty is like \@existty but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
+% #3 : The pre-formatted type-variable to bind
+% #4 : The pre-formatted result in which the type-variable is bound
+\newcommand{\existty}[2]{\@existty{#1}}
+
+% \@muty formats a recursive type.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : The pre-formatted type-variable to bind
+% #3 : The pre-formatted result in which the type-variable is bound
+\newcommand{\@muty}[3]{#1{\upmu} #2 #1{.} #3 }
+
+% \muty is like \@muty but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
+% #3 : The pre-formatted type-variable to bind
+% #4 : The pre-formatted result in which the type-variable is bound
+\newcommand{\muty}[2]{\@muty{#1}}
+
+% \@unitty formats a unit type.
+%
+% #1 : A formatting macro for text, such as \tfont
+\newcommand{\@unitty}[1]{#1{1}}
+
+% \unitty is like \@unitty but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
+\newcommand{\unitty}[2]{\@unitty{#2}}
+
+% \@voidty formats a void type.
+%
+% #1 : A formatting macro for text, such as \tfont
+\newcommand{\@voidty}[1]{#1{0}}
+
+% \voidty is like \@voidty but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
+\newcommand{\voidty}[2]{\@voidty{#2}}
+
+% \@boolty formats a bool type.
+%
+% #1 : A formatting macro for text, such as \tfont
+\newcommand{\@boolty}[1]{#1{bool}}
+
+% \boolty is like \@boolty but provides a standard interface
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
+\newcommand{\boolty}[2]{\@boolty{#2}}
+
+% \@pairty formats a pair type.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : The pre-formatted type for the first component of the pair
+% #3 : The pre-formatted type for the second component of the pair
+\newcommand{\@pairty}[3]{#2 \, #1{\times} \, #3}
+
+% \pairty is like \@pairty but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
+% #3 : The pre-formatted type for the first component of the pair
+% #4 : The pre-formatted type for the second component of the pair
+\newcommand{\pairty}[2]{\@pairty{#1}}
+
+% \@sumty formats a sum type.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : The pre-formatted type for the first component of the sum
+% #3 : The pre-formatted type for the second component of the sum
+\newcommand{\@sumty}[3]{#2 \, #1{\plus} \, #3}
+
+% \sumty is like \@sumty but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
+% #3 : The pre-formatted type for the first component of the sum
+% #4 : The pre-formatted type for the second component of the sum
+\newcommand{\sumty}[2]{\@sumty{#1}}
+
+%% Standard expression
+
+% \@fune formats a function expression.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : The pre-formatted variable the function binds.
+% #3 : The pre-formatted type of the variable.
+% #4 : The pre-formatted body of the function.
+\newcommand{\@fune}[4]{#1{\uplambda (}{#2}\,#1{:}\,#3#1{).}\,#4}
+
+% \fune is like \@fune but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : The pre-formatted variable the function binds.
+% #4 : The pre-formatted type of the variable.
+% #5 : The pre-formatted body of the function.
+\newcommand{\fune}[2]{\@fune{#1}}
+
+% \@polyfune formats a polymorphic function expression.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : The pre-formatted type variable the function binds.
+% #3 : The pre-formatted variable the function binds.
+% #4 : The pre-formatted type of the variable.
+% #5 : The pre-formatted body of the function.
+\newcommand{\@polyfune}[5]{
+  #1{\uplambda}\,#1{[}{#2}#1{]\,(}{#3}\,#1{:}\,#4#1{).}\,#5
+}
+
+% \polyfune is like \@polyfune but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : The pre-formatted type variable the function binds.
+% #4 : The pre-formatted variable the function binds.
+% #5 : The pre-formatted type of the variable.
+% #6 : The pre-formatted body of the function.
+\newcommand{\polyfune}[2]{\@polyfune{#1}}
+
+% \@abstre formats an polymorphic abstraction expression.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : The pre-formatted type variable the abstraction binds.
+% #3 : The pre-formatted the body of the abstract.
+\newcommand{\@abstre}[3]{#1{\Uplambda}#2#1{.}#3}
+
+% \abstre is like \@abstre but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : The pre-formatted type variable the abstraction binds.
+% #4 : The pre-formatted the body of the abstract.
+\newcommand{\abstre}[2]{\@abstre{#1}}
+
+% \@inste formats an instantiation expression.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : The pre-formatted polymorphic abstraction to instantiate.
+% #3 : The pre-formatted type with which to instantiate the abstraction.
+\newcommand{\@inste}[3]{#2\:#1{[}{#3}#1{]}}
+
+% \inste is like \@inste but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : The pre-formatted polymorphic abstraction to instantiate.
+% #4 : The pre-formatted type with which to instantiate the abstraction.
+\newcommand{\inste}[2]{\@inste{#1}}
+
+% \@app formats an application expression.
+%
+% #1 : The pre-formatted function.
+% #2 : The pre-formatted argument.
+\newcommand{\@appe}[2]{#1\ #2}
+
+% \appe is like \@appe but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : The pre-formatted function.
+% #4 : The pre-formatted argument.
+\newcommand{\appe}[2]{\@appe}
+
+% \@pappe formats a polymorphic function application expression.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A pre-formatted polymorphic function expression.
+% #3 : A pre-formatted type with which to instantiate.
+% #4 : A pre-formatted argument to the function.
+\newcommand{\@pappe}[4]{#2\:#1{[}{#3}#1{]}\:#4}
+
+% \pappe is like \@pappe but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : A pre-formatted polymorphic function expression.
+% #4 : A pre-formatted type with which to instantiate.
+% #5 : A pre-formatted argument to the function.
+\newcommand{\pappe}[2]{\@pappe{#1}}
+
+% \@ife formats an if expression 
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A pre-formatted discriminant expression.
+% #3 : A pre-formatted consequent expression.
+% #4 : A pre-formatted alternate expression.
+\newcommand{\@ife}[4]{#1{if}\ {#2}\ #1{then}\ {#3}\ #1{else}\ #4}
+
+% \ife is like \@ife but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : A pre-formatted discriminant expression.
+% #4 : A pre-formatted consequent expression.
+% #5 : A pre-formatted alternate expression.
+\newcommand{\ife}[2]{\@ife{#2}}
+
+% \@packe formats a pack expression
+%
+% #1 : A formatting macro for text, such as \tfont.
+% #2 : A formatting macro for symbols, such as \tfontsym.
+% #3 : A pre-formatted type witness.
+% #4 : A pre-formatted value witness.
+% #5 : A pre-formatted existential type abstracting the witness type.
+\newcommand{\@packe}[5]{
+  #1{pack}#2{\langle} #3 #1{,} #4 #2{\rangle}\,#1{as}\,#5
+}
+
+% \packe is like \@packe but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : A pre-formatted type witness.
+% #4 : A pre-formatted value witness.
+% #5 : A pre-formatted existential type abstracting the witness type.
+\newcommand{\packe}[2]{\@packe{#2}{#1}}
+
+% \@unpacke formats an unpack expression
+%
+% #1 : A formatting macro for text, such as \tfont.
+% #2 : A formatting macro for symbols, such as \tfontsym.
+% #3 : A pre-formatted type variable.
+% #4 : A pre-formatted value variable.
+% #5 : A pre-formatted existential witness expression.
+% #6 : A pre-formatted expression in which to bind the existential.
+\newcommand{\@unpacke}[6]{
+  #1{unpack}#2{\langle}#3 #1{,} #4 #2{\rangle\! = \,} #5 \,#1{in}\, #6
+}
+
+% \unpacke is like \@unpacke but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : A pre-formatted type variable.
+% #4 : A pre-formatted expression variable.
+% #5 : A pre-formatted existential witness expression.
+% #6 : A pre-formatted expression in which to bind the existential.
+\newcommand{\unpacke}[2]{\@unpacke{#2}{#1}}
+
+% \@lete formats a let expression
+%
+% #1 : A formatting macro for text, such as \tfont.
+% #2 : A formatting macro for symbols, such as \tfontsym.
+% #3 : A pre-formatted expression variable.
+% #4 : A pre-formatted expression to bind.
+% #5 : A pre-formatted body expression for the let.
+\newcommand{\@lete}[5]{#1{let}\ #3\:#2{=}\:{#4}\ #1{in}\ #5}
+
+% \lete is like \@lete but provides a standard interface
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : A pre-formatted expression variable.
+% #4 : A pre-formatted expression to bind.
+% #5 : A pre-formatted body expression for the let.
+\newcommand{\lete}[2]{\@lete{#2}{#1}}
+
+% \@folde formats a fold expression.
+%
+% #1 : A formatting macro for text, such as \tfont.
+% #2 : A pre-formatted mu type.
+% #3 : A pre-formatted expression of isorecursive type.
+\newcommand{\@folde}[3]{#1{fold}_{#2} \, #3}
+
+% \folde is like \@folde but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : A pre-formatted mu type.
+% #4 : A pre-formatted expression of isorecursive type.
+\newcommand{\folde}[2]{\@folde{#2}}
+
+% \@unfolde formats an unfold expression
+%
+% #1 : A formatting macro for text, such as \tfont.
+% #2 : A pre-formatted expression of isorecursive type.
+\newcommand{\@unfolde}[2]{#1{unfold} \, #2}
+
+% \unfolde is like \@unfolde but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : A pre-formatted expression of isorecursive type.
+\newcommand{\unfolde}[2]{\@unfolde{#2}}
+
+% \@unite formats a unit expression.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+\newcommand{\@unite}[1]{#1{\langle}#1{\rangle}}
+
+% \unite is like \@unite but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+\newcommand{\unite}[2]{\@unite{#1}}
+
+% \@truee formats a true expression
+%
+% #1 : A formatting macro for text, such as \tfont.
+\newcommand{\@truee}[1]{#1{true}}
+
+% \truee is like \@truee but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+\newcommand{\truee}[2]{\@truee{#2}}
+
+% \@falsee formats a false expression
+%
+% #1 : A formatting macro for text, such as \tfont.
+\newcommand{\@falsee}[1]{#1{false}}
+
+% \falsee is like \@falsee but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+\newcommand{\falsee}[2]{\@falsee{#2}}
+
+% \@paire formats a pair expression.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A pre-formatted expression for the first component of the pair.
+% #3 : A pre-formatted expression for the second component of the pair.
+\newcommand{\@paire}[3]{#1{\langle}#2#1{,}#3{#1{\rangle}}}
+
+% \paire is like \@paire but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : A pre-formatted expression for the first component of the pair.
+% #4 : A pre-formatted expression for the second component of the pair.
+\newcommand{\paire}[2]{\@paire{#1}}
+
+% \@prje formats a projection expression.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : An unformatted natural number, either 1 or 2, indicating which
+%   component of the pair to project.
+% #4 : A pre-formatted pair expression to project.
+\newcommand{\@prje}[4]{#1{\pi}_{#2{#3}} \, #4}
+
+% \prje is like \@prje but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : An unformatted natural number, either 1 or 2, indicating which
+%   component of the pair to project.
+% #4 : A pre-formatted pair expression to project.
+\newcommand{\prje}{\@prje}
+
+% \@sume formats a sum expression.
+%
+% #1 : A formatting macro for text, such as \tfont.
+% #2 : An unformatted natural number, either 1 or 2, indicating into which
+%   side of the sum to inject the expression. 1 indicates left, 2
+%   indicates right.
+% #3 : A pre-formatted expression to inject into a sum.
+\newcommand{\@sume}[3]{#1{inj}_{#1{#2}} \, #3}
+
+% \sume is like \@sume but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : An unformatted natural number, either 1 or 2, indicating into which
+%   side of the sum to inject the expression. 1 indicates left, 2
+% #4 : A pre-formatted expression to inject into a sum.
+\newcommand{\sume}[2]{\@sume{#2}}
+
+% \@casee formats a case expression.
+%
+% #1 : A formatting macro for text, such as \tfont.
+% #2 : A formatting macro for symbols, such as \tfontsym.
+% #3 : A pre-formatted discriminant expression.
+% #4 : A pre-formatted variable to bind in the left branch.
+% #5 : A pre-formatted expression for the left branch.
+% #6 : A pre-formatted variable to bind in the right branch.
+% #7 : A pre-formatted expression for the right branch.
+\newcommand{\@casee}[7]{
+  #1{case} \, #3 \, #1{of} \, #4#2{.}\,#5\:#2{|}\:#6#2{.}\,#7
+}
+
+% \casee is like \@casee but provides a standard interface
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : A pre-formatted discriminant expression.
+% #4 : A pre-formatted variable to bind in the left branch.
+% #5 : A pre-formatted expression for the left branch.
+% #6 : A pre-formatted variable to bind in the right branch.
+% #7 : A pre-formatted expression for the right branch.
+\newcommand{\casee}[2]{\@casee{#2}{#1}}
+
+% \newconstr generates a macro for formatting a language construct.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
+% #3 : A construct tag, such as fun
+% #4 : A construct type, either ty or e
+% #5 : The name of the macro to generate
+\newcommand{\newconstr}[5]{
+  \@globalshadowedcommand{#5}{0}{
+    \csname#3#4\endcsname{#1}{#2}
+  }
+}
+
+% \@newconstrs generates formatting macros for a list of language
+% constructs
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
+% #3 : A construct kind, either ty or e
+% #4 : A prefix to use when generating the macro names
+% #5 : A suffix to use when generating the macro names
+% #6 : A list of construct tags, such as {fun,bool,unit,void}
+\newcommand{\@newconstrs}[6]{
+  {
+    \foreach \@n in {#6}{
+      \edef\@meow{\noexpand\newconstr{\noexpand#1}{\noexpand#2}{\@n}{#3}{#4\@n#5}}
+      \@meow
+    }
+    \def\@meow{\undefined}
+    \def\@n{\undefined}
+  }
+}
+
+% \newtypes generates type formatting macros given a list of tags.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
+% #3 : A prefix for the name of each macro, such as t
+% #4 : A suffix for the name of each macro, such as ty
+% #5 : A list of type tags, such as {fun,bool,void,unit}
+\newcommand{\newtypes}[2]{\@newconstrs{#1}{#2}{ty}}
+
+% \newexprs generates type formatting macros given a list of tags.
+%
+% #1 : A formatting macro for symbols, such as \sfontsym
+% #2 : A formatting macro for text, such as \sfont
+% #3 : A prefix for the name of each macro, such as s
+% #4 : A suffix for the name of each macro, such as e
+% #5 : A list of type tags, such as {fun,bool,void,unit}
+\newcommand{\newexprs}[2]{\@newconstrs{#1}{#2}{e}}
+\makeatother
+
+% \newlanguage generates macros for formatting meta-variables, types,
+% and expressions of a language.
+%
+% #1 : A formatting macro for super-scripts, sub-scripts, and primes in
+%   this language, such as \tcolor
+% #2 : A formatting macro for math text in this language, such as \tfont
+% #3 : A formatting macro for symbols in this language, such as
+%   \tfontsym
+% #4 : A language prefix for the macros, such as t
+% #5 : A list of meta-variables for which to generate macros via
+%   \newmetavars, such as {x, e, v}
+% #6 : A list of meta-variables for which to generate macros via
+%   \newmetavarsS, such as {ty/\tau,alpha\alpha}
+% #7 : A list of types for which to generate macros via \newtypes, such
+%   as {fun, forall, exist, pair, bool, unit}. The macros are generated
+%   with the language prefix and the suffix ty.
+% #8 : A list of expressions for which to generate macros via
+%   \newexprs, such as {fun, app, if, true, false, unit}. The macros
+%   are generated with the language prefix and the suffix e.
+\renewcommand{\newlanguage}[8]{
+  \newmetavars{#2}{#1}{#4}{#5}
+  \newmetavarsS{#3}{#1}{#4}{#6}
+  \newtypes{#3}{#2}{#4}{ty}{#7}
+  \newexprs{#3}{#2}{#4}{e}{#8}
+}
+
+%%% Standard meta-theory
+
+% \wf formats a well-formedness judgment.
+%
+% #1 : Pre-formatted assumptions, such as \tfont{\Delta}
+% #2 : The pre-formatted proposition, such as \tfont{\alpha}
+\newcommand{\wf}[2]{#1 \vdash #2}
+
+% \judg formats a well-typedness judgment.
+% It takes 3 parameters.
+%
+% #1 : The assumptions, such as \tfont{\Delta};\tfont{\Gamma}
+% #2 : The term, such as \tfont{e}
+% #3 : The type, such as \tfont{\tau}
+\newcommand{\judg}[3]{\wf{#1}{#2 : #3}}
+
+%% Context typing
+
+% \ctxtarrowty formats a context typing arrow
+%
+% #1 : A formatting macro for symbols, such as \stfontsym
+% #2 : The type of the hole
+% #3 : The type of the result
+\newcommand{\ctxtarrowty}[3]{#2 \, #1{\ctxarrow} \, #3}
+
+% \ctxtty formats a context type, with different typing contexts for the
+% hole and result
+%
+% #1 : A formatting macro for symbols, such as \stfontsym
+% #2 : The typing contexts for the hole
+% #3 : The type of the hole
+% #4 : The typing contexts for the result
+% #5 : The type of the result
+\newcommand{\ctxtty}[5]{\ctxtarrowty{#1}{(\wf{#2}{#3})}{(\wf{#4}{#5})}}
+
+% \ctxttyjudg formats a context typing judgment.
+%
+% #1 : A formatting macro for symbols, such as \stfontsym
+% #2 : A pre-formatted context
+% #3 : The typing contexts for the hole
+% #4 : The type of the hole
+% #5 : The typing contexts for the result
+% #6 : The type of the result
+\newcommand{\ctxttyjudg}[2]{\judg{}{#2}{\ctxtty{#1}}}
+
+
+%% Contextual equivalence
+\newcommand{\ctxeqvsym}{\approx^{\mit{ctx}}}
+\newcommand{\ciueqvsym}{\approx^{\mit{ciu}}}
+
+% \ciueqvjudg formats a c.i.u. equivalence judgment.
+%
+% #1 : Pre-formatted typing contexts, such as
+%   \tfont{\Delta};\tfont{\Gamma}
+% #2 : A pre-formatted expression
+% #3 : A pre-formatted c.i.u. equivalent expression
+% #4 : A pre-formatted type for the expressions
+\newcommand{\ciueqvjudg}[4]{\judg{#1}{#2\,\ciueqvsym\,#3}{#4}}
+
+% \ctxeqvjudg formats a contextual equivalence judgment.
+%
+% #1 : Pre-formatted typing contexts, such as
+%   \tfont{\Delta};\tfont{\Gamma}
+% #2 : A pre-formatted expression
+% #3 : A pre-formatted contextually equivalent expression
+% #4 : A pre-formatted type for the expressions
+\newcommand{\ctxeqvjudg}[4]{\judg{#1}{#2\,\ctxeqvsym\,#3}{#4}}
+
+%% Logical Relations
+\newcommand{\lratomsym}{\mrm{Atom}}
+\newcommand{\lratomvalsym}{\mrm{Atom}^{\mrm{val}}}
+\newcommand{\lrrelsym}{\mrm{Rel}}
+
+% \lr formats a logical relation set.
+%
+% #1 : A formatting macro, such as \tfont
+% #2 : A letter for the relation, such a V or E
+% #3 : A pre-formatted index for the relation
+%
+% Usage:
+%  \newcommand{\srelV}{\lr{\sfont}{V}}
+%  \newcommand{\trelV}{\lr{\tfont}{V}}
+\newcommand{\lr}[3]{#1{\mathcal{#2}}\sembrace{#3}}
+
+% \lrV,\lrE,\lrG,\lrD,\lrK,\lrO format logical relation sets.
+%
+% #1 : A formatting macro, such as \tfont
+% #2 : A pre-formatted index for relation
+%
+% Usage:
+%  \newcommand{\srelV}{\lrV{\sfont}}
+%  \newcommand{\trelV}{\lrV{\tfont}}
+\newcommand{\lrV}[2]{\lr{#1}{V}{#2}}
+\newcommand{\lrE}[2]{\lr{#1}{E}{#2}}
+\newcommand{\lrG}[2]{\lr{#1}{G}{#2}}
+\newcommand{\lrD}[2]{\lr{#1}{D}{#2}}
+\newcommand{\lrK}[2]{\lr{#1}{K}{#2}}
+\newcommand{\lrO}[2]{\lr{#1}{O}{#2}}
+
+%% The following help define formatting macros relational
+%% interpretations and substitution, normally written as \rho, \delta,
+%% and \gamma
+
+%% TODO Maybe these should use \pair and \triple
+
+% \binmapext extends a map whose value is a pair.
+% It takes 4 parameters:
+% #1 : A pre-formatted symbol for the map, such as \tfont{\rho}
+% #2 : A pre-formatted key for the new mapping, such as \tfont{\alpha}
+% #3 : A pre-formatted symbol for the first element of the value such as
+%   \tfont{\tau}
+% #4 : A pre-formatted symbol for the second element of the value
+%
+% Usage:
+%  \newcommand{\slrgamma}{\sfont{\gamma}}
+%  \newcommand{\slrgammaext}{\binmapext{\slrgamma}}
+\newcommand{\binmapext}[4]{#1[#2 \mapsto (#3,#4)]}
+
+% \trimapext is like \binmapext, but extends a map whose value is a triple.
+% It takes 5 parameters:
+%
+% #1 : A pre-formatted symbol for the map, such as \tfont{\rho}
+% #2 : A pre-formatted key for the new mapping, such as \tfont{\alpha}
+% #3 : A pre-formatted symbol for the first element of the value such as
+%   \tfont{\tau}
+% #4 : A pre-formatted symbol for the second element of the value
+% #5 : A pre-formatted symbol for the third element of the value
+%
+% Usage:
+%  \newcommand{\tlrrho}{\tfont{\rho}}
+%  \newcommand{\tlrrhoext}{\trimapext{\tlrrho}}
+\newcommand{\trimapext}[5]{#1[#2 \mapsto (#3,#4,#5)]}
+
+%% TODO These should probably accept formatting macros for the
+%% subscript.
+
+% \maponeat projects the first element of the value of a map at some
+% key.
+% It takes 2 arguments.
+%
+% #1 : A pre-formatted symbol for the map, as as \tfont{\rho}
+% #2 : A pre-formatted symbol for the key
+\newcommand{\maponeat}[2]{{#1}_1({#2})}
+
+% \maptwoat is like \maponeat but projects the second element.
+% The interface is the same
+\newcommand{\maptwoat}[2]{{#1}_2({#2})}
+
+% \maprelat is like \maponeat but projects the third element, which is
+% assumed to be a relation.
+\newcommand{\maprelat}[2]{{#1}_R({#2})}
+
+%% Standard Source/Target formatting
+\makeatletter
+\newcommand*{\slang}{\@source-language-undefined}
+\newcommand*{\tlang}{\@target-language-undefined}
+\makeatother
+
+\newcommand{\scolor}[1]{\textcolor{blue}{#1}}
+\newcommand{\tcolor}[1]{\textcolor{red}{#1}}
+
+\newcommand{\sfonttext}[1]{\textsf{\scolor{#1}}}
+\newcommand{\tfonttext}[1]{\textsf{\tcolor{#1}}}
+
+\newcommand{\sfont}[1]{\mathsf{\scolor{#1}}}
+\newcommand{\tfont}[1]{\mathbf{\tcolor{#1}}}
+
+\newcommand{\sfontsym}[1]{\sfont{#1}}
+\newcommand{\tfontsym}[1]{\b{\tfont{#1}}}
+
+\newcommand{\scal}[1]{\sfontsym{\mathcal{#1}}}
+\newcommand{\tcal}[1]{\tfontsym{\mathcal{#1}}}
+
+\newcommand{\sprime}{\scolor{\prime}}
+\newcommand{\tprime}{\tcolor{\prime}}
+
 \endinput
