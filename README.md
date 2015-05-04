@@ -30,7 +30,7 @@ out how to do LaTeX packages. From a git repository that could use this
 project, do
 ```bash
 git submodule add git@github.ccs.neu.edu:coqatoos/secctex
-ln -s secctex/* .
+ln -s secctex/*.sty .
 ```
 
 Then add `\usepackage{secctex}` to your main TeX file.
