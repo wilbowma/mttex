@@ -337,7 +337,6 @@ format multi-language meta-theory.
 * [List of Expressions Combinators](#list-of-types-combinators)
 * [Detailed Type Combinator Documentation](#detailed-type-combinator-documentation)
 * [Detailed Expression Combinator Documentation](#detailed-expression-combinator-documentation)
-* [Context Typing](#context-typing)
 
 ### Generating a Language
 This package provides a single combinator for generating all the macros
