@@ -15,18 +15,18 @@ to produce a new macro.
 
 ## Table of Contents
 
-* Options
-* How to Read
-* Automagic Title-case
-* TODO and Comments
-* Label References
-* Font Shorthand
-* Math Environments
-* Standard Source/Target Macros
-* Meta-Language Macros
-* Language Symbol Macros
-* Language Combinators
-* Meta-Theory Combinators
+* [Options](#options)
+* [How to Read](#how-to-read)
+* [Automagic Title-case](#automagic-title-case)
+* [TODO and Comments](#todo-and-comments)
+* [Label References](#label-references)
+* [Font Shorthand](#font-shorthand)
+* [Math Environments](#math-environments)
+* [Standard Source/Target Macros](#standard-source-target-macros)
+* [Meta-Language Macros](#meta-language-macros)
+* [Language Symbol Macros](#language-symbol-macros)
+* [Language Combinators](#language-combinators)
+* [Meta-Theory Combinators](#meta-theory-combinators)
 
 ## Options
 This package defines the following options:
