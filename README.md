@@ -46,9 +46,6 @@ This package defines the following options:
 * `balance` balances the column on the last page.
 
 ## How to Read
-Until I get around to make the documentation more readable, use this
-guide to translate.
-
 Each documented macro starts with the name of the macro and an interface
 declaring the number of arguments, possibly followed by the default
 value for #1. The interface is followed by an explanation of the macro's
