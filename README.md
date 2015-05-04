@@ -329,6 +329,11 @@ This package provides various combinators for generating macros that
 format multi-language meta-theory.
 
 ### Generating a Language
+This package provides a single combinator for generating all the macros
+for type-setting meta-variables, types, and expressions. While this is
+probably the macro you want to use, you will need to understand the
+macros it composes to understand the macros it generates. They are
+explained below.
 ```latex
 % \newlanguage generates macros for formatting meta-variables, types,
 % and expressions of a language.
@@ -340,13 +345,13 @@ format multi-language meta-theory.
 %   \tfontsym
 % #4 : A language prefix for the macros, such as t
 % #5 : A list of meta-variables for which to generate macros via
-%   \newlmetavars, such as {x, e, v}
+%   \newmetavars, such as {x, e, v}
 % #6 : A list of meta-variables for which to generate macros via
-%   \newlmetavarsS, such as {ty/\tau,alpha\alpha}
-% #7 : A list of types for which to generate macros via \newltypes, such
+%   \newmetavarsS, such as {ty/\tau,alpha\alpha}
+% #7 : A list of types for which to generate macros via \newtypes, such
 %   as {fun, forall, exist, pair, bool, unit}
 % #8 : A list of expressions for which to generate macros via
-%   \newlexprs, such as {fun, app, if, true, false, unit}
+%   \newexprs, such as {fun, app, if, true, false, unit}
 %
 % Usage:
 %   \newlanguage{\scolor}{\sfont}{\sfontsym}{s}
@@ -361,17 +366,17 @@ format multi-language meta-theory.
 Writing all the macros to properly format language meta-variables is
 obnoxious. So this package provides combinators for meta-variables.
 ```latex
-% \newlmetavar implement the * LaTeX idiom after currying. It expands in
-% to either \newlmetavarStar or \newlmetavarNoStar depending on whether the
+% \newmetavar implement the * LaTeX idiom after currying. It expands in
+% to either \newmetavarStar or \newmetavarNoStar depending on whether the
 % character following its 3rd argument is a * or not.
 %
 % Usage:
-%   \newcommand{\newtmetavar}{\newlmetavar{\tfont}{\tcolor}{t}}
+%   \newcommand{\newtmetavar}{\newmetavar{\tfont}{\tcolor}{t}}
 %   \newtmetavar{x}
 %   \newtmetavar*{ty}{\tau}
-\newlmetavar[4]
+\newmetavar[4]
 
-% \newlmetavarStar generates some standard macros for formatting a meta-var,
+% \newmetavarStar generates some standard macros for formatting a meta-var,
 % and takes 5 paraemters:
 %
 % #1 : A formatting macro for the meta-var, such a \tfont
@@ -383,27 +388,35 @@ obnoxious. So this package provides combinators for meta-variables.
 %   \tau
 %
 % Usage:
-%   \newlmetavarStar{\tfont}{\tcolor}{t}{ty}{\tau}
+%   \newmetavarStar{\tfont}{\tcolor}{t}{ty}{\tau}
 %
 % This usage generates the following definitions:
-%  \newcommand{\ttymetavar}[3]{
-%    \lmetvar{\tfont{\tau}}{\tcolor{#1}}{\tcolor{#2}}{\tcolor{\prime}}{#3}
-%  }
-%  \newcommand{\tty}{ \ttymetavar{}{}{} }
-%  \newcommand{\ttyin}[1]{ \ttymetavar{#1}{}{0} }
-%  \newcommand{\ttyto}[1]{ \ttymetavar{}{#1}{0} }
-%  \newcommand{\ttypr}[1][1]{ \ttymetavar{}{}{#1} }
-%  \newcommand{\ttyone}{ \ttymetavar{1}{}{} }
-%  \newcommand{\ttyonepr}[1][1]{ \ttymetavar{1}{}{#1}}
-%  \newcommand{\ttytwo}{ \ttymetavar{2}{}{} }
-%  \newcommand{\ttytwopr}{ \ttymetavar{2}{}{1} }
-%  \newcommand{\ttyi}{ \ttymetavar{i}{}{} }
-%  \newcommand{\ttyipr}[1][1]{ \ttymetavar{i}{}{#1} }
-%  \newcommand{\ttyn}{ \ttymetavar{n}{}{} }
-%  \newcommand{\ttynpr}[1][1]{ \ttymetavar{n}{}{#1} }
-\newlmetavarStar[5]
+%
+%   \newcommand{\ttymetavar}[3]{
+%      \metavar{\tfont{\tau}}{\tcolor{#1}}{\tcolor{#2}}{\tcolor{\prime}}{#3}
+%    }
+%
+%   \newcommand{\tty}{ \ttymetavar{}{}{} }
+%   \newcommand{\ttyin}[1]{ \ttymetavar{#1}{}{0} }
+%   \newcommand{\ttyto}[1]{ \ttymetavar{}{#1}{0} }
+%   \newcommand{\ttypr}[1][1]{ \ttymetavar{}{}{#1} }
+%   \newcommand{\ttyone}{ \ttymetavar{1}{}{} }
+%   \newcommand{\ttyonepr}[1][1]{ \ttymetavar{1}{}{#1}}
+%   \newcommand{\ttytwo}{ \ttymetavar{2}{}{} }
+%   \newcommand{\ttytwopr}{ \ttymetavar{2}{}{1} }
+%   \newcommand{\ttyi}{ \ttymetavar{i}{}{} }
+%   \newcommand{\ttyipr}[1][1]{ \ttymetavar{i}{}{#1} }
+%   \newcommand{\ttyn}{ \ttymetavar{n}{}{} }
+%   \newcommand{\ttynpr}[1][1]{ \ttymetavar{n}{}{#1} }
+%
+%   \ttymetavar takes an unformatted sub-script, super-script, and
+%   a natural number n indicating the number of primes. It then formats
+%   the sub-script, the super-script, and n primes and attaches them to
+%   the formatted meta-variable.
+%
+\newmetavarStar[5]
 
-% \newlmetavarNoStar is like \netlmetavarStar, but assumes the name of
+% \newmetavarNoStar is like \netmetavarStar, but assumes the name of
 % the macro is also the display symbol.
 % It takes 4 paraemters:
 %
@@ -412,16 +425,16 @@ obnoxious. So this package provides combinators for meta-variables.
 %   such as \tcolor
 % #3 : A string prefix for the name of the macro, such as t
 % #4 : A string name of the macro and symbol to format and display, such
-% as x
+%   as x
 %
 % Usage:
-%   \newlmetavarNoStar{\tfont}{\tcolor}{t}{x}
+%   \newmetavarNoStar{\tfont}{\tcolor}{t}{x}
 %
 % This usage is equivalent to
-%   \newlmetavarStar{\tfont}{\tcolor}{t}{x}{x}
-\newlmetavarNoStar[4]
+%   \newmetavarStar{\tfont}{\tcolor}{t}{x}{x}
+\newmetavarNoStar[4]
 
-% \lmetavar formats a language meta-var.
+% \metavar formats a language meta-var.
 %
 % #1 : a pre-formatted symbol representing the meta-variable
 % #2 : a pre-formatted subscript
@@ -431,32 +444,32 @@ obnoxious. So this package provides combinators for meta-variables.
 %
 % Usage:
 %   \newcommand{\txmetavar}[3]{
-%     \lmetavar{\tfont{x}}{\tcolor{#1}}{\tcolor{#2}}{\tprime}{#3}
+%     \metavar{\tfont{x}}{\tcolor{#1}}{\tcolor{#2}}{\tprime}{#3}
 %   }
 %   \newcommand{\tx}{\txmetavar{}{}{}}
 %   \newcommand{\txone}{\txmetavar{1}{}{}}
 %   \newcommand{\txonepr}{\txmetavar{1}{}{1}}
-\lmetavar[5]
+\metavar[5]
 
-% \lmetavarto formats a language meta-var with only a superscript.
+% \metavarto formats a language meta-var with only a superscript.
 %
 % #1 : a pre-formatted symbol representing the meta-var
 % #2 : a pre-formatted superscript
 %
 % Usage:
-%   \newcommand{\txF}{\lmetavarto{\tx}{f}}
-\lmetavarto[2]
+%   \newcommand{\txF}{\metavarto{\tx}{f}}
+\metavarto[2]
 
-% \lmetavarin formats a language meta-var with only a subscript.
+% \metavarin formats a language meta-var with only a subscript.
 %
 % #1 : a pre-formatted symbol representing the meta-var
 % #2 : a pre-formatted subscript
 %
 % Usage:
-%   \newcommand{\txone}{\lmetavarto{\tx}{\tcolor{1}}}
-\lmetavarin[2]
+%   \newcommand{\txone}{\metavarto{\tx}{\tcolor{1}}}
+\metavarin[2]
 
-% \lmetavarpr formats a language meta-var with only primes, takes 3
+% \metavarpr formats a language meta-var with only primes, takes 3
 % parameters:
 %
 % #1 : a pre-formatted symbol representing the meta-var
@@ -464,19 +477,19 @@ obnoxious. So this package provides combinators for meta-variables.
 % #3 : a natural number representing the number of primes
 %
 % Usage:
-%   \newcommand{\txpr}{\lmetavarto{\tx}{\prime}{1}}
-%   \newcommand{\txdubpr}{\lmetavarto{\tx}{\prime}{2}}
-\lmetavarpr[3]
+%   \newcommand{\txpr}{\metavarto{\tx}{\prime}{1}}
+%   \newcommand{\txdubpr}{\metavarto{\tx}{\prime}{2}}
+\metavarpr[3]
 ```
 
-### Lists of Meta-Variables
+### List of Meta-Variables Combinators
 Generating meta-variables one at a time is annoying, so this package
 provides combinators for lists of meta-variables.
 
 ```latex
-% \newlmetavar defines new metavar macros for a list of names, assuming
+% \newmetavar defines new metavar macros for a list of names, assuming
 % each metavar will be displayed via the symbol it is named.
-% Essentially, it calls \newlmetavar for each name in its 4th parameter.
+% Essentially, it calls \newmetavar for each name in its 4th parameter.
 %
 % #1 : A formatting macro for the meta-var, such a \tfont
 % #2 : A formatting macro for the subscripts, superscripts, and primes,
@@ -485,13 +498,13 @@ provides combinators for lists of meta-variables.
 % #4 : A list of names.
 %
 % Usage:
-%   \newlmetavars{\tfont}{\tcolor}{t}{x,e,v}
-%   \newcommand{\newsmetavars}{\newlmetavars{\sfont}{\scolor}{s}}
+%   \newmetavars{\tfont}{\tcolor}{t}{x,e,v}
+%   \newcommand{\newsmetavars}{\newmetavars{\sfont}{\scolor}{s}}
 %   \newsmetavars{x,e,v}
-\newlmetavars[4]
+\newmetavars[4]
 
-% \newlmetavarS defines new metavar macros for a list of name/symbol
-% pairs. Essentially, it calls \newlmetavar* for each name/symbol pair
+% \newmetavarS defines new metavar macros for a list of name/symbol
+% pairs. Essentially, it calls \newmetavar* for each name/symbol pair
 % in its 4th parameter.
 %
 % #1 : A formatting macro for the meta-var, such a \tfont
@@ -501,26 +514,27 @@ provides combinators for lists of meta-variables.
 % #4 : A list of name/symbol pairs, separated literally by a /.
 %
 % Usage:
-%   \newlmetavarsS{\tfont}{\tcolor}{t}{x/x,e/e,v/v,alpha/\b{\alpha}}
-%   \newcommand{\newsmetavarsS}{\newlmetavarsS{\sfontsym}{\scolor}{s}}
+%   \newmetavarsS{\tfont}{\tcolor}{t}{x/x,e/e,v/v,alpha/\b{\alpha}}
+%   \newcommand{\newsmetavarsS}{\newmetavarsS{\sfontsym}{\scolor}{s}}
 %   \newsmetavarsS{\alpha/\alpha, ty/\sigma}
-\newlmetavarsS[4]
+\newmetavarsS[4]
 ```
 
 ### Formatting Types and Expressions
 This package provides combinators for formatting lambda calculus types
 and expressions.
 
-Each combinator starts with a tag and ends with a suffix followed by an `S`.
+Each combinator starts with a tag and ends with a suffix followed.
 The suffix for type combinators is `ty` and the suffix for expression
 combinators is `e`. For instance, the function type combinator is
-`\funtyS` and the function expression combinator is `\funeS`.
+`\funty` and the function expression combinator is `\fune`.
 
 Each combinator takes a formatting macro for symbols, such as
 `\tfontsym`, as its first argument, and a formatting macro for text,
 such as `\tfont`, as its second argument. The rest of the arguments
 are the sub-types or sub-expressions required for the type or
-expression.
+expression. While the arguments are fairly standard and in an intuitive
+order, they are documented in detail below.
 
 The package provides the following the following types and expressions.
 The tag which starts each element of the list indicates the prefix of of
@@ -545,41 +559,282 @@ the combinator.
 * false: false expressions
 * if: if expressions
 * pair: pair types and pair expressions
+* prj: projection from a pair
 * sum: sum types and sum expressions (injections)
 * case: case expressions
 * let: let expressions
 
-### Lists of Types
+### List of Types Combinator
 Generating type macros one at a time is annoying, so this package
 provides combinators for lists of types. The macros are generated
 attaching a prefix and suffix to the tag, followed by ty.  For instance,
 the macro generate for `fun` when using the prefix `s` and suffix `ty`
 is `\sfunty`.
 ```latex
-% \newltypes generates type formatting macros given a list of tags.
+% \newtypes generates type formatting macros given a list of tags.
 %
 % #1 : A formatting macro for symbols, such as \tfontsym
 % #2 : A formatting macro for text, such as \tfont
 % #3 : A prefix for the name of each macro, such as t
 % #4 : A suffix for the name of each macro, such as ty
 % #5 : A list of type tags, such as {fun,bool,void,unit}
-\newltypes[5]
+\newtypes[5]
 ```
 
-### Lists of Expressions
+### Lists of Expressions Combinator
 Generating expression macros one at a time is annoying, so this package
 provides combinators for lists of expressions. The macros are generated
 attaching a prefix and suffice to the tag. For instance, the macro
 generate for `fun` when using the prefix `s` and suffix `e` is `\sfune`.
 ```latex
-% \newlexprs generates type formatting macros given a list of tags.
+% \newexprs generates type formatting macros given a list of tags.
 %
 % #1 : A formatting macro for symbols, such as \sfontsym
 % #2 : A formatting macro for text, such as \sfont
 % #3 : A prefix for the name of each macro, such as s
 % #4 : A suffix for the name of each macro, such as e
 % #5 : A list of type tags, such as {fun,bool,void,unit}
-\newlexprs[5]
+\newexprs[5]
+```
+
+#### Detailed Type Combinator Documentation
+```latex
+% \funty formats a function type.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
+% #3 : The pre-formatted argument to the function
+% #4 : The pre-formatted result of the function
+\funty[4]
+
+% \polyfunty formats a polymorphic function type.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
+% #3 : The pre-formatted type-variable to bind
+% #4 : The pre-formatted argument to the function
+% #5 : The pre-formatted result of the function
+\polyfunty[5]
+
+% \forallty formats a polymorphic type.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
+% #3 : The pre-formatted type-variable to bind
+% #4 : The pre-formatted result in which the type-variable is bound
+\forallty[4]
+
+% \existty formats an existential type.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
+% #3 : The pre-formatted type-variable to bind
+% #4 : The pre-formatted result in which the type-variable is bound
+\existty[4]
+
+% \muty formats a recursive type.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
+% #3 : The pre-formatted type-variable to bind
+% #4 : The pre-formatted result in which the type-variable is bound
+\muty[4]
+
+% \unitty formats a unit type.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
+\unitty[2]
+
+% \voidty formats a void type.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
+\voidty[2]
+
+% \boolty formats a bool type.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
+\boolty[2]
+
+% \pairty formats a pair type.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
+% #3 : The pre-formatted type for the first component of the pair
+% #4 : The pre-formatted type for the second component of the pair
+\pairty[4]
+
+% \sumty formats a sum type.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : A formatting macro for text, such as \tfont
+% #3 : The pre-formatted type for the first component of the sum
+% #4 : The pre-formatted type for the second component of the sum
+\sumty[4]
+```
+
+#### Detailed Type Combinator Documentation
+```latex
+% \fune formats a function expression.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : The pre-formatted variable the function binds.
+% #4 : The pre-formatted type of the variable.
+% #5 : The pre-formatted body of the function.
+\fune[5]
+
+% \polyfune formats a polymorphic function expression.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : The pre-formatted type variable the function binds.
+% #4 : The pre-formatted variable the function binds.
+% #5 : The pre-formatted type of the variable.
+% #6 : The pre-formatted body of the function.
+\polyfune[6]
+
+% \abstre formats an polymorphic abstraction expression.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : The pre-formatted type variable the abstraction binds.
+% #4 : The pre-formatted the body of the abstract.
+\abstre[4]
+
+% \inste formats an instantiation expression.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : The pre-formatted polymorphic abstraction to instantiate.
+% #4 : The pre-formatted type with which to instantiate the abstraction.
+\inste[4]
+
+% \appe formats an application expression.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : The pre-formatted function.
+% #4 : The pre-formatted argument.
+\appe[4]
+
+% \pappe formats a polymorphic function application expression.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : A pre-formatted polymorphic function expression.
+% #4 : A pre-formatted type with which to instantiate.
+% #5 : A pre-formatted argument to the function.
+\pappe[5]
+
+% \ife formats an if expression 
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : A pre-formatted discriminant expression.
+% #4 : A pre-formatted consequent expression.
+% #5 : A pre-formatted alternate expression.
+\ife[5]
+
+% \packe formats a pack expression
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : A pre-formatted type witness.
+% #4 : A pre-formatted value witness.
+% #5 : A pre-formatted existential type abstracting the witness type.
+\packe[5]
+
+% \unpacke formats an unpack expression
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : A pre-formatted type variable.
+% #4 : A pre-formatted expression variable.
+% #5 : A pre-formatted existential witness expression.
+% #6 : A pre-formatted expression in which to bind the existential.
+\unpacke[6]
+
+% \lete formats a let expression
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : A pre-formatted expression variable.
+% #4 : A pre-formatted expression to bind.
+% #5 : A pre-formatted body expression for the let.
+\lete[5]
+
+% \folde formats a fold expression.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : A pre-formatted mu type.
+% #4 : A pre-formatted expression of isorecursive type.
+\folde[4]
+
+% \unfolde formats an unfold expression
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : A pre-formatted expression of isorecursive type.
+\unfolde[3]
+
+% \unite formats a unit expression.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+\unite[2]
+
+% \truee formats a true expression
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+\truee[2]
+
+% \falsee formats a false expression
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+\falsee[2]
+
+% \paire formats a pair expression.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : A pre-formatted expression for the first component of the pair.
+% #4 : A pre-formatted expression for the second component of the pair.
+\paire[4]
+
+% \prje formats a projection expression.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : An unformatted natural number, either 1 or 2, indicating which
+%   component of the pair to project.
+% #4 : A pre-formatted pair expression to project.
+\prje[4]
+
+% \sume formats a sum expression.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : An unformatted natural number, either 1 or 2, indicating into which
+%   side of the sum to inject the expression. 1 indicates left, 2
+% #4 : A pre-formatted expression to inject into a sum.
+\sume[4]
+
+% \casee formats a case expression.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : A pre-formatted discriminant expression.
+% #4 : A pre-formatted variable to bind in the left branch.
+% #5 : A pre-formatted expression for the left branch.
+% #6 : A pre-formatted variable to bind in the right branch.
+% #7 : A pre-formatted expression for the right branch.
+\casee[7]
 ```
 
 ## Meta-Theory Combinators
@@ -675,8 +930,8 @@ typing, and logical relations.
 % #3 : A pre-formatted index for the relation
 %
 % Usage:
-%  \newcommand{\srelV}[1]{\lr{\sfont}{V}{#1}}
-%  \newcommand{\trelV}[2]{\lr{\tfont}{V}{#1}{#2}}
+%  \newcommand{\srelV}{\lr{\sfont}{V}}
+%  \newcommand{\trelV}{\lr{\tfont}{V}}
 \lr[3]
 
 % \lrV,\lrE,\lrG,\lrD,\lrK,\lrO format logical relation sets.
@@ -685,8 +940,8 @@ typing, and logical relations.
 % #2 : A pre-formatted index for relation
 %
 % Usage:
-%  \newcommand{\srelV}[1]{\lrV{\sfont}{#1}}
-%  \newcommand{\trelV}[2]{\lrV{\tfont}{#1}{#2}}
+%  \newcommand{\srelV}{\lrV{\sfont}}
+%  \newcommand{\trelV}{\lrV{\tfont}}
 \lrV[2]
 \lrE[2]
 \lrG[2]

@@ -2,8 +2,8 @@
 
 \usepackage{secctex}
 
-\newcommand{\newtmetavar}{\newlmetavar{\tfontsym}{\tcolor}{t}}
-\newcommand{\newsmetavar}{\newlmetavar{\sfontsym}{\scolor}{s}}
+\newcommand{\newtmetavar}{\newmetavar{\tfontsym}{\tcolor}{t}}
+\newcommand{\newsmetavar}{\newmetavar{\sfontsym}{\scolor}{s}}
 
 \newtmetavar{x}
 \newtmetavar{e}
@@ -11,8 +11,8 @@
 \newtmetavar{v}
 \newtmetavar*{ty}{\tfontsym{\tau}}
 
-\newcommand{\newsmetavars}{\newlmetavars{\sfont}{\scolor}{s}}
-\newcommand{\newsmetavarsS}{\newlmetavarsS{\sfontsym}{\scolor}{s}}
+\newcommand{\newsmetavars}{\newmetavars{\sfont}{\scolor}{s}}
+\newcommand{\newsmetavarsS}{\newmetavarsS{\sfontsym}{\scolor}{s}}
 \newsmetavars{x, e, v}
 % TODO Star convention is difficult over lists
 %\newsmetavars*{x/x, e/e, v/v}
@@ -22,44 +22,46 @@
 \newcommand{\stfont}[1]{\mathbf{\stcolor{#1}}}
 \newcommand{\stfontsym}{\stfont}
 
-\newcommand{\newstmetavars}{\newlmetavars{\stfont}{\stcolor}{st}}
-\newcommand{\newstmetavarsS}{\newlmetavarsS{\stfontsym}{\stcolor}{st}}
+\newcommand{\newstmetavars}{\newmetavars{\stfont}{\stcolor}{st}}
+\newcommand{\newstmetavarsS}{\newmetavarsS{\stfontsym}{\stcolor}{st}}
 \newstmetavarsS{x/x, v/v, e/e, alpha/\alpha}
 
 \newcommand{\trelV}{\lr{\tfontsym}{V}}
 \newcommand{\srelE}{\lr{\sfont}{E}}
 
-\newcommand{\newttypes}{\newltypes{\tfontsym}{\tfont}{t}{ty}}
-\newcommand{\newtexprs}{\newlexprs{\tfontsym}{\tfont}{te}{}}
+\newcommand{\newttypes}{\newtypes{\tfontsym}{\tfont}{t}{ty}}
+\newcommand{\newtexprs}{\newexprs{\tfontsym}{\tfont}{te}{}}
 \newttypes{fun,polyfun,forall,exist,mu,bool,unit,void,pair}
 \newtexprs{let,fun,polyfun,app,papp,abstr,inst,pack,unpack,fold,unfold,if,true,false,unit,pair}
 
 \newcommand{\tpfunty}{\tpolyfunty}
 
-\newcommand{\sfune}{\fune{\sfontsym}}
-\newcommand{\spolyfune}{\polyfune{\sfontsym}}
-\newcommand{\sabstre}{\abstre{\sfontsym}}
-\newcommand{\sinste}{\inste{\sfontsym}}
-\newcommand{\sappe}{\appe}
-\newcommand{\spappe}{\pappe{\sfontsym}}
+\newcommand{\sfune}{\fune{\sfontsym}{\sfont}}
+\newcommand{\spolyfune}{\polyfune{\sfontsym}{\sfont}}
+\newcommand{\sabstre}{\abstre{\sfontsym}{\sfont}}
+\newcommand{\sinste}{\inste{\sfontsym}{\sfont}}
+\newcommand{\sappe}{\appe{\sfontsym}{\sfont}}
+\newcommand{\spappe}{\pappe{\sfontsym}{\sfont}}
 
-\newcommand{\sife}{\ife{\sfont}}
-\newcommand{\spacke}{\packe{\sfont}{\sfontsym}}
-\newcommand{\sunpacke}{\unpacke{\sfont}{\sfontsym}}
-\newcommand{\slete}{\lete{\sfont}{\sfontsym}}
-\newcommand{\sfolde}{\folde{\sfont}}
-\newcommand{\sunfolde}{\unfolde{\sfont}}
-\newcommand{\sunite}{\unite{\sfontsym}}
-\newcommand{\struee}{\truee{\sfont}}
-\newcommand{\sfalsee}{\falsee{\sfont}}
-\newcommand{\spaire}{\paire{\sfontsym}}
+\newcommand{\sexistty}{\existty{\sfontsym}{\sfont}}
+
+\newcommand{\sife}{\ife{\sfontsym}{\sfont}}
+\newcommand{\spacke}{\packe{\sfontsym}{\sfont}}
+\newcommand{\sunpacke}{\unpacke{\sfontsym}{\sfont}}
+\newcommand{\slete}{\lete{\sfontsym}{\sfont}}
+\newcommand{\sfolde}{\folde{\sfontsym}{\sfont}}
+\newcommand{\sunfolde}{\unfolde{\sfontsym}{\sfont}}
+\newcommand{\sunite}{\unite{\sfontsym}{\sfont}}
+\newcommand{\struee}{\truee{\sfontsym}{\sfont}}
+\newcommand{\sfalsee}{\falsee{\sfontsym}{\sfont}}
+\newcommand{\spaire}{\paire{\sfontsym}{\sfont}}
 
 \newcommand{\txdubpr}{\txpr[2]}
 \begin{document}
 \begin{smathpar}
-  \lmetavar{\tfont{x}}{\tcolor{1}}{}{\tprime}{1}
+  \metavar{\tfont{x}}{\tcolor{1}}{}{\tprime}{1}
 
-  \lmetavar{\tfont{x}}{\tcolor{1}}{}{\tprime}{4}
+  \metavar{\tfont{x}}{\tcolor{1}}{}{\tprime}{4}
 
   \txmetavar{}{}{0}
 
@@ -135,9 +137,9 @@
 
   \sife{\sv}{\seone}{\setwo}
 
-  \spacke{\sx}{\salpha}{\seone}
+  \spacke{\styone}{\se}{\sexistty{\salpha}{\stytwo}}
 
-  \sunpacke{\sv}{\sty}{\svpr}{\seone}
+  \sunpacke{\salpha}{\sx}{\svpr}{\seone}
 
   \telet{\tx}{\te}{\teone}
 
