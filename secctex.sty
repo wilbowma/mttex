@@ -332,8 +332,24 @@
 \def\@@Repeat#1#2{%
   \@Repeat{#1}{#2}{#2}
 }
-\makeatother
 
+\newcommand{\@super}[3]{
+  {
+    \expandafter\if\expandafter\relax{#1 \Repeat{#3}{#2}}\relax%
+    \else
+    ^{#1 \Repeat{#3}{{#2}}}
+    \fi
+  }
+}
+
+\newcommand{\@sub}[1]{
+  {
+    \expandafter\if\expandafter\relax{#1}\relax%
+    \else
+    _{#1}
+    \fi
+  }
+}
 % \metavar formats a language meta-var.
 %
 % #1 : a pre-formatted symbol representing the meta-variable
@@ -349,10 +365,11 @@
 %   \newcommand{\tx}{\txmetavar{}{}{}}
 %   \newcommand{\txone}{\txmetavar{1}{}{}}
 %   \newcommand{\txonepr}{\txmetavar{1}{}{1}}
-
 \newcommand{\metavar}[5]{
-  {#1}_{#2}^{{#3}\Repeat{#5}{#4}}
+  #1\@sub{#2}\@super{#3}{#4}{#5}
 }
+
+\makeatother
 
 % \metavarto formats a language meta-var with only a superscript.
 %
@@ -832,7 +849,7 @@
 % #5 : A pre-formatted argument to the function.
 \newcommand{\pappe}[2]{\@pappe{#1}}
 
-% \@ife formats an if expression 
+% \@ife formats an if expression
 %
 % #1 : A formatting macro for symbols, such as \tfontsym.
 % #2 : A pre-formatted discriminant expression.
