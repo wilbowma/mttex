@@ -328,6 +328,17 @@ while the target should be in a bold, red, serif font.
 This package provides various combinators for generating macros that
 format multi-language meta-theory.
 
+### Language Combinator TOC
+* [Generating a Language](#generating-a-language)
+* [Meta-Variables](#meta-variables)
+* [List of Meta-Variables Combinators](#list-of-meta-variables-combinators)
+* [Formatting Types and Expressions](#formatting-types-and-expressions)
+* [List of Types Combinators](#list-of-types-combinators)
+* [List of Expressions Combinators](#list-of-types-combinators)
+* [Detailed Type Combinator Documentation](#detailed-type-combinator-documentation)
+* [Detailed Expression Combinator Documentation](#detailed-expression-combinator-documentation)
+* [Context Typing](#context-typing)
+
 ### Generating a Language
 This package provides a single combinator for generating all the macros
 for type-setting meta-variables, types, and expressions. While this is
@@ -564,7 +575,7 @@ the combinator.
 * case: case expressions
 * let: let expressions
 
-### List of Types Combinator
+### List of Types Combinators
 Generating type macros one at a time is annoying, so this package
 provides combinators for lists of types. The macros are generated
 attaching a prefix and suffix to the tag, followed by ty.  For instance,
@@ -581,7 +592,7 @@ is `\sfunty`.
 \newtypes[5]
 ```
 
-### Lists of Expressions Combinator
+### Lists of Expressions Combinators
 Generating expression macros one at a time is annoying, so this package
 provides combinators for lists of expressions. The macros are generated
 attaching a prefix and suffice to the tag. For instance, the macro
@@ -729,7 +740,7 @@ generate for `fun` when using the prefix `s` and suffix `e` is `\sfune`.
 % #5 : A pre-formatted argument to the function.
 \pappe[5]
 
-% \ife formats an if expression 
+% \ife formats an if expression
 %
 % #1 : A formatting macro for symbols, such as \tfontsym.
 % #2 : A formatting macro for text, such as \tfont.
@@ -841,6 +852,12 @@ generate for `fun` when using the prefix `s` and suffix `e` is `\sfune`.
 This package provides combinators for formatting meta-theory, including
 well-formedness and typing judgments, contextual equivalence, context
 typing, and logical relations.
+
+### Meta-Theory Combinator TOC
+* [Judgments](#judgments)
+* [Context Typing](#context-typing)
+* [Contextual Equivalence](#contextual-equivalence)
+* [Logical Relations](#logical-relations)
 
 ### Judgments
 ```latex
