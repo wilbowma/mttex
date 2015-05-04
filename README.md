@@ -363,8 +363,8 @@ format multi-language meta-theory.
 * [Meta-Variables](#meta-variables)
 * [List-of-Meta-Variables Combinators](#list-of-meta-variables-combinators)
 * [Formatting Types and Expressions](#formatting-types-and-expressions)
-* [List-of-Types Combinators](#list-of-types-combinators)
-* [List-of-Expressions Combinators](#list-of-types-combinators)
+* [List-of-Types Combinators](#list-of-types-combinator)
+* [List-of-Expressions Combinators](#list-of-expressions-combinator)
 * [Detailed Type Combinator Documentation](#detailed-type-combinator-documentation)
 * [Detailed Expression Combinator Documentation](#detailed-expression-combinator-documentation)
 
