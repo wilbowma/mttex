@@ -104,24 +104,60 @@
 \LetLtxMacro{\@subsection}{\subsection}
 \LetLtxMacro{\@subsubsection}{\subsubsection}
 
-\newcommand{\@titlecrafter}[3]{
+\newcommand{\@titlecrafterStar}[2]{
+  #1*{\titlecap{#2}}
+}
+
+\newcommand{\@titlecrafterNoStar}[3]{
   \ifthenelse{\equal{#2}{}}
   {#1[#3]{\titlecap{#3}}}
   {#1[#2]{\titlecap{#3}}}
 }
 
-\renewcommand{\title}[2][]{
-  \@titlecrafter{\@title}{#1}{#2}
+\newcommand{\@titleStar}{
+  \@titlecrafterStar{\@title}
 }
 
-\renewcommand{\section}[2][]{
-  \@titlecrafter{\@section}{#1}{#2}
+\newcommand{\@titleNoStar}[2][]{
+  \@titlecrafterNoStar{\@title}{#1}{#2}
 }
-\renewcommand{\subsection}[2][]{
-  \@titlecrafter{\@subsection}{#1}{#2}
+
+\renewcommand{\title}{ \@ifstar \@titleStar \@titleNoStar }
+
+\newcommand{\@sectionStar}{
+  \@titlecrafterStar{\@section}
 }
+
+\newcommand{\@sectionNoStar}[2][]{
+  \@titlecrafterNoStar{\@section}{#1}{#2}
+}
+
+\renewcommand{\section}{
+  \@ifstar \@sectionStar \@sectionNoStar
+}
+
+\newcommand{\@subsectionStar}{
+  \@titlecrafterStar{\@subsection}
+}
+
+\newcommand{\@subsectionNoStar}[2][]{
+  \@titlecrafterNoStar{\@subsection}{#1}{#2}
+}
+
+\renewcommand{\subsection}{
+  \@ifstar \@subsectionStar \@subsectionNoStar
+}
+
+\newcommand{\@subsubsectionStar}{
+  \@titlecrafterStar{\@subsubsection}
+}
+
+\newcommand{\@subsubsectionNoStar}[2][]{
+  \@titlecrafterNoStar{\@subsubsection}{#1}{#2}
+}
+
 \renewcommand{\subsubsection}[2][]{
-  \@titlecrafter{\@subsubsection}{#1}{#2}
+  \@ifstar \@subsubsectionStar \@subsubsectionNoStar
 }
 \makeatother
 
