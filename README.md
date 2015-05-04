@@ -2,8 +2,35 @@
 Welcome to the Secure and Correct Compilers Tex package.
 
 This package includes several packages not available on CTAN, and
-requires several that are on CTAN. See `secctex.sty` for a complete
-list of packages.
+requires several that are on CTAN.
+
+The following packages included in this package.
+* `mathpartir`
+* `unlist`
+
+The following packages are required and available on CTAN. Many of these
+are included in standard LaTeX installations.
+* `todonotes`
+* `letltxmacro`
+* `bookmark`
+* `ifthen`
+* `latexsym`
+* `amsmath`
+* `amssymb`
+* `stmaryrd`
+* `amsbsy`
+* `upgreek`
+* `url`
+* `mathrsfs`
+* `amsthm`
+* `titlecaps`
+
+The following packages are required due to ACM recommendation and
+available on CTAN. These are included in standard LaTeX installations.
+* `microtype`
+* `inputenc`
+* `fontenc`
+
 
 This package provides numerous macros for formatting multi-language
 meta-theory. This README provides sections describing various aspects of
