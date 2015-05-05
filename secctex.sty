@@ -1280,9 +1280,20 @@
 %% and \gamma
 
 %% TODO Maybe these should use \pair and \triple
+% \mapext extends a key/value map
+%
+% #1 : A pre-formatted symbol for the map, such as \tfont{\gamma}
+% #2 : A pre-formatted key for the new mapping, such as \tfont{\tx}
+% #3 : A pre-formatted symbol for the value of the new mapping such as
+%   \tfont{\tau}
+%
+% Usage:
+%  \newcommand{\btrlrgamma}{\btrfont{\gamma}}
+%  \newcommand{\btrlrgammaext}{\mapext{\btrlrgamma}}
+\newcommand{\mapext}[3]{#1[#2 \mapsto #3 ]}
 
 % \binmapext extends a map whose value is a pair.
-% It takes 4 parameters:
+%
 % #1 : A pre-formatted symbol for the map, such as \tfont{\rho}
 % #2 : A pre-formatted key for the new mapping, such as \tfont{\alpha}
 % #3 : A pre-formatted symbol for the first element of the value such as
@@ -1292,10 +1303,9 @@
 % Usage:
 %  \newcommand{\slrgamma}{\sfont{\gamma}}
 %  \newcommand{\slrgammaext}{\binmapext{\slrgamma}}
-\newcommand{\binmapext}[4]{#1[#2 \mapsto (#3,#4)]}
+\newcommand{\binmapext}[4]{\mapext{#1}{#2}{(#3,#4)}}
 
 % \trimapext is like \binmapext, but extends a map whose value is a triple.
-% It takes 5 parameters:
 %
 % #1 : A pre-formatted symbol for the map, such as \tfont{\rho}
 % #2 : A pre-formatted key for the new mapping, such as \tfont{\alpha}
@@ -1307,26 +1317,31 @@
 % Usage:
 %  \newcommand{\tlrrho}{\tfont{\rho}}
 %  \newcommand{\tlrrhoext}{\trimapext{\tlrrho}}
-\newcommand{\trimapext}[5]{#1[#2 \mapsto (#3,#4,#5)]}
+\newcommand{\trimapext}[5]{\mapext{#1}{#2}{(#3,#4,#5)}}
 
 %% TODO These should probably accept formatting macros for the
 %% subscript.
 
-% \maponeat projects the first element of the value of a map at some
-% key.
-% It takes 2 arguments.
+% \mapat applies a map to a key key.
 %
 % #1 : A pre-formatted symbol for the map, as as \tfont{\rho}
 % #2 : A pre-formatted symbol for the key
-\newcommand{\maponeat}[2]{{#1}_1({#2})}
+\newcommand{\mapat}[2]{{#1}({#2})}
+
+% \maponeat projects the first element of the value of a map at some
+% key.
+%
+% #1 : A pre-formatted symbol for the map, as as \tfont{\rho}
+% #2 : A pre-formatted symbol for the key
+\newcommand{\maponeat}[1]{\mapat{{#1}_1}}
 
 % \maptwoat is like \maponeat but projects the second element.
 % The interface is the same
-\newcommand{\maptwoat}[2]{{#1}_2({#2})}
+\newcommand{\maptwoat}[1]{\mapat{{#1}_2}}
 
 % \maprelat is like \maponeat but projects the third element, which is
 % assumed to be a relation.
-\newcommand{\maprelat}[2]{{#1}_R({#2})}
+\newcommand{\maprelat}[1]{\mapat{{#1}_R}}
 
 %% Standard Source/Target formatting
 \makeatletter

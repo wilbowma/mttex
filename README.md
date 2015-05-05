@@ -1060,6 +1060,19 @@ Usage:
   \newcommand{\trelV}{\lrV{\tfont}}
 ```
 
+``latex
+\mapext[3]
+Extends a key/value map
+  #1 : A pre-formatted symbol for the map, such as \tfont{\gamma}
+  #2 : A pre-formatted key for the new mapping, such as \tfont{\tx}
+  #3 : A pre-formatted symbol for the value of the new mapping such as
+    \tfont{\tau}
+
+Usage:
+  \newcommand{\btrlrgamma}{\btrfont{\gamma}}
+  \newcommand{\btrlrgammaext}{\mapext{\btrlrgamma}}
+```
+
 ```latex
 \binmapext[4]
 Extends a map whose value is a pair.
@@ -1087,6 +1100,13 @@ Like \binmapext, but extends a map whose value is a triple.
 Usage:
   \newcommand{\tlrrho}{\tfont{\rho}}
   \newcommand{\tlrrhoext}{\trimapext{\tlrrho}}
+```
+
+```latex
+\mapat[2]
+Applies a map to a key key.
+  #1 : A pre-formatted symbol for the map, as as \tfont{\rho}
+  #2 : A pre-formatted symbol for the key
 ```
 
 ```latex
