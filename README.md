@@ -47,7 +47,7 @@ The following packages are required and available on CTAN. Many of these
 are included in standard LaTeX installations.
 * `todonotes`
 * `letltxmacro`
-* `bookmark`
+* `hyperref`
 * `ifthen`
 * `latexsym`
 * `amsmath`
