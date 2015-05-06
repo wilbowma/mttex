@@ -1182,7 +1182,7 @@
 %
 % #1 : Pre-formatted assumptions, such as \tfont{\Delta}
 % #2 : The pre-formatted proposition, such as \tfont{\alpha}
-\newcommand{\wf}[2]{#1 \vdash #2}
+\newcommand{\wf}[2]{#1~\!\!\vdash~\!\!#2}
 
 % \judg formats a well-typedness judgment.
 % It takes 3 parameters.
@@ -1190,7 +1190,7 @@
 % #1 : The assumptions, such as \tfont{\Delta};\tfont{\Gamma}
 % #2 : The term, such as \tfont{e}
 % #3 : The type, such as \tfont{\tau}
-\newcommand{\judg}[3]{\wf{#1}{#2 : #3}}
+\newcommand{\judg}[3]{\wf{#1}{#2~\!\!:~\!\!#3}}
 
 %% Context typing
 
