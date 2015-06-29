@@ -114,12 +114,12 @@
   {#1[#2]{\titlecap{#3}}}
 }
 
-\newcommand{\@titleStar}{
-  \@titlecrafterStar{\@title}
+\newcommand{\@titleStar}[1]{
+  {\@title*{\titlecap{#1}}}
 }
 
-\newcommand{\@titleNoStar}[2][]{
-  \@titlecrafterNoStar{\@title}{#1}{#2}
+\newcommand{\@titleNoStar}[1]{
+  {\@title{\titlecap{#1}}}
 }
 
 \renewcommand{\title}{ \@ifstar \@titleStar \@titleNoStar }
