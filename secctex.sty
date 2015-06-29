@@ -182,6 +182,10 @@
 \newcommand{\lemref}[1]{Lemma~\ref{#1}}
 \newcommand{\thmref}[1]{Theorem~\ref{#1}}
 
+% TODO: Document
+\newcommand{\fboxnegspace}{\vspace{-2ex}}
+\newcommand{\smallmath}[1]{{\small \(#1\)}}
+
 % Text fonts
 \newcommand{\tbf}[1]{\textbf{#1}}
 \newcommand{\trm}[1]{\textrm{#1}}
@@ -200,30 +204,30 @@
 \renewcommand{\b}{\boldsymbol}
 
 % Text mode
-\newenvironment{nop}{}{}
+\newenvironment{nop}{\ifvmode\nointerlineskip\fi}{\ignorespacesafterend}
 
 % Math mode
 \newenvironment{sdisplaymath}{
 \begin{nop}\small\begin{displaymath}}{
-\end{displaymath}\end{nop}\ignorespacesafterend}
+\end{displaymath}\end{nop}}
 \newenvironment{fdisplaymath}{
 \begin{nop}\footnotesize\begin{displaymath}}{
-\end{displaymath}\end{nop}\ignorespacesafterend}
+\end{displaymath}\end{nop}}
 \newenvironment{smathpar}{
 \begin{nop}\small\begin{mathpar}}{
-\end{mathpar}\end{nop}\ignorespacesafterend}
+\end{mathpar}\end{nop}}
 \newenvironment{fmathpar}{
 \begin{nop}\footnotesize\begin{mathpar}}{
-\end{mathpar}\end{nop}\ignorespacesafterend}
+\end{mathpar}\end{nop}}
 \newenvironment{alignS}{
 \begin{nop}\begin{align}}{
-\end{align}\end{nop}\ignorespacesafterend}
+\end{align}\end{nop}}
 \newenvironment{salignS}{
 \begin{nop}\small\begin{align}}{
-\end{align}\end{nop}\ignorespacesafterend}
+\end{align}\end{nop}}
 \newenvironment{falignS}{
 \begin{nop}\footnotesize\begin{align*}}{
-\end{align}\end{nop}\ignorespacesafterend}
+\end{align}\end{nop}}
 
 % Stack formatting
 \newenvironment{stackAux}[2]{%
