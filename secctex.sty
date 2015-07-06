@@ -42,10 +42,10 @@
 %% todo
 \LetLtxMacro{\savedtodo}{\todo}
 
-\renewcommand{\todo}[2][]{\omitthis{\savedtodo[#1]{#2}}}
+\renewcommand{\todo}[2][]{\ifvmode\nointerlineskip\fi\omitthis{\savedtodo[#1]{#2}}\ignorespacesafterend}
 
 \DeclareOption{todo}{
-  \renewcommand{\todo}[2][]{\savedtodo[#1]{#2}}
+  \renewcommand{\todo}[2][]{\ifvmode\nointerlineskip\fi\savedtodo[#1]{#2}\ignorespacesafterend}
 }
 
 %% ACM/SIGPLAN format
@@ -205,7 +205,7 @@
 \renewcommand{\b}{\boldsymbol}
 
 % Text mode
-\newenvironment{nop}{\ifvmode\nointerlineskip\fi}{\ignorespacesafterend}
+\newenvironment{nop}{\ifvmode\nointerlineskip\fi}{\ignorespacesafterend\ifvmode\nointerlineskip\fi}
 
 % Math mode
 \newenvironment{sdisplaymath}{
