@@ -75,13 +75,14 @@ This package defines the following options:
 * `todo` -- Normally, the `\todo` macro is omitted when the `omit`
   option is specified. This option prevents only `\todo` macros from
   being omitted.
-* `nosigplan` disables ACM/SIGPLAN specific features, such as `natbib`
+* `nosigplan` -- This option disables ACM/SIGPLAN specific features, such as `natbib`
   citation style.
-* `techrpt` enables options for formatting a technical appendix, such as
+* `techrpt` -- This option enables features formatting a technical appendix, such as
   `\usepackage{fullpage}`
-* `paper` disables options for formatting a technical appendix. This
+* `paper` -- This option disables features for formatting a technical appendix. This
   option is on by default.
-* `balance` balances the column on the last page.
+* `balance` -- This option balances the column on the last page.
+* `draft` -- This option passes `draft` to `hyperref`.
 
 ## How to Read
 Each documented macro starts with the name of the macro and an interface
