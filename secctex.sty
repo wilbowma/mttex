@@ -9,7 +9,7 @@
 % CTAN packages
 \RequirePackage{todonotes}
 \RequirePackage{letltxmacro}
-\RequirePackage{hyperref}
+
 \RequirePackage{ifthen}
 
 \RequirePackage{latexsym,amsmath,amssymb}
@@ -31,6 +31,13 @@
 \RequirePackage[T1]{fontenc}
 
 %%% -------------------------- Options -------------------------------
+
+\makeatletter
+\newif\ifsecc@draft
+\secc@draftfalse
+
+\DeclareOption{draft}{\secc@drafttrue}
+\makeatother
 
 %% omitthis
 \newcommand{\omitthis}[1]{#1}
@@ -68,6 +75,12 @@
 \DeclareOption{paper}{\secc@techrptfalse}
 
 \ProcessOptions\relax
+
+\ifsecc@draft
+  \RequirePackage[draft]{hyperref}
+\else
+  \RequirePackage{hyperref}
+\fi
 
 \ifsecc@sigplan
   \RequirePackage{natbib}
