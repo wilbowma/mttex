@@ -277,6 +277,16 @@
 \newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{definition}[theorem]{Definition}
 
+\newenvironment{theoremS}[2][]
+{\renewcommand{\thetheorem}{#2}
+\begin{theorem}[#1]}
+{\end{theorem}\ignorespacesafterend}
+
+\newenvironment{lemmaS}[2][]
+{\renewcommand{\thetheorem}{#2}
+\begin{lemma}[#1]}
+{\end{lemma}\ignorespacesafterend}
+
 \renewenvironment{proof}[1][]{%
 \noindent%
 \textbf{Proof\if\relax\detokenize{#1}\relax\else~(#1)\fi}%
