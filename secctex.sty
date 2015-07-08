@@ -205,48 +205,48 @@
 \renewcommand{\b}{\boldsymbol}
 
 % Text mode
-\newenvironment{nop}{\ifvmode\nointerlineskip\fi}{\ignorespacesafterend\ifvmode\nointerlineskip\fi}
+\newenvironment{nop}{\ifvmode\nointerlineskip\fi}{\ignorespacesafterend}
 
 % Math mode
 \newenvironment{sdisplaymath}{
 \begin{nop}\small\begin{displaymath}}{
-\end{displaymath}\end{nop}}
+\end{displaymath}\end{nop}\ignorespacesafterend}
 \newenvironment{fdisplaymath}{
 \begin{nop}\footnotesize\begin{displaymath}}{
-\end{displaymath}\end{nop}}
+\end{displaymath}\end{nop}\ignorespacesafterend}
 \newenvironment{smathpar}{
 \begin{nop}\small\begin{mathpar}}{
-\end{mathpar}\end{nop}}
+\end{mathpar}\end{nop}\ignorespacesafterend}
 \newenvironment{fmathpar}{
 \begin{nop}\footnotesize\begin{mathpar}}{
-\end{mathpar}\end{nop}}
+\end{mathpar}\end{nop}\ignorespacesafterend}
 \newenvironment{alignS}{
 \begin{nop}\begin{align}}{
-\end{align}\end{nop}}
+\end{align}\end{nop}\ignorespacesafterend}
 \newenvironment{salignS}{
 \begin{nop}\small\begin{align}}{
-\end{align}\end{nop}}
+\end{align}\end{nop}\ignorespacesafterend}
 \newenvironment{falignS}{
 \begin{nop}\footnotesize\begin{align*}}{
-\end{align}\end{nop}}
+\end{align}\end{nop}\ignorespacesafterend}
 
 % Stack formatting
 \newenvironment{stackAux}[2]{%
 \setlength{\arraycolsep}{0pt}
 \begin{array}[#1]{#2}}{
-\end{array}}
+\end{array}\ignorespacesafterend}
 \newenvironment{stackCC}{
-\begin{stackAux}{c}{c}}{\end{stackAux}}
+\begin{stackAux}{c}{c}}{\end{stackAux}\ignorespacesafterend}
 \newenvironment{stackCL}{
-\begin{stackAux}{c}{l}}{\end{stackAux}}
+\begin{stackAux}{c}{l}}{\end{stackAux}\ignorespacesafterend}
 \newenvironment{stackTL}{
-\begin{stackAux}{t}{l}}{\end{stackAux}}
+\begin{stackAux}{t}{l}}{\end{stackAux}\ignorespacesafterend}
 \newenvironment{stackTR}{
-\begin{stackAux}{t}{r}}{\end{stackAux}}
+\begin{stackAux}{t}{r}}{\end{stackAux}\ignorespacesafterend}
 \newenvironment{stackBC}{
-\begin{stackAux}{b}{c}}{\end{stackAux}}
+\begin{stackAux}{b}{c}}{\end{stackAux}\ignorespacesafterend}
 \newenvironment{stackBL}{
-\begin{stackAux}{b}{l}}{\end{stackAux}}
+\begin{stackAux}{b}{l}}{\end{stackAux}\ignorespacesafterend}
 
 %% Theorems
 \newtheoremstyle{athm}{\topsep}{\topsep}%
@@ -271,7 +271,7 @@
 \qed
 \end{list}}
 
-\renewenvironment{cases}{\begin{description}}{\end{description}}
+\renewenvironment{cases}{\begin{description}}{\end{description}\ignorespacesafterend}
 \newcommand{\case}[1][]{\item[Case] #1}
 \newcommand{\scase}[1][]{\item[Sub-case] #1}
 \newcommand{\sscase}[1][]{\item[SubSub-case] #1}
