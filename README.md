@@ -1,11 +1,20 @@
-# SeCCTeX
-Welcome to the Secure and Correct Compilers TeX package.
+# MTTex
+Welcome to the Meta-Theory LaTeX package.
 
 This package provides numerous macros and combinators for formatting
-multi-language meta-theory. I use "combinator" to mean a macro that
-takes macros as inputs and defines new macros, or a macro that can be
-partially applied to produce a new macro. This README provides sections
-describing various aspects of the package.
+meta-theory---particularly multi-language compiler-correctness
+meta-theory. I use "combinator" to mean a macro that takes macros as
+inputs and defines new macros, or a macro that can be partially applied
+to produce a new macro. This README provides sections describing various
+aspects of the package.
+
+## Why MTTex
+Partly because it's a La*TeX* package for type-setting *m*eta-*t*heory, and
+partly because it's pronounced "Empty TeX". This package started because
+the prevailing method for writing papers in my lab was to copy and paste
+a file called "defs.tex" and modify it for the new project. I felt the
+patterns found in this file be abstracted, ideally to the point that
+"defs.tex" was practically empty.
 
 ## Table of Contents
 
@@ -29,11 +38,11 @@ I recommend installing this package via git submodules until I figure
 out how to do LaTeX packages. From a git repository that could use this
 project, do
 ```bash
-git submodule add git@github.ccs.neu.edu:coqatoos/secctex
-ln -s secctex/*.sty .
+git submodule add git@github.com/wilbowma/mttex
+ln -s mttex/*.sty .
 ```
 
-Then add `\usepackage{secctex}` to your main TeX file.
+Then add `\usepackage{mttex}` to your main TeX file.
 
 ## Required Packages
 This package includes several packages not available on CTAN, and
@@ -92,8 +101,8 @@ purpose and its arguments.
 ```latex
 \macroname[<args>][default-value]
 Has this purpose.
-  #1 : A thing that does something
-  #2 : Another argument
+  #1 : A description of the first argument.
+  #2 : And of the second argument.
 ```
 
 Macros may be undocumented but given with their interface or their
