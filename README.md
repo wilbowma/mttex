@@ -1,4 +1,4 @@
-# MTTex
+# MTTeX
 Welcome to the Meta-Theory LaTeX package.
 
 This package provides numerous macros and combinators for formatting
@@ -8,7 +8,7 @@ inputs and defines new macros, or a macro that can be partially applied
 to produce a new macro. This README provides sections describing various
 aspects of the package.
 
-## Why MTTex
+## Why MTTeX
 Partly because it's a La*TeX* package for type-setting *m*eta-*t*heory, and
 partly because it's pronounced "Empty TeX". This package started because
 the prevailing method for writing papers in my lab was to copy and paste
