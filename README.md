@@ -13,8 +13,8 @@ Partly because it's a La*TeX* package for type-setting *m*eta-*t*heory, and
 partly because it's pronounced "Empty TeX". This package started because
 the prevailing method for writing papers in my lab was to copy and paste
 a file called "defs.tex" and modify it for the new project. I felt the
-patterns found in this file be abstracted, ideally to the point that
-"defs.tex" was practically empty.
+patterns found in this file could be abstracted, ideally to the point
+that "defs.tex" was practically empty.
 
 ## Table of Contents
 
