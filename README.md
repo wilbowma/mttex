@@ -38,7 +38,7 @@ I recommend installing this package via git submodules until I figure
 out how to do LaTeX packages. From a git repository that could use this
 project, do
 ```bash
-git submodule add git@github.com/wilbowma/mttex
+git submodule add git@github.com:wilbowma/mttex
 ln -s mttex/*.sty .
 ```
 
