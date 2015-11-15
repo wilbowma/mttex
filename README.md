@@ -370,11 +370,12 @@ while the target should be in a bold, red, serif font.
 
 ## Language Symbol Macros
 ```latex
-\newcommand{\empctx}{\cdot}
-\newcommand{\hole}{[\cdot]}
+\newcommand{\emptyenv}{\cdot}
+\newcommand{\emptyctx}{[\cdot]}
+\newcommand{\hole}{\emptyctx}
 \newcommand{\hw}[1]{\lbrack{#1}\rbrack}
-\newcommand{\ectxt}{E}
-\newcommand{\ctxt}{C}
+\newcommand{\ectx}{E}
+\newcommand{\ctx}{C}
 
 \newcommand{\hooklongrightarrow}{\lhook\joinrel\longrightarrow}
 \newcommand{\redexstep}{\hookrightarrow}
@@ -991,7 +992,7 @@ Renders like:
 
 ### Context Typing
 ```latex
-\ctxtarrowty[3]
+\ctxarrowty[3]
 Formats a context typing arrow
   #1 : A formatting macro for symbols, such as \stfontsym
   #2 : The type of the hole
@@ -999,7 +1000,7 @@ Formats a context typing arrow
 ```
 
 ```latex
-\ctxtty[5]
+\ctxty[5]
 Formats a context type, with different typing contexts for the hole and
 result
   #1 : A formatting macro for symbols, such as \stfontsym
@@ -1010,7 +1011,7 @@ result
 ```
 
 ```latex
-\ctxttyjudg[6]
+\ctxtyjudg[6]
 Formats a context typing judgment.
   #1 : A formatting macro for symbols, such as \stfontsym
   #2 : A pre-formatted context

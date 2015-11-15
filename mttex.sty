@@ -351,11 +351,12 @@
 
 %% Standard symbols
 
-\newcommand{\empctx}{\cdot}
-\newcommand{\hole}{[\cdot]}
+\newcommand{\emptyenv}{\cdot}
+\newcommand{\emptyctx}{[\cdot]}
+\newcommand{\hole}{\emptyctx}
 \newcommand{\hw}[1]{\lbrack{#1}\rbrack}
-\newcommand{\ectxt}{E}
-\newcommand{\ctxt}{C}
+\newcommand{\ectx}{E}
+\newcommand{\ctx}{C}
 
 \newcommand{\hooklongrightarrow}{\lhook\joinrel\longrightarrow}
 \newcommand{\redexstep}{\hookrightarrow}
@@ -1232,14 +1233,14 @@
 
 %% Context typing
 
-% \ctxtarrowty formats a context typing arrow
+% \ctxarrowty formats a context typing arrow
 %
 % #1 : A formatting macro for symbols, such as \stfontsym
 % #2 : The type of the hole
 % #3 : The type of the result
-\newcommand{\ctxtarrowty}[3]{#2 \, #1{\ctxarrow} \, #3}
+\newcommand{\ctxarrowty}[3]{#2 \, #1{\ctxarrow} \, #3}
 
-% \ctxtty formats a context type, with different typing contexts for the
+% \ctxty formats a context type, with different typing contexts for the
 % hole and result
 %
 % #1 : A formatting macro for symbols, such as \stfontsym
@@ -1247,9 +1248,9 @@
 % #3 : The type of the hole
 % #4 : The typing contexts for the result
 % #5 : The type of the result
-\newcommand{\ctxtty}[5]{\ctxtarrowty{#1}{(\wf{#2}{#3})}{(\wf{#4}{#5})}}
+\newcommand{\ctxty}[5]{\ctxtarrowty{#1}{(\wf{#2}{#3})}{(\wf{#4}{#5})}}
 
-% \ctxttyjudg formats a context typing judgment.
+% \ctxtyjudg formats a context typing judgment.
 %
 % #1 : A formatting macro for symbols, such as \stfontsym
 % #2 : A pre-formatted context
@@ -1257,7 +1258,7 @@
 % #4 : The type of the hole
 % #5 : The typing contexts for the result
 % #6 : The type of the result
-\newcommand{\ctxttyjudg}[2]{\judg{}{#2}{\ctxtty{#1}}}
+\newcommand{\ctxtyjudg}[2]{\judg{}{#2}{\ctxtty{#1}}}
 
 
 %% Contextual equivalence
