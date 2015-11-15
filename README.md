@@ -1070,7 +1070,7 @@ Usage:
   \newcommand{\trelV}{\lrV{\tfont}}
 ```
 
-``latex
+```latex
 \mapext[3]
 Extends a key/value map
   #1 : A pre-formatted symbol for the map, such as \tfont{\gamma}
