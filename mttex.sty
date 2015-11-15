@@ -1248,7 +1248,7 @@
 % #3 : The type of the hole
 % #4 : The typing contexts for the result
 % #5 : The type of the result
-\newcommand{\ctxty}[5]{\ctxtarrowty{#1}{(\wf{#2}{#3})}{(\wf{#4}{#5})}}
+\newcommand{\ctxty}[5]{\ctxarrowty{#1}{(\wf{#2}{#3})}{(\wf{#4}{#5})}}
 
 % \ctxtyjudg formats a context typing judgment.
 %
@@ -1258,7 +1258,7 @@
 % #4 : The type of the hole
 % #5 : The typing contexts for the result
 % #6 : The type of the result
-\newcommand{\ctxtyjudg}[2]{\judg{}{#2}{\ctxtty{#1}}}
+\newcommand{\ctxtyjudg}[2]{\judg{}{#2}{\ctxty{#1}}}
 
 
 %% Contextual equivalence
