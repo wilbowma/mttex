@@ -495,6 +495,8 @@ This usage generates the following definitions:
   \newcommand{\ttyonepr}[1][1]{ \ttymetavar{1}{}{#1}}
   \newcommand{\ttytwo}{ \ttymetavar{2}{}{} }
   \newcommand{\ttytwopr}{ \ttymetavar{2}{}{1} }
+  \newcommand{\ttythree}{ \ttymetavar{3}{}{} }
+  \newcommand{\ttythreepr}{ \ttymetavar{3}{}{1} }
   \newcommand{\ttyi}{ \ttymetavar{i}{}{} }
   \newcommand{\ttyipr}[1][1]{ \ttymetavar{i}{}{#1} }
   \newcommand{\ttyn}{ \ttymetavar{n}{}{} }
