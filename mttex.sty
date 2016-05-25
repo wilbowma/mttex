@@ -542,6 +542,8 @@
 %  \newcommand{\ttyonepr}[1][1]{ \ttymetavar{1}{}{#1}}
 %  \newcommand{\ttytwo}{ \ttymetavar{2}{}{} }
 %  \newcommand{\ttytwopr}{ \ttymetavar{2}{}{1} }
+%  \newcommand{\ttytthree}{ \ttymetavar{3}{}{} }
+%  \newcommand{\ttytthreepr}{ \ttymetavar{3}{}{1} }
 %  \newcommand{\ttyi}{ \ttymetavar{i}{}{} }
 %  \newcommand{\ttyipr}[1][1]{ \ttymetavar{i}{}{#1} }
 %  \newcommand{\ttyn}{ \ttymetavar{n}{}{} }
@@ -578,6 +580,12 @@
   }
   \@globalshadowedcommand[1]{#3#4twopr}{1}{
     \csname #3#4metavar\endcsname{2}{}{##1}
+  }
+  \@globalshadowedcommand{#3#4three}{0}{
+    \csname #3#4metavar\endcsname{3}{}{0}
+  }
+  \@globalshadowedcommand[1]{#3#4threepr}{1}{
+    \csname #3#4metavar\endcsname{3}{}{##1}
   }
   \@globalshadowedcommand{#3#4n}{0}{
     \csname #3#4metavar\endcsname{n}{}{0}
