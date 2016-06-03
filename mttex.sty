@@ -403,19 +403,21 @@
 
 \newcommand{\@super}[3]{
   \ifnum#3=0
-  {\if\relax#1\relax
-    \else
-    ^{#1}
-  \fi}
+  {\sbox0{#1}%
+    \ifdim\wd0=0pt
+    \else%
+^{#1}%
+    \fi}
   \else
-  ^{#1\Repeat{#3}{#2}}
+^{\Repeat{#3}{#2}#1}%
   \fi
 }
 
 \newcommand{\@sub}[1]{
-  \if\relax#1\relax
+  \sbox0{#1}%
+  \ifdim\wd0=0pt
   \else
-  _{#1}
+  _{#1}%
   \fi
 }
 % \metavar formats a language meta-var.
@@ -434,7 +436,7 @@
 %   \newcommand{\txone}{\txmetavar{1}{}{}}
 %   \newcommand{\txonepr}{\txmetavar{1}{}{1}}
 \newcommand{\metavar}[5]{
-  {#1}\@super{#3}{#4}{#5}\@sub{#2}%
+  #1\@super{#3}{#4}{#5}\@sub{#2}%
 }
 
 \makeatother
@@ -506,14 +508,6 @@
   }
 }
 
-%% TODO: This is a bad name
-\newcommand{\@formatmacro}[2]{
-  \if\relax\detokenize{#2}\relax
-  \else
-  #1{#2}
-  \fi
-}
-
 % \newmetavarStar generates some standard macros for formatting a meta-var,
 % and takes 5 paraemters:
 %
@@ -555,7 +549,7 @@
 %   the formatted meta-variable.
 \newcommand{\newmetavarStar}[5]{
   \@globalshadowedcommand{#3#4metavar}{3}{
-    \metavar{\@formatmacro{#1}{#5}}{\@formatmacro{#2}{##1}}{\@formatmacro{#2}{##2}}{#2{\prime}}{##3}
+    \metavar{#1{#5}}{#2{##1}}{#2{##2}}{#2{\prime}}{##3}
   }
   \@globalshadowedcommand{#3#4}{0}{
     \csname #3#4metavar\endcsname{}{}{0}
