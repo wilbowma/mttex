@@ -403,7 +403,7 @@
 
 \newcommand{\@super}[3]{
   \ifnum#3=0
-  {\sbox0{#1}%
+  {\sbox0{\ensuremath{#1}}%
     \ifdim\wd0=0pt
     \else%
 ^{#1}%
@@ -414,7 +414,7 @@
 }
 
 \newcommand{\@sub}[1]{
-  \sbox0{#1}%
+  \sbox0{\ensuremath{#1}}%
   \ifdim\wd0=0pt
   \else
   _{#1}%
