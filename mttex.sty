@@ -743,8 +743,8 @@
 % #3 : The pre-formatted argument to the function
 % #4 : The pre-formatted result of the function
 \newcommand{\@polyfunty}[4]{%
-  \mathpunct{#1{\forall}}% or rather mathopen?
-  \mathopen{#1{[}}
+  \mathopen{#1{\forall}}%
+  \mathopen{#1{[}}%
   #2%
   \mathclose{#1{].}}\mathpunct{}%
   #3%
@@ -900,7 +900,7 @@
 % #4 : The pre-formatted type of the variable.
 % #5 : The pre-formatted body of the function.
 \newcommand{\@polyfune}[5]{
-  \mathpunct{#1{\uplambda}}% or rather mathopen? synch with polyfunty
+  \mathopen{#1{\uplambda}}%
   \mathopen{#1{[}}%
   #2%
   \mathclose{#1{]}}%
