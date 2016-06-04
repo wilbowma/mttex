@@ -32,6 +32,7 @@ that "defs.tex" was practically empty.
 * [Language Symbol Macros](#language-symbol-macros)
 * [Language Combinators](#language-combinators)
 * [Meta-Theory Combinators](#meta-theory-combinators)
+* [Spacing](#spacing)
 
 ## Installation
 I recommend installing this package via git submodules until I figure
@@ -1138,4 +1139,72 @@ Like \maponeat but projects the second element.
 \maprelat[2]
 Like \maponeat but projects the third element, which is assumed to be a
 relation.
+```
+
+## Spacing
+
+To define meta-language combinators with consistent spacing, you are
+encouraged to liberally use the predefined LaTeX macros `\mathopen`,
+`\mathclose`, `\mathbin`, `\mathpunct` that determine character
+spacing. For example, our language combinator `\forallty` for
+polymorphic quantification ∀α.σ can be defined as follows:
+
+```latex
+% Formats a polymorphic type.
+%   #1 : A formatting macro for symbols, such as \tfontsym
+%   #2 : A formatting macro for text, such as \tfont
+%   #3 : The pre-formatted type-variable to bind
+%   #4 : The pre-formatted result in which the type-variable is bound
+\newcommand{\forallty}[4]{\mathopen{#1{\uplambda}} #3 \mathpunct{#1{.}} #4}
+```
+
+In addition, this package defines the macros `\maththinbin` and
+`\maththickbin` to use smaller and larger spacing than plain
+`\mathbin` around their arguments. `\maththinbin` is used around the
+colon of `\fune` (λ(x:σ).e), and `\maththickbin` is used around the
+vertical bar separating the two branches of a `\casee` statement (case
+e of x₁.e₁ | x₂.e₂).
+
+When defining language expression combinators, it is also common to
+use keywords instead of mathematical symbols: `let`, `in`, `if`,
+`then`, `else`, `pack`, `unfold`, etc. This package defines macros
+similar to the math spacing classes above: `\kwopen`, `\kwopen`,
+`\kwbin` and `\kwrel`. Finally, `\kwinfix` can be used for keywords
+used as infix operators (`pack`, `unfold`, etc.). See for example the
+following definitions:
+
+```latex
+% \packe: pack (σ,e) as ∃α.σ
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : A pre-formatted type witness.
+% #4 : A pre-formatted value witness.
+% #5 : A pre-formatted existential type abstracting the witness type.
+\newcommand{\packe}[5]{%
+  \kwopen{#2{pack}}%
+  \paire{#1}{#2}{#3}{#4}%
+  \kwbin{#2{as}}%
+  #5%
+}
+
+% \lete: let x = e in e'
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : A pre-formatted expression variable.
+% #4 : A pre-formatted expression to bind.
+% #5 : A pre-formatted body expression for the let.
+\newcommand{\lete}[5]{%
+  \kwopen{#2{let}}%
+  #3%
+  \mathbin{#1{=}}%
+  #4%
+  \kwbin{#2{in}}%
+  #5%
+}
+
+% \unfolde: unfold e
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : A pre-formatted expression of isorecursive type.
+\newcommand{\unfolde}[3]{\kwinfix{#2{unfold}} #3}
 ```
