@@ -379,8 +379,8 @@
 \newcommand{\ctxarrow}{\Rightarrow}
 
 % BNF symbols
-\newcommand{\bnfalt}{{\bf \,\,\mid\,\,}}
-\newcommand{\bnfdef}{{\bf ::=}}
+\newcommand{\bnfalt}{\mathrel{\bf \,\mid\,}}
+\newcommand{\bnfdef}{\mathrel{\bf ::=}}
 
 %% Language Formatting combinators
 
@@ -1305,7 +1305,7 @@
 %
 % #1 : Pre-formatted assumptions, such as \tfont{\Delta}
 % #2 : The pre-formatted proposition, such as \tfont{\alpha}
-\newcommand{\wf}[2]{#1~\!\!\vdash~\!\!#2}
+\newcommand{\wf}[2]{#1 \mathrel{\vdash} #2}
 
 % \judg formats a well-typedness judgment.
 % It takes 3 parameters.
@@ -1313,7 +1313,7 @@
 % #1 : The assumptions, such as \tfont{\Delta};\tfont{\Gamma}
 % #2 : The term, such as \tfont{e}
 % #3 : The type, such as \tfont{\tau}
-\newcommand{\judg}[3]{\wf{#1}{#2~\!\!:~\!\!#3}}
+\newcommand{\judg}[3]{\wf{#1}{#2 \mathrel{:} #3}}
 
 %% Context typing
 
@@ -1322,7 +1322,7 @@
 % #1 : A formatting macro for symbols, such as \stfontsym
 % #2 : The type of the hole
 % #3 : The type of the result
-\newcommand{\ctxarrowty}[3]{#2 \, #1{\ctxarrow} \, #3}
+\newcommand{\ctxarrowty}[3]{#2 \mathrel{#1{\ctxarrow}} #3}
 
 % \ctxty formats a context type, with different typing contexts for the
 % hole and result
@@ -1356,7 +1356,7 @@
 % #2 : A pre-formatted expression
 % #3 : A pre-formatted c.i.u. equivalent expression
 % #4 : A pre-formatted type for the expressions
-\newcommand{\ciueqvjudg}[4]{\judg{#1}{#2\,\ciueqvsym\,#3}{#4}}
+\newcommand{\ciueqvjudg}[4]{\judg{#1}{#2 \mathrel{\ciueqvsym} #3}{#4}}
 
 % \ctxeqvjudg formats a contextual equivalence judgment.
 %
@@ -1365,7 +1365,7 @@
 % #2 : A pre-formatted expression
 % #3 : A pre-formatted contextually equivalent expression
 % #4 : A pre-formatted type for the expressions
-\newcommand{\ctxeqvjudg}[4]{\judg{#1}{#2\,\ctxeqvsym\,#3}{#4}}
+\newcommand{\ctxeqvjudg}[4]{\judg{#1}{#2 \mathrel{\ctxeqvsym} #3}{#4}}
 
 %% Logical Relations
 \newcommand{\lratomsym}{\mrm{Atom}}
