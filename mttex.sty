@@ -263,12 +263,19 @@
 \begin{stackAux}{b}{l}}{\end{stackAux}\ignorespacesafterend}
 
 %% Theorems
+\newcommand{\athmbody}[1]{#1}
+% Could not make athmbodyapce work, for somereason
+\newcommand{\athmbodyspace}{}
+\newcommand{\athmhead}{\bfseries}
+\newcommand{\athmheadpunct}{}
+\newcommand{\athmheadspace}{\newline}
+
 \newtheoremstyle{athm}{\topsep}{\topsep}%
-     {\itshape}%         Body font
+     {\athmbody}%         Body font
      {}%         Indent amount (empty = no indent, \parindent = para indent)
-     {\bfseries}% Thm head font
-     {}%        Punctuation after thm head
-     {\newline}%     Space after thm head (\newline = linebreak)
+     {\athmhead}% Thm head font
+     {\athmheadpunct}%        Punctuation after thm head
+     {\athmheadspace}%     Space after thm head (\newline = linebreak)
      {\thmname{#1}\thmnumber{ #2}\thmnote{~\,(#3)}}%         Thm head spec
 
 \theoremstyle{athm}
