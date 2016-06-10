@@ -1479,17 +1479,30 @@
 \newcommand*{\tlang}{\@target-language-undefined}
 \makeatother
 
-\newcommand{\scolor}[1]{\textcolor{blue}{#1}}
-\newcommand{\tcolor}[1]{\textcolor{red}{#1}}
+\makeatletter
+\newcommand{\mathcolor}[2]{%
+  \begingroup
+  \colorlet{out}{.}\color{#1}#2\@ifnextchar_{\do@mathcolorsub}{\endgroup}%
+}
+\newcommand{\do@mathcolorsub}[2]{%
+  _{{\color{out}#2}}\@ifnextchar^{\do@mathcolorsup}{\endgroup}%
+}
+\newcommand{\do@mathcolorsup}[2]{%
+  ^{\color{out}#2}\endgroup
+}
+\makeatother
+
+\newcommand{\scolor}[1]{\mathcolor{blue}{#1}}
+\newcommand{\tcolor}[1]{\mathcolor{red}{#1}}
 
 \newcommand{\sfonttext}[1]{\textsf{\scolor{#1}}}
 \newcommand{\tfonttext}[1]{\textsf{\tcolor{#1}}}
 
-\newcommand{\sfont}[1]{\mathsf{\scolor{#1}}}
-\newcommand{\tfont}[1]{\mathbf{\tcolor{#1}}}
+\newcommand{\sfont}[1]{\scolor{\mathsf{#1}}}
+\newcommand{\tfont}[1]{\tcolor{\mathbf{#1}}}
 
 \newcommand{\sfontsym}[1]{\sfont{#1}}
-\newcommand{\tfontsym}[1]{\b{\tfont{#1}}}
+\newcommand{\tfontsym}[1]{\tfont{\b{#1}}}
 
 \newcommand{\scal}[1]{\sfontsym{\mathcal{#1}}}
 \newcommand{\tcal}[1]{\tfontsym{\mathcal{#1}}}
