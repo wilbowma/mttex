@@ -264,7 +264,8 @@
 
 %% Theorems
 \newcommand{\athmbody}[1]{#1}
-% Could not make athmbodyapce work, for somereason
+% Could not make athmbodyapce work, for some reason
+% TODO: These abstractions are bad; users should just define newtheoremstyle and use it.
 \newcommand{\athmbodyspace}{}
 \newcommand{\athmhead}{\bfseries}
 \newcommand{\athmheadpunct}{}
@@ -275,7 +276,7 @@
      {}%         Indent amount (empty = no indent, \parindent = para indent)
      {\athmhead}% Thm head font
      {\athmheadpunct}%        Punctuation after thm head
-     {\athmheadspace}%     Space after thm head (\newline = linebreak)
+     {\newline}%     Space after thm head (\newline = linebreak)
      {\thmname{#1}\thmnumber{ #2}\thmnote{~\,(#3)}}%         Thm head spec
 
 \theoremstyle{athm}
@@ -409,24 +410,25 @@
 }
 
 \newcommand{\@super}[3]{
-  \ifnum#3=0
+  \ifnum#3=0%
   {\sbox0{\ensuremath{#1}}%
-    \ifdim\wd0=0pt
+    \ifdim\wd0=0pt%
     \else%
 ^{#1}%
-    \fi}
-  \else
+    \fi}%
+  \else%
 ^{\Repeat{#3}{#2}#1}%
-  \fi
+  \fi%
 }
 
 \newcommand{\@sub}[1]{
   \sbox0{\ensuremath{#1}}%
-  \ifdim\wd0=0pt
-  \else
-  _{#1}%
-  \fi
+  \ifdim\wd0=0pt%
+  \else%
+_{#1}%
+  \fi%
 }
+
 % \metavar formats a language meta-var.
 %
 % #1 : a pre-formatted symbol representing the meta-variable
@@ -443,7 +445,8 @@
 %   \newcommand{\txone}{\txmetavar{1}{}{}}
 %   \newcommand{\txonepr}{\txmetavar{1}{}{1}}
 \newcommand{\metavar}[5]{
-  #1\@super{#3}{#4}{#5}\@sub{#2}%
+\message{\expandafter\detokenize{#1}}%
+\expandafter#1\expandafter\@sub{#2}\expandafter\@super{#3}{#4}{#5}
 }
 
 \makeatother
@@ -556,10 +559,10 @@
 %   the formatted meta-variable.
 \newcommand{\newmetavarStar}[5]{
   \@globalshadowedcommand{#3#4metavar}{3}{
-    \metavar{#1{#5}}{#2{##1}}{#2{##2}}{#2{\prime}}{##3}
+    \metavar{#1{#5}}{#2{##1}}{#2{##2}}{#2{\prime}}{##3}%
   }
   \@globalshadowedcommand{#3#4}{0}{
-    \csname #3#4metavar\endcsname{}{}{0}
+    \csname #3#4metavar\endcsname{}{}{0}%
   }
   \@globalshadowedcommand{#3#4in}{1}{
     \csname #3#4metavar\endcsname{##1}{}{0}
@@ -619,13 +622,13 @@
 % This usage is equivalent to
 %   \newmetavarStar{\tfont}{\tcolor}{t}{x}{x}
 \newcommand{\newmetavarNoStar}[4]{
-  \newmetavarStar{#2}{#3}{#4}{#1}{#1}
+\newmetavarStar{#2}{#3}{#4}{#1}{#1}%
 }
 
 \newcommand{\@newmetavarmaybestar}{
-  \@ifstar
-  \newmetavarStar
-  \newmetavarNoStar
+\@ifstar%
+\newmetavarStar%
+\newmetavarNoStar%
 }
 
 % \newmetavar implement the * LaTeX idiom after currying. It expands in
@@ -637,7 +640,7 @@
 %   \newtmetavar{x}
 %   \newtmetavar*{ty}{\tau}
 \newcommand{\newmetavar}[4]{
-  \@newmetavarmaybestar#4{#1}{#2}{#3}
+\@newmetavarmaybestar#4{#1}{#2}{#3}%
 }
 
 % \newmetavarS defines new metavar macros for a list of name/symbol
@@ -656,8 +659,8 @@
 %   \newsmetavarsS{\alpha/\alpha, ty/\sigma}
 \newcommand{\newmetavarsS}[4]{
   \foreach \@n/\@d in {#4} {
-    \edef \@meow{\noexpand\newmetavarStar{\noexpand#1}{\noexpand#2}{#3}{\@n}{\@d}}
-    \@meow
+    \edef\@meow{\noexpand\newmetavarStar{\noexpand#1}{\noexpand#2}{#3}{\@n}{\@d}}%
+\@meow%
   }
   \def\@meow{\undefined}
   \def\@n{\undefined}
@@ -680,8 +683,8 @@
 %   \newsmetavars{x,e,v}
 \newcommand{\newmetavars}[4]{
   \foreach \@n in {#4} {
-    \edef \@meow{\noexpand\newmetavarStar{\noexpand#1}{\noexpand#2}{#3}{\@n}{\@n}}
-    \@meow
+    \edef\@meow{\noexpand\newmetavarStar{\noexpand#1}{\noexpand#2}{#3}{\@n}{\@n}}%
+\@meow%
   }
   \def\@meow{\undefined}
   \def\@n{\undefined}
