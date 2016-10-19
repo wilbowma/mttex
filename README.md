@@ -925,6 +925,17 @@ Formats a let expression
 ```
 
 ```latex
+\alete[6]
+Formats a let expression with an annotation on the bound expression.
+  #1 : A formatting macro for symbols, such as \tfontsym.
+  #2 : A formatting macro for text, such as \tfont.
+  #3 : A pre-formatted expression variable.
+  #4 : A pre-formatted expression to bind.
+  #5 : A pre-formatted annotation for bound expression.
+  #6 : A pre-formatted body expression for the let.
+```
+
+```latex
 \folde[4]
 Formats a fold expression.
   #1 : A formatting macro for symbols, such as \tfontsym.
