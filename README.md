@@ -793,6 +793,16 @@ Formats a dependent function type.
 ```
 
 ```latex
+\sigmaty[5]
+Formats a dependent pair type.
+  #1 : A formatting macro for symbols, such as \tfontsym.
+  #2 : A formatting macro for text, such as \tfont.
+  #3 : The pre-formatted variable the function binds.
+  #4 : The pre-formatted type of the variable.
+  #5 : The pre-formatted body of the function.
+```
+
+```latex
 \voidty[2]
 Formats a void type.
   #1 : A formatting macro for symbols, such as \tfontsym

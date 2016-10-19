@@ -834,6 +834,28 @@
 % #5 : The pre-formatted body of the function.
 \newcommand{\pity}[2]{\@pity{#1}}
 
+% \@sigmaty formats a dependent pair type.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : The pre-formatted variable to bind.
+% #3 : The pre-formatted type of the variable.
+% #4 : The pre-formatted result type.
+\newcommand{\@sigmaty}[4]{
+  \kwopen{#1{\Sigma}}%
+  {#2} \mathbin{:} {#3}%
+  \mathclose{.}%
+  \mathpunct{}#4}
+
+% \sigmaty is like \@sigmaty but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : The pre-formatted variable the function binds.
+% #4 : The pre-formatted type of the variable.
+% #5 : The pre-formatted body of the function.
+\newcommand{\sigmaty}[2]{\@sigmaty{#1}}
+
+
 % \@unitty formats a unit type.
 %
 % #1 : A formatting macro for text, such as \tfont
