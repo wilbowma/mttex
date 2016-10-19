@@ -1114,6 +1114,28 @@
 % #1 : A formatting macro for symbols, such as \tfontsym.
 \newcommand{\@unite}[1]{#1{\langle}#1{\rangle}}
 
+% \@fixe formats a recursive function expression.
+%
+% #1 : A formatting macro for symbols, such as \tfont.
+% #2 : A formatting macro for symbols, such as \tfontsym.
+% #3 : The pre-formatted variable the function binds.
+% #4 : The pre-formatted type of the variable.
+% #5 : The pre-formatted body of the function.
+\newcommand{\@fixe}[5]{%
+  \kwopen{#1{fix}}%
+  {#3} \mathbin{:} {#4}% \mathbin{:} spacing would be a bit too large
+  \mathclose{.}%
+  \mathpunct{}#5}
+
+% \fixe is like \@fixe but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : The pre-formatted variable the function binds.
+% #4 : The pre-formatted type of the variable.
+% #5 : The pre-formatted body of the function.
+\newcommand{\fixe}[2]{\@fixe{#2}{#1}}
+
 % \unite is like \@unite but provides a standard interface.
 %
 % #1 : A formatting macro for symbols, such as \tfontsym.

@@ -684,6 +684,7 @@ the combinator.
 * mu: isorecursive types
 * fold: fold expression
 * unfold: unfold expressions
+* fix: fix-point expressions
 * unit: the unit type, and the unit expression
 * void: the void type
 * bool: boolean types
@@ -928,6 +929,16 @@ Formats an unfold expression
   #1 : A formatting macro for symbols, such as \tfontsym.
   #2 : A formatting macro for text, such as \tfont.
   #3 : A pre-formatted expression of isorecursive type.
+```
+
+```latex
+\fixe[5]
+Formats a recursive function expression.
+  #1 : A formatting macro for symbols, such as \tfontsym.
+  #2 : A formatting macro for text, such as \tfont.
+  #3 : The pre-formatted variable the function binds.
+  #4 : The pre-formatted type of the variable.
+  #5 : The pre-formatted body of the function.
 ```
 
 ```latex
