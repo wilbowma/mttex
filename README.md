@@ -683,6 +683,7 @@ the combinator.
 * inst: instantiation expressions
 * exist: existential types
 * pi: pi types (dependent function types)
+* sigma: sigma types (dependent pair types)
 * pack: pack expressions
 * unpack: unpack expressions
 * mu: isorecursive types
@@ -699,7 +700,9 @@ the combinator.
 * prj: projection from a pair
 * sum: sum types and sum expressions (injections)
 * case: case expressions
+* dcase: dependent case expressions.
 * let: let expressions
+* alet: let expressions with type annotations on the bound expression
 
 ### List-of-Types Combinator
 Generating type macros one at a time is annoying, so this package
