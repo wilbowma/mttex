@@ -693,6 +693,9 @@ the combinator.
 * unit: the unit type, and the unit expression
 * void: the void type
 * bool: boolean types
+* set: the type Set
+* prop: the type Prop
+* type: the type of types, Type
 * true: true expressions
 * false: false expressions
 * if: if expressions
@@ -820,6 +823,31 @@ Formats a void type.
 Formats a bool type.
   #1 : A formatting macro for symbols, such as \tfontsym
   #2 : A formatting macro for text, such as \tfont
+```
+
+```latex
+\typety[3][i]
+Formats a type of types, or universe (Type)
+
+  #1 : A pre-formatted universe level, which defaults to i.
+  #2 : A formatting macros for symbols, such as \tfontsym
+  #3 : A formatting macros for text, such as \tfont.
+```
+
+```latex
+\propty[2]
+Formats the type Prop, as in CIC's impredicative universe Prop.
+
+  #1 : A formatting macros for symbols, such as \tfontsym
+  #2 : A formatting macros for text, such as \tfont.
+```
+
+```latex
+\setty[2]
+Formats the type Set, as in CIC's predicative universe Set.
+
+  #1 : A formatting macros for symbols, such as \tfontsym
+  #2 : A formatting macros for text, such as \tfont.
 ```
 
 ```latex

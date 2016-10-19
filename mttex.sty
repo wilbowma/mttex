@@ -891,6 +891,43 @@
 % #2 : A formatting macro for text, such as \tfont
 \newcommand{\boolty}[2]{\@boolty{#2}}
 
+% \@typety formats a type of types, or universe (Type).
+%
+% #1 : A pre-formatted universe level, which defaults to i.
+% #2 : A formatting macros for text, such as \tfont.
+\newcommand{\@typety}[2][i]{\kwopen{#2{Type}}_{#1}}
+
+% \typety is like \@typety but provides a standard interface.
+%
+% #1 : A pre-formatted universe level, which defaults to i.
+% #2 : A formatting macros for symbols, such as \tfontsym
+% #3 : A formatting macros for text, such as \tfont.
+\newcommand{\typety}[3][i]{\@typety[#1]{#2}}
+
+%% TODO: Might need a combinator for defining simple keyword's like Prop and Set?
+
+% \@propty formats the type Prop, as in CIC's impredicative universe Prop.
+%
+% #1 : A formatting macros for text, such as \tfont.
+\newcommand{\@propty}[1]{\kwopen{#1{Prop}}}
+
+% \propty is like \@propty but provides a standard interface.
+%
+% #1 : A formatting macros for symbols, such as \tfontsym
+% #2 : A formatting macros for text, such as \tfont.
+\newcommand{\propty}[2]{\@propty{#2}}
+
+% \@setty formats the type Set, as in CIC's predicative universe Set.
+%
+% #1 : A formatting macros for text, such as \tfont.
+\newcommand{\@setty}[1]{\kwopen{#1{Set}}}
+
+% \setty is like \@setty but provides a standard interface.
+%
+% #1 : A formatting macros for symbols, such as \tfontsym
+% #2 : A formatting macros for text, such as \tfont.
+\newcommand{\setty}[2]{\@setty{#2}}
+
 % \@pairty formats a pair type.
 %
 % #1 : A formatting macro for symbols, such as \tfontsym
