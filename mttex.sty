@@ -813,6 +813,27 @@
 % #4 : The pre-formatted result in which the type-variable is bound
 \newcommand{\muty}[2]{\@muty{#1}}
 
+% \@pity formats a dependent function type.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : The pre-formatted variable to bind
+% #3 : The pre-formatted argument type
+% #4 : The pre-formatted result type
+\newcommand{\@pity}[4]{
+  \kwopen{#1{\Pi}}%
+  {#2} \mathbin{:} {#3}%
+  \mathclose{.}%
+  \mathpunct{}#4}
+
+% \pity is like \@pity but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : The pre-formatted variable the function binds.
+% #4 : The pre-formatted type of the variable.
+% #5 : The pre-formatted body of the function.
+\newcommand{\pity}[2]{\@pity{#1}}
+
 % \@unitty formats a unit type.
 %
 % #1 : A formatting macro for text, such as \tfont

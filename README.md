@@ -679,6 +679,7 @@ the combinator.
 * forall: universal types and abstraction expressions
 * inst: instantiation expressions
 * exist: existential types
+* pi: pi types (dependent function types)
 * pack: pack expressions
 * unpack: unpack expressions
 * mu: isorecursive types
@@ -780,6 +781,15 @@ Formats a recursive type.
 Formats a unit type.
   #1 : A formatting macro for symbols, such as \tfontsym
   #2 : A formatting macro for text, such as \tfont
+```
+
+```latex
+\pity[4]
+Formats a dependent function type.
+  #1 : A formatting macro for symbols, such as \tfontsym
+  #2 : The pre-formatted variable to bind
+  #3 : The pre-formatted argument type
+  #4 : The pre-formatted result type
 ```
 
 ```latex
