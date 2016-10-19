@@ -113,8 +113,8 @@ interface.
 
 ## Automagic Title-case
 This package redefines the following standard macros. These macros match
-the interface of their standard counter-parts, but automatically output
-the titles in title-case.
+the interface of their standard counter-parts, with some caveats listed before, but automatically
+output the titles in title-case.
 ```latex
 \title[2][]
 \section[2][]
@@ -136,6 +136,16 @@ You can control which words should be left lower-case the macro
 `\Addlcwords`. By default, the following words are added:
 ```latex
 \Addlcwords{for a is but and with of in as the etc on to if}
+```
+
+Caveats:
+Including math and certain macros inside the title or section name will cause the `titlecaps` package to choke.
+To workaround this, use the following pattern:
+
+```
+\makeatlatter
+\@section{\titlecaps{Title bla bla} $\math$ \titlecaps{More math}}
+\makeatother
 ```
 
 ## TODO and Comments
