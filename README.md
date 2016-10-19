@@ -400,6 +400,9 @@ while the target should be in a bold, red, serif font.
 
 \newcommand{\plus}{+}
 \newcommand{\etal}{\textit{et al.}}
+\newcommand{\ie}{\emph{i.e.}}
+\newcommand{\eg}{\emph{e.g.}}
+\newcommand{\etc}{\emph{etc.}}
 \newcommand{\bump}{\hspace{3.5pt}}
 \newcommand{\fresh}[1]{(\mit{fresh}\:#1)}
 \newcommand{\where}[1]{\mrm{where}\:#1}
