@@ -1024,6 +1024,15 @@ Formats a case expression.
   #7 : A pre-formatted expression for the right branch.
 ```
 
+```latex
+\dcasee[5] formats a dependent case analysis expression, like that of CIC's.
+  #1 : A formatting macro for symbols, such as \tfontsym.
+  #2 : A formatting macro for text, such as \tfont.
+  #3 : A pre-formatted discriminant expression.
+  #4 : A pre-formatted motive
+  #5 : A pre-formatted list of branch expressions.
+```
+
 ## Meta-Theory Combinators
 This package provides combinators for formatting meta-theory, including
 well-formedness and typing judgments, contextual equivalence, context

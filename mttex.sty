@@ -1299,6 +1299,32 @@
 % #7 : A pre-formatted expression for the right branch.
 \newcommand{\casee}[2]{\@casee{#2}{#1}}
 
+% \@dcasee formats a dependent case analysis expression, like that of CIC's.
+%
+% #1 : A formatting macro for text, such as \tfont.
+% #2 : A formatting macro for symbols, such as \tfontsym.
+% #3 : A pre-formatted discriminant expression.
+% #4 : A pre-formatted motive.
+% #5 : A pre-formatted list of branch expressions.
+\newcommand{\@dcasee}[5]{%
+  \kwopen{#1{case}}%
+  #3%
+  \mathpunct{,}%
+  #4%
+  \mathpunct{,}%
+  \mathopen{(} #5%
+  \mathclose{)}
+}
+
+% \dcasee is like \@dcasee but provides a standard interface
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : A pre-formatted discriminant expression.
+% #4 : A pre-formatted motive
+% #5 : A pre-formatted list of branch expressions.
+\newcommand{\dcasee}[2]{\@dcasee{#2}{#1}}
+
 % \newconstr generates a macro for formatting a language construct.
 %
 % #1 : A formatting macro for symbols, such as \tfontsym
