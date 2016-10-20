@@ -893,16 +893,16 @@
 
 % \@typety formats a type of types, or universe (Type).
 %
-% #1 : A pre-formatted universe level, which defaults to i.
-% #2 : A formatting macros for text, such as \tfont.
-\newcommand{\@typety}[2][i]{\kwopen{#2{Type}}_{#1}}
+% #1 : A formatting macros for text, such as \tfont.
+% #2 : A pre-formatted universe level, which defaults to i.
+\newcommand{\@typety}[2]{\kwopen{#2{Type}}_{#1}}
 
 % \typety is like \@typety but provides a standard interface.
 %
-% #1 : A pre-formatted universe level, which defaults to i.
-% #2 : A formatting macros for symbols, such as \tfontsym
-% #3 : A formatting macros for text, such as \tfont.
-\newcommand{\typety}[3][i]{\@typety[#1]{#2}}
+% #1 : A formatting macros for symbols, such as \tfontsym
+% #2 : A formatting macros for text, such as \tfont.
+% #3 : A pre-formatted universe level, which defaults to i.
+\newcommand{\typety}[3]{\@typety{#2}{#3}}
 
 %% TODO: Might need a combinator for defining simple keyword's like Prop and Set?
 

@@ -829,9 +829,9 @@ Formats a bool type.
 \typety[3][i]
 Formats a type of types, or universe (Type)
 
-  #1 : A pre-formatted universe level, which defaults to i.
-  #2 : A formatting macros for symbols, such as \tfontsym
-  #3 : A formatting macros for text, such as \tfont.
+  #1 : A formatting macros for symbols, such as \tfontsym
+  #2 : A formatting macros for text, such as \tfont.
+  #3 : A pre-formatted universe level, which defaults to i.
 ```
 
 ```latex
