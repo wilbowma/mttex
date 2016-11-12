@@ -22,8 +22,6 @@
 \RequirePackage{url}
 \RequirePackage{mathrsfs}
 
-\RequirePackage{titlecaps}
-
 % ACM recommended packages
 \RequirePackage{microtype}
 \RequirePackage[utf8]{inputenc}
@@ -85,6 +83,12 @@
 
 \DeclareOption{nohyperref}{\secc@hyperreffalse}
 
+%titlecaps usage?
+\newif\ifsecc@titlecaps
+\secc@titlecapstrue
+
+\DeclareOption{notitlecaps}{\secc@titlecapsfalse}
+
 \ProcessOptions\relax
 
 \ifsecc@hyperref
@@ -123,6 +127,14 @@
   }
   \fi
 \fi
+
+\ifsecc@titlecaps
+  \RequirePackage{titlecaps}
+\else
+  \newcommand{\Addlcwords}[1]{}
+  \newcommand{\titlecap}[1]{#1}
+\fi
+
 \makeatother
 
 %%% ----------------------- Definitions -----------------------------
