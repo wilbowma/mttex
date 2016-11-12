@@ -79,12 +79,20 @@
 \DeclareOption{techrpt}{\secc@techrpttrue}
 \DeclareOption{paper}{\secc@techrptfalse}
 
+%hyperref declaration?
+\newif\ifsecc@hyperref
+\secc@hyperreftrue
+
+\DeclareOption{nohyperref}{\secc@hyperreffalse}
+
 \ProcessOptions\relax
 
-\ifsecc@draft
-  \RequirePackage[draft]{hyperref}
-\else
-  \RequirePackage{hyperref}
+\ifsecc@hyperref
+  \ifsecc@draft
+    \RequirePackage[draft]{hyperref}
+  \else
+    \RequirePackage{hyperref}
+  \fi
 \fi
 
 \ifsecc@acmart
