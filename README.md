@@ -450,6 +450,8 @@ while the target should be in a bold, red, serif font.
 
 \newcommand{\bnfalt}{{\bf \,\,\mid\,\,}}
 \newcommand{\bnfdef}{{\bf ::=}}
+\newcommand{\bnfadd}{{\bf +::=}}
+\newcommand{\bnfsub}{{\bf -::=}}
 ```
 
 ## Language Combinators
