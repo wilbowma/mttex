@@ -22,7 +22,6 @@
 \RequirePackage{url}
 \RequirePackage{mathrsfs}
 
-\RequirePackage{amsthm}
 \RequirePackage{titlecaps}
 
 % ACM recommended packages
@@ -60,6 +59,15 @@
 \secc@sigplantrue
 
 \DeclareOption{nosigplan}{\secc@sigplanfalse}
+
+%% New acmart
+\newif\ifsecc@acmart
+\secc@acmartfalse
+
+\DeclareOption{acmart}{
+  \secc@acmarttrue
+  \RequirePackage{acmthm}
+}
 
 %% balance the last page?
 \newif\ifsecc@balance
@@ -210,7 +218,7 @@
 % Math fonts
 \newcommand{\mbb}[1]{\mathbb{#1}}
 \newcommand{\mbf}[1]{\mathbf{#1}}
-\renewcommand{\mit}[1]{\mathit{#1}}
+\renewcommand*{\mit}[1]{\mathit{#1}}
 \newcommand{\mrm}[1]{\mathrm{#1}}
 \newcommand{\mtt}[1]{\mathtt{#1}}
 \newcommand{\mcal}[1]{\mathcal{#1}}
@@ -263,45 +271,48 @@
 \newenvironment{stackBL}{
 \begin{stackAux}{b}{l}}{\end{stackAux}\ignorespacesafterend}
 
-%% Theorems
-\newcommand{\athmbody}[1]{#1}
-% Could not make athmbodyapce work, for somereason
-\newcommand{\athmbodyspace}{}
-\newcommand{\athmhead}{\bfseries}
-\newcommand{\athmheadpunct}{}
-\newcommand{\athmheadspace}{\newline}
+\ifsecc@acmart
+\else
+  %% Theorems
+  \newcommand{\athmbody}[1]{#1}
+  % Could not make athmbodyapce work, for somereason
+  \newcommand{\athmbodyspace}{}
+  \newcommand{\athmhead}{\bfseries}
+  \newcommand{\athmheadpunct}{}
+  \newcommand{\athmheadspace}{\newline}
 
-\newtheoremstyle{athm}{\topsep}{\topsep}%
-     {\athmbody}%         Body font
-     {}%         Indent amount (empty = no indent, \parindent = para indent)
-     {\athmhead}% Thm head font
-     {\athmheadpunct}%        Punctuation after thm head
-     {\newline}%     Space after thm head (\newline = linebreak)
-     {\thmname{#1}\thmnumber{ #2}\thmnote{~\,(#3)}}%         Thm head spec
+  \newtheoremstyle{athm}{\topsep}{\topsep}%
+       {\athmbody}%         Body font
+       {}%         Indent amount (empty = no indent, \parindent = para indent)
+       {\athmhead}% Thm head font
+       {\athmheadpunct}%        Punctuation after thm head
+       {\newline}%     Space after thm head (\newline = linebreak)
+       {\thmname{#1}\thmnumber{ #2}\thmnote{~\,(#3)}}%         Thm head spec
 
-\theoremstyle{athm}
-\newtheorem{theorem}{Theorem}[section]
-\newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{conjecture}[theorem]{Conjecture}
-\newtheorem{corollary}[theorem]{Corollary}
-\newtheorem{definition}[theorem]{Definition}
+  \theoremstyle{athm}
+  \newtheorem{theorem}{Theorem}[section]
+  \newtheorem{lemma}[theorem]{Lemma}
+  \newtheorem{conjecture}[theorem]{Conjecture}
+  \newtheorem{corollary}[theorem]{Corollary}
+  \newtheorem{definition}[theorem]{Definition}
 
-\newenvironment{theoremS}[2][]
-{\renewcommand{\thetheorem}{#2}
-\begin{theorem}[#1]}
-{\end{theorem}\ignorespacesafterend}
+  \newenvironment{theoremS}[2][]
+  {\renewcommand{\thetheorem}{#2}
+  \begin{theorem}[#1]}
+  {\end{theorem}\ignorespacesafterend}
 
-\newenvironment{lemmaS}[2][]
-{\renewcommand{\thetheorem}{#2}
-\begin{lemma}[#1]}
-{\end{lemma}\ignorespacesafterend}
+  \newenvironment{lemmaS}[2][]
+  {\renewcommand{\thetheorem}{#2}
+  \begin{lemma}[#1]}
+  {\end{lemma}\ignorespacesafterend}
 
-\renewenvironment{proof}[1][]{%
-\noindent%
-\textbf{Proof\if\relax\detokenize{#1}\relax\else~(#1)\fi}%
-\begin{list}{}{}\item[]}{%
-\qed
-\end{list}}
+  \renewenvironment{proof}[1][]{%
+  \noindent%
+  \textbf{Proof\if\relax\detokenize{#1}\relax\else~(#1)\fi}%
+  \begin{list}{}{}\item[]}{%
+  \qed
+  \end{list}}
+\fi
 
 \renewenvironment{cases}{\begin{description}}{\end{description}\ignorespacesafterend}
 \newcommand{\case}[1][]{\item[Case] #1}
