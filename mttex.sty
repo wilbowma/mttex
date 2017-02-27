@@ -64,10 +64,7 @@
 \newif\ifsecc@acmart
 \secc@acmartfalse
 
-\DeclareOption{acmart}{
-  \secc@acmarttrue
-  \RequirePackage{acmthm}
-}
+\DeclareOption{acmart}{\secc@acmarttrue}
 
 %% balance the last page?
 \newif\ifsecc@balance
@@ -88,6 +85,11 @@
   \RequirePackage[draft]{hyperref}
 \else
   \RequirePackage{hyperref}
+\fi
+
+\ifsecc@acmart
+\else
+\RequirePackage{amsthm}
 \fi
 
 \ifsecc@sigplan
@@ -218,7 +220,13 @@
 % Math fonts
 \newcommand{\mbb}[1]{\mathbb{#1}}
 \newcommand{\mbf}[1]{\mathbf{#1}}
-\renewcommand*{\mit}[1]{\mathit{#1}}
+\makeatletter
+\ifsecc@acmart
+  \newcommand{\mit}[1]{\mathit{#1}}
+\else
+  \renewcommand{\mit}[1]{\mathit{#1}}
+\fi
+\makeatother
 \newcommand{\mrm}[1]{\mathrm{#1}}
 \newcommand{\mtt}[1]{\mathtt{#1}}
 \newcommand{\mcal}[1]{\mathcal{#1}}
@@ -271,6 +279,7 @@
 \newenvironment{stackBL}{
 \begin{stackAux}{b}{l}}{\end{stackAux}\ignorespacesafterend}
 
+\makeatletter
 \ifsecc@acmart
 \else
   %% Theorems
@@ -313,6 +322,7 @@
   \qed
   \end{list}}
 \fi
+\makeatother
 
 \renewenvironment{cases}{\begin{description}}{\end{description}\ignorespacesafterend}
 \newcommand{\case}[1][]{\item[Case] #1}
