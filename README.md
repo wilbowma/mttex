@@ -36,15 +36,25 @@ that "defs.tex" was practically empty.
 * [Spacing](#spacing)
 
 ## Installation
-I recommend installing this package via git submodules until I figure
-out how to do LaTeX packages. From a git repository that could use this
-project, do
-```bash
-git submodule add git@github.com:wilbowma/mttex
-ln -s mttex/*.sty .
-```
+You install `mttex` one of two ways:
+1. Per project, as a submodule. This is recommended, as MTTeX is unstable and may change.
+   From a git repository that could use this project, do
+   ```bash
+   > git submodule add https://github.com/wilbowma/mttex
+   > ln -s mttex/*.sty .
+   ```
+   Then add `\usepackage{mttex}` to your main TeX file.
+2. Per machine, in the local `texmf` for your user. This gives you a single MMTeX installation for all
+   projects, although you can still override the version using a per project installation.
+   Assuming `TEXMFHOME=~/texmf`:
+   ```bash
+   > mkdir -p ~/texmf/tex/latex
+   > cd texmf/tex/latex
+   > git clone https://github.com/wilbowma/mttex
+   > texhash ~/texmf
+   ```
 
-Then add `\usepackage{mttex}` to your main TeX file.
+Eventually, I'll make a CTAN package.
 
 ## Required Packages
 This package includes several packages not available on CTAN, and
