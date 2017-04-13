@@ -83,6 +83,12 @@
 
 \DeclareOption{nohyperref}{\secc@hyperreffalse}
 
+%clever references stuff?
+\newif\ifsecc@refstuff
+\secc@refstufffalse
+
+\DeclareOption{refstuff}{\secc@refstufftrue}
+
 %titlecaps usage?
 \newif\ifsecc@titlecaps
 \secc@titlecapstrue
@@ -228,6 +234,34 @@
 \newcommand{\lemref}[1]{Lemma~\ref{#1}}
 \newcommand{\thmref}[1]{Theorem~\ref{#1}}
 \newcommand{\corref}[1]{Corollary~\ref{#1}}
+
+%% More automatic "reference stuff"
+
+\makeatletter
+\ifsecc@refstuff
+
+  \usepackage{nameref}
+  \usepackage{cleveref}
+  % http://tex.stackexchange.com/questions/121865/nameref-how-to-display-section-name-and-its-number
+  % , modified to use \Cref instead of \autoref
+  %
+  % consider \begin{lemma}[Foo] \label{lem:foo}
+  % and      \begin{lemma} \label{lem:anon}
+  % then:
+  %   \fullref{lem:foo} is "Lemma N (Foo)"
+  %   \fullref{lem:anon} is "Lemma N ()" (yeah, meh)
+  %   \fullrefnoname{lem:foo} is "Lemma N"
+  %   \shortref{lem:foo} is also "Lemma N"
+  %   \fullrefnamed{Thing}{lem:foo} is "Thing N (Foo)"
+  %   \nameonlyref{lem:foo} is "Foo"
+  \newcommand*{\fullref}[1]{\hyperref[{#1}]{\Cref*{#1} (\nameref*{#1})}}
+  \newcommand*{\fullrefnoname}[1]{\hyperref[{#1}]{\Cref*{#1}}}
+  \newcommand*{\shortref}[1]{\hyperref[{#1}]{\Cref*{#1}}}
+  \newcommand*{\fullrefnamed}[2]{\hyperref[{#2}]{{#1} \ref{#2} (\nameref*{#2})}}
+  \newcommand*{\nameonlyref}[1]{\hyperref[{#1}]{\nameref*{#1}}}
+
+\fi
+\makeatother
 
 % TODO: Document
 \newcommand{\fboxnegspace}{\vspace{-2ex}}
