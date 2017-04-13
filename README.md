@@ -421,6 +421,7 @@ while the target should be in a bold, red, serif font.
 
 \newcommand{\hooklongrightarrow}{\lhook\joinrel\longrightarrow}
 \newcommand{\redexstep}{\hookrightarrow}
+\newcommand{\redexstepinv}{\hookleftarrow}
 
 \newcommand{\step}{\longmapsto}
 \newcommand{\stepin}[1]{\step^{#1}}

@@ -22,8 +22,6 @@
 \RequirePackage{url}
 \RequirePackage{mathrsfs}
 
-\RequirePackage{titlecaps}
-
 % ACM recommended packages
 \RequirePackage{microtype}
 \RequirePackage[utf8]{inputenc}
@@ -79,12 +77,32 @@
 \DeclareOption{techrpt}{\secc@techrpttrue}
 \DeclareOption{paper}{\secc@techrptfalse}
 
+%hyperref declaration?
+\newif\ifsecc@hyperref
+\secc@hyperreftrue
+
+\DeclareOption{nohyperref}{\secc@hyperreffalse}
+
+%clever references stuff?
+\newif\ifsecc@refstuff
+\secc@refstufffalse
+
+\DeclareOption{refstuff}{\secc@refstufftrue}
+
+%titlecaps usage?
+\newif\ifsecc@titlecaps
+\secc@titlecapstrue
+
+\DeclareOption{notitlecaps}{\secc@titlecapsfalse}
+
 \ProcessOptions\relax
 
-\ifsecc@draft
-  \RequirePackage[draft]{hyperref}
-\else
-  \RequirePackage{hyperref}
+\ifsecc@hyperref
+  \ifsecc@draft
+    \RequirePackage[draft]{hyperref}
+  \else
+    \RequirePackage{hyperref}
+  \fi
 \fi
 
 \ifsecc@acmart
@@ -115,6 +133,14 @@
   }
   \fi
 \fi
+
+\ifsecc@titlecaps
+  \RequirePackage{titlecaps}
+\else
+  \newcommand{\Addlcwords}[1]{}
+  \newcommand{\titlecap}[1]{#1}
+\fi
+
 \makeatother
 
 %%% ----------------------- Definitions -----------------------------
@@ -208,6 +234,34 @@
 \newcommand{\lemref}[1]{Lemma~\ref{#1}}
 \newcommand{\thmref}[1]{Theorem~\ref{#1}}
 \newcommand{\corref}[1]{Corollary~\ref{#1}}
+
+%% More automatic "reference stuff"
+
+\makeatletter
+\ifsecc@refstuff
+
+  \usepackage{nameref}
+  \usepackage{cleveref}
+  % http://tex.stackexchange.com/questions/121865/nameref-how-to-display-section-name-and-its-number
+  % , modified to use \Cref instead of \autoref
+  %
+  % consider \begin{lemma}[Foo] \label{lem:foo}
+  % and      \begin{lemma} \label{lem:anon}
+  % then:
+  %   \fullref{lem:foo} is "Lemma N (Foo)"
+  %   \fullref{lem:anon} is "Lemma N ()" (yeah, meh)
+  %   \fullrefnoname{lem:foo} is "Lemma N"
+  %   \shortref{lem:foo} is also "Lemma N"
+  %   \fullrefnamed{Thing}{lem:foo} is "Thing N (Foo)"
+  %   \nameonlyref{lem:foo} is "Foo"
+  \newcommand*{\fullref}[1]{\hyperref[{#1}]{\Cref*{#1} (\nameref*{#1})}}
+  \newcommand*{\fullrefnoname}[1]{\hyperref[{#1}]{\Cref*{#1}}}
+  \newcommand*{\shortref}[1]{\hyperref[{#1}]{\Cref*{#1}}}
+  \newcommand*{\fullrefnamed}[2]{\hyperref[{#2}]{{#1} \ref{#2} (\nameref*{#2})}}
+  \newcommand*{\nameonlyref}[1]{\hyperref[{#1}]{\nameref*{#1}}}
+
+\fi
+\makeatother
 
 % TODO: Document
 \newcommand{\fboxnegspace}{\vspace{-2ex}}
@@ -394,6 +448,7 @@
 
 \newcommand{\hooklongrightarrow}{\lhook\joinrel\longrightarrow}
 \newcommand{\redexstep}{\hookrightarrow}
+\newcommand{\redexstepinv}{\hookleftarrow}
 
 \newcommand{\step}{\longmapsto}
 \newcommand{\stepin}[1]{\step^{#1}}
@@ -414,6 +469,7 @@
 % BNF symbols
 \newcommand{\bnfalt}{\mathrel{\bf \,\mid\,}}
 \newcommand{\bnfdef}{\mathrel{\bf ::=}}
+\newcommand{\bnfadd}{\mathrel{\bf +::=}}
 
 %% Language Formatting combinators
 
