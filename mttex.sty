@@ -2,8 +2,8 @@
 
 %%% -------------------------- Packages -------------------------------
 
-% Local packages
 \RequirePackage{mathpartir}
+% Local packages
 \RequirePackage{unlist}
 
 % CTAN packages
@@ -24,6 +24,7 @@
 
 \RequirePackage{amsthm}
 \RequirePackage{titlecaps}
+\RequirePackage{hyperref}
 
 % ACM recommended packages
 \RequirePackage{microtype}
@@ -31,13 +32,6 @@
 \RequirePackage[T1]{fontenc}
 
 %%% -------------------------- Options -------------------------------
-
-\makeatletter
-\newif\ifsecc@draft
-\secc@draftfalse
-
-\DeclareOption{draft}{\secc@drafttrue}
-\makeatother
 
 %% omitthis
 \newcommand{\omitthis}[1]{#1}
@@ -89,12 +83,6 @@
 \DeclareOption{notitlecaps}{\secc@titlecapsfalse}
 
 \ProcessOptions\relax
-
-\ifsecc@draft
-  \RequirePackage[draft]{hyperref}
-\else
-  \RequirePackage{hyperref}
-\fi
 
 \ifsecc@sigplan
   \RequirePackage{natbib}

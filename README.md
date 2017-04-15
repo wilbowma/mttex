@@ -65,6 +65,7 @@ The following packages included in this package.
 
 The following packages are required and available on CTAN. Many of these
 are included in standard LaTeX installations.
+If you want to use different options, require them before requiring `mttex`.
 * `todonotes`
 * `letltxmacro`
 * `hyperref`
@@ -103,7 +104,6 @@ This package defines the following options:
 * `paper` -- This option disables features for formatting a technical appendix. This
   option is on by default.
 * `balance` -- This option balances the column on the last page.
-* `draft` -- This option passes `draft` to `hyperref`.
 * `magicref` -- This option defines `\fullref` and friends, which magically determine which of
   `\lemref`, `\thmref`, `\secref`, etc to use. This option requires the `nameref` and `cleveref`
   packages. See [Labels and References][] for more info.
