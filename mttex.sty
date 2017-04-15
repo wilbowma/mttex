@@ -74,6 +74,20 @@
 \DeclareOption{techrpt}{\secc@techrpttrue}
 \DeclareOption{paper}{\secc@techrptfalse}
 
+%clever references stuff?
+\newif\ifsecc@refstuff
+\secc@refstufffalse
+
+% for backwards compatibility
+\DeclareOption{refstuff}{\secc@refstufftrue}
+\DeclareOption{magicref}{\secc@refstufftrue}
+
+%titlecaps usage?
+\newif\ifsecc@titlecaps
+\secc@titlecapstrue
+
+\DeclareOption{notitlecaps}{\secc@titlecapsfalse}
+
 \ProcessOptions\relax
 
 \ifsecc@draft
@@ -195,6 +209,41 @@
 \newcommand{\lemref}[1]{Lemma~\ref{#1}}
 \newcommand{\thmref}[1]{Theorem~\ref{#1}}
 \newcommand{\corref}[1]{Corollary~\ref{#1}}
+
+%% More automatic "reference stuff"
+
+\makeatletter
+\ifsecc@refstuff
+
+  \usepackage{nameref}
+  \usepackage{cleveref}
+  % http://tex.stackexchange.com/questions/121865/nameref-how-to-display-section-name-and-its-number
+  % , modified to use \Cref instead of \autoref
+%  \LetLtxMacro{\oldnameref}{\nameref}
+%  \renewcommand{\nameref}[1]{\hyperref[{#1}]{\oldnameref*{#1}}}
+  \newcommand{\magicstring}{@}
+  \newcommand*{\@fullref}[3]{%
+\def \@meow{\ifthenelse{\equal{#1}{\magicstring}}{\nameref*{#3}}{#1}}%
+\sbox0{\@meow}%
+\hyperref[{#3}]{#2%
+\ifdim\wd0=0pt%
+\else%
+~(\@meow)%
+\fi}%
+\def\@meow{\undefined}%
+}
+
+  \newcommand{\@fullrefNoStar}[2][\magicstring]{\@fullref{#1}{\Cref*{#2}}{#2}}
+  \newcommand{\@fullrefStar}[3][\magicstring]{\@fullref{#1}{#2 \ref*{#3}}{#3}}
+  \newcommand{\fullref}{ \@ifstar \@fullrefStar \@fullrefNoStar }
+  % here for backwards compatibility
+  \newcommand{\nameonlyref}{\nameref}
+  \newcommand{\fullrefnoname}[1]{\@fullrefNoStar[]{#1}}
+  \newcommand{\shortref}[1]{\@fullrefNoStar{#1}}
+  \newcommand{\fullrefnamed}{\@fullrefStar}
+
+\fi
+\makeatother
 
 % TODO: Document
 \newcommand{\fboxnegspace}{\vspace{-2ex}}

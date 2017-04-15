@@ -104,6 +104,9 @@ This package defines the following options:
   option is on by default.
 * `balance` -- This option balances the column on the last page.
 * `draft` -- This option passes `draft` to `hyperref`.
+* `magicref` -- This option defines `\fullref` and friends, which magically determine which of
+  `\lemref`, `\thmref`, `\secref`, etc to use. This option requires the `nameref` and `cleveref`
+  packages. See [Labels and References][] for more info.
 
 ## How to Read
 Each documented macro starts with the name of the macro and an interface
@@ -219,6 +222,46 @@ Formats a reference to a lemma.
 \thmref[1]
 Formats a reference to a theorem.
   #1 : The label for the theorem to reference.
+```
+
+If `magicref` is used, it additional defines the following.
+```latex
+\nameref[1]
+Reprovided from the nameref package. Returns the title given to the referenced object.
+  #1 : The label to get the title of.
+
+For example, consider
+  \begin{lemma}[Foo] \label{lem:foo} \end{lemma}
+  \begin{lemma} \label{lem:anon} \end{lemma}
+
+\nameref{lem:foo} produces "Foo".
+\nameref{lem:anon} produced "".
+\nameref*{lem:foo} produces "Foo", but does not create a hyperlink.
+```
+
+```latex
+\fullref[2][ (\nameref*{#1})]
+Formats a named reference, such as "Theorem N (Name)", or "Lemma N (Name)".
+  #1 : The name of the reference. Defaults to the title given to the referenced object.
+  #2 : The label to reference.
+
+\fullref{lem:foo} produces "Lemma 1 (Foo)".
+\fullref{lem:anon} produces "Lemma 2"
+\fullref[Bar]{lem:anon} produces "Lemma 2 (Bar)"
+\fullref[]{lem:foo} produces "Lemma 1"
+```
+
+```latex
+\fullref*[3][ (\nameref*{#1})]
+Like \fullref, but useful when \fullref cannot automatically determine what kind of object is being
+referneced.
+  #1 : The name of the reference. Defaults to the title given to the referenced object.
+  #2 : A name for the kind of object being referneced.
+  #3 : The label to reference.
+
+\fullref*{Lemma}{lem:foo} produces "Lemma 1 (Foo)".
+\fullref*{Thing}{lem:foo} produces "Thing 1 (Foo)".
+\fullref*[]{Thing}{lem:foo} produces "Thing 1".
 ```
 
 ## Font Shorthand
