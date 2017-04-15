@@ -60,9 +60,6 @@ Eventually, I'll make a CTAN package.
 This package includes several packages not available on CTAN, and
 requires several that are on CTAN.
 
-The following packages included in this package.
-* `unlist`
-
 The following packages are required and available on CTAN. Many of these
 are included in standard LaTeX installations.
 If you want to use different options, require them before requiring `mttex`.
