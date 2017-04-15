@@ -1,0 +1,59 @@
+% Macros that abstract frequently used patterns and imbue macros with semantics meaning.
+
+%%% -------------------------- Semantics Commands -------------------------- 
+
+% Use this when you just want to keep text together
+\newcommand{\nonbreaking}{\mbox}
+
+% Use this when math is inline in text
+\newcommand{\inlinemath}[1]{\(#1\)}
+
+% Use this when you want a display environment in text, not in a figure.
+\newenvironment{inlinedisplay}
+{\begin{displaymath}}
+{\end{displaymath}}
+
+%%% -------------------------- Reference patterns -------------------------- 
+
+\newcommand{\secref}[1]{\S\ref{#1}}
+\newcommand{\figref}[1]{Figure~\ref{#1}}
+\newcommand{\lemref}[1]{Lemma~\ref{#1}}
+\newcommand{\thmref}[1]{Theorem~\ref{#1}}
+\newcommand{\corref}[1]{Corollary~\ref{#1}}
+
+% "Do the right thing" reference 
+
+\makeatletter
+
+% http://tex.stackexchange.com/questions/121865/nameref-how-to-display-section-name-and-its-number
+% modified to use \Cref instead of \autoref
+\RequirePackage{nameref}
+\RequirePackage{cleveref}
+\RequirePackage{hyperref}
+
+% a unique string to identify when to use the default name for a reference.
+\newcommand{\@magicstring}{@meow}
+
+\newcommand*{\@fullref}[3]{%
+  \def \@meow{\ifthenelse{\equal{#1}{\@magicstring}}{\nameref*{#3}}{#1}}%
+  \sbox0{\@meow}%
+  \hyperref[{#3}]{#2%
+    \ifdim\wd0=0pt%
+    \else%
+    ~(\@meow)%
+    \fi}%
+  \def\@meow{\undefined}%
+}
+
+\newcommand{\@fullrefNoStar}[2][\@magicstring]{\@fullref{#1}{\Cref*{#2}}{#2}}
+\newcommand{\@fullrefStar}[3][\@magicstring]{\@fullref{#1}{#2 \ref*{#3}}{#3}}
+\newcommand{\fullref}{ \@ifstar \@fullrefStar \@fullrefNoStar }
+
+\makeatother
+
+%%% -------------------------- Cases Environment -------------------------- 
+
+\renewenvironment{cases}{\begin{description}}{\end{description}\ignorespacesafterend}
+\newcommand{\case}[1][]{\item[Case] #1}
+\newcommand{\scase}[1][]{\item[Sub-case] #1}
+\newcommand{\sscase}[1][]{\item[SubSub-case] #1}

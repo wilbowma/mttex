@@ -1,0 +1,65 @@
+% A package to automatically smallify math, helping squeeze the most out of your paper.
+
+\DeclareOption{small-inlinemath}{
+  \LetLatexMacro{\oldinlinemath}{\inlinemath}
+  \renewcommand{\inlinemath}[1]{{\small \oldinlinemath{#1}}}
+}
+
+\DeclareOption{footnote-inlinemath}{
+  \LetLatexMacro{\oldinlinemath}{\inlinemath}
+  \renewcommand{\inlinemath}[1]{{\footnotesize \oldinlinemath{#1}}}
+}
+
+% Text mode
+\newenvironment{nop}{\ifvmode\nointerlineskip\fi}{\ignorespacesafterend}
+
+\DeclareOption{small-inlinedisplay}{
+  \LetLatexMacro{\oldinlinedisplay}{\inlinedisplay}
+  \LetLatexMacro{\oldendinlinedisplay}{\endinlinedisplay}
+  \renewenvironment{inlinedisplay}
+  {\begin{nop}\small\oldinlinedisplay}
+  {\oldendinlinedisplay\end{nop}\ignorespacesafterend}
+}
+
+\DeclareOption{footnote-inlinedisplay}{
+  \LetLatexMacro{\oldinlinedisplay}{\inlinedisplay}
+  \LetLatexMacro{\oldendinlinedisplay}{\endinlinedisplay}
+  \renewenvironment{inlinedisplay}
+  {\begin{nop}\footnotesize\oldinlinedisplay}
+  {\oldendinlinedisplay\end{nop}\ignorespacesafterend}
+}
+% Math mode
+\newenvironment{sdisplaymath}{
+\begin{nop}\small\begin{displaymath}}{
+\end{displaymath}\end{nop}\ignorespacesafterend}
+\newenvironment{fdisplaymath}{
+\begin{nop}\footnotesize\begin{displaymath}}{
+\end{displaymath}\end{nop}\ignorespacesafterend}
+\newenvironment{smathpar}{
+\begin{nop}\small\begin{mathpar}}{
+\end{mathpar}\end{nop}\ignorespacesafterend}
+\newenvironment{fmathpar}{
+\begin{nop}\footnotesize\begin{mathpar}}{
+\end{mathpar}\end{nop}\ignorespacesafterend}
+\newenvironment{alignS}{
+\begin{nop}\begin{align}}{
+\end{align}\end{nop}\ignorespacesafterend}
+\newenvironment{salignS}{
+\begin{nop}\small\begin{align}}{
+\end{align}\end{nop}\ignorespacesafterend}
+\newenvironment{falignS}{
+\begin{nop}\footnotesize\begin{align*}}{
+\end{align}\end{nop}\ignorespacesafterend}
+
+%%% -------------------------- Smaller Proofs -------------------------------
+
+\DeclareOption{small-proof}{
+  \renewenvironment{proof}[1][]{%
+    \noindent%
+    \textbf{Proof\if\relax\detokenize{#1}\relax\else~(#1)\fi}%
+    \begin{list}{}{}\item[]%
+   }{%
+    \qed%
+    \end{list}%
+   }%
+}

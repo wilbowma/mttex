@@ -108,74 +108,6 @@
 
 %%% ----------------------- Definitions -----------------------------
 
-%% Automaigc titlecase
-\Addlcwords{for via a is but and with of in as the etc on to if}
-
-% TODO I'd rather like to hide these internal things, but I guess I'll
-% settle for making them @ protected
-\makeatletter
-\LetLtxMacro{\@title}{\title}
-\LetLtxMacro{\@section}{\section}
-\LetLtxMacro{\@subsection}{\subsection}
-\LetLtxMacro{\@subsubsection}{\subsubsection}
-
-\newcommand{\@titlecrafterStar}[2]{
-  #1*{\titlecap{#2}}
-}
-
-\newcommand{\@titlecrafterNoStar}[3]{
-  \ifthenelse{\equal{#2}{}}
-  {#1[#3]{\titlecap{#3}}}
-  {#1[#2]{\titlecap{#3}}}
-}
-
-\newcommand{\@titleStar}[1]{
-  {\@title*{\titlecap{#1}}}
-}
-
-\newcommand{\@titleNoStar}[1]{
-  {\@title{\titlecap{#1}}}
-}
-
-\renewcommand{\title}{ \@ifstar \@titleStar \@titleNoStar }
-
-\newcommand{\@sectionStar}{
-  \@titlecrafterStar{\@section}
-}
-
-\newcommand{\@sectionNoStar}[2][]{
-  \@titlecrafterNoStar{\@section}{#1}{#2}
-}
-
-\renewcommand{\section}{
-  \@ifstar \@sectionStar \@sectionNoStar
-}
-
-\newcommand{\@subsectionStar}{
-  \@titlecrafterStar{\@subsection}
-}
-
-\newcommand{\@subsectionNoStar}[2][]{
-  \@titlecrafterNoStar{\@subsection}{#1}{#2}
-}
-
-\renewcommand{\subsection}{
-  \@ifstar \@subsectionStar \@subsectionNoStar
-}
-
-\newcommand{\@subsubsectionStar}{
-  \@titlecrafterStar{\@subsubsection}
-}
-
-\newcommand{\@subsubsectionNoStar}[2][]{
-  \@titlecrafterNoStar{\@subsubsection}{#1}{#2}
-}
-
-\renewcommand{\subsubsection}{
-  \@ifstar \@subsubsectionStar \@subsubsectionNoStar
-}
-\makeatother
-
 \newcommand{\todoleft}[2][]{
   \reversemarginpar
   \todo[#1]{#2}
@@ -189,98 +121,6 @@
 \newcommand{\inlinecomment}[2][inline,color=green!40,nolist]{
   \todo[#1]{#2}
 }
-
-%% Misc commands <<<
-
-\newcommand{\secref}[1]{\S\ref{#1}}
-\newcommand{\figref}[1]{Figure~\ref{#1}}
-\newcommand{\lemref}[1]{Lemma~\ref{#1}}
-\newcommand{\thmref}[1]{Theorem~\ref{#1}}
-\newcommand{\corref}[1]{Corollary~\ref{#1}}
-
-%% More automatic "reference stuff"
-
-\makeatletter
-\ifsecc@refstuff
-
-  \usepackage{nameref}
-  \usepackage{cleveref}
-  % http://tex.stackexchange.com/questions/121865/nameref-how-to-display-section-name-and-its-number
-  % , modified to use \Cref instead of \autoref
-%  \LetLtxMacro{\oldnameref}{\nameref}
-%  \renewcommand{\nameref}[1]{\hyperref[{#1}]{\oldnameref*{#1}}}
-  \newcommand{\magicstring}{@}
-  \newcommand*{\@fullref}[3]{%
-\def \@meow{\ifthenelse{\equal{#1}{\magicstring}}{\nameref*{#3}}{#1}}%
-\sbox0{\@meow}%
-\hyperref[{#3}]{#2%
-\ifdim\wd0=0pt%
-\else%
-~(\@meow)%
-\fi}%
-\def\@meow{\undefined}%
-}
-
-  \newcommand{\@fullrefNoStar}[2][\magicstring]{\@fullref{#1}{\Cref*{#2}}{#2}}
-  \newcommand{\@fullrefStar}[3][\magicstring]{\@fullref{#1}{#2 \ref*{#3}}{#3}}
-  \newcommand{\fullref}{ \@ifstar \@fullrefStar \@fullrefNoStar }
-  % here for backwards compatibility
-  \newcommand{\nameonlyref}{\nameref}
-  \newcommand{\fullrefnoname}[1]{\@fullrefNoStar[]{#1}}
-  \newcommand{\shortref}[1]{\@fullrefNoStar{#1}}
-  \newcommand{\fullrefnamed}{\@fullrefStar}
-
-\fi
-\makeatother
-
-% TODO: Document
-\newcommand{\fboxnegspace}{\vspace{-2ex}}
-\newcommand{\smallmath}[1]{{\small \(#1\)}}
-\newcommand{\inlinemath}[1]{\(#1\)}
-\newcommand{\nonbreaking}{\mbox}
-
-% Text fonts
-\newcommand{\tbf}[1]{\textbf{#1}}
-\newcommand{\trm}[1]{\textrm{#1}}
-\newcommand{\tnl}[1]{\small{\trm{#1}}}
-
-% Math fonts
-\newcommand{\mbb}[1]{\mathbb{#1}}
-\newcommand{\mbf}[1]{\mathbf{#1}}
-\renewcommand{\mit}[1]{\mathit{#1}}
-\newcommand{\mrm}[1]{\mathrm{#1}}
-\newcommand{\mtt}[1]{\mathtt{#1}}
-\newcommand{\mcal}[1]{\mathcal{#1}}
-\newcommand{\mfrak}[1]{\mathfrak{#1}}
-\newcommand{\msf}[1]{\mathsf{#1}}
-\newcommand{\mscr}[1]{\mathscr{#1}}
-\renewcommand{\b}{\boldsymbol}
-
-% Text mode
-\newenvironment{nop}{\ifvmode\nointerlineskip\fi}{\ignorespacesafterend}
-
-% Math mode
-\newenvironment{sdisplaymath}{
-\begin{nop}\small\begin{displaymath}}{
-\end{displaymath}\end{nop}\ignorespacesafterend}
-\newenvironment{fdisplaymath}{
-\begin{nop}\footnotesize\begin{displaymath}}{
-\end{displaymath}\end{nop}\ignorespacesafterend}
-\newenvironment{smathpar}{
-\begin{nop}\small\begin{mathpar}}{
-\end{mathpar}\end{nop}\ignorespacesafterend}
-\newenvironment{fmathpar}{
-\begin{nop}\footnotesize\begin{mathpar}}{
-\end{mathpar}\end{nop}\ignorespacesafterend}
-\newenvironment{alignS}{
-\begin{nop}\begin{align}}{
-\end{align}\end{nop}\ignorespacesafterend}
-\newenvironment{salignS}{
-\begin{nop}\small\begin{align}}{
-\end{align}\end{nop}\ignorespacesafterend}
-\newenvironment{falignS}{
-\begin{nop}\footnotesize\begin{align*}}{
-\end{align}\end{nop}\ignorespacesafterend}
 
 %% Theorems
 \newcommand{\athmbody}[1]{#1}
@@ -314,34 +154,6 @@
 {\renewcommand{\thetheorem}{#2}
 \begin{lemma}[#1]}
 {\end{lemma}\ignorespacesafterend}
-
-\renewenvironment{proof}[1][]{%
-\noindent%
-\textbf{Proof\if\relax\detokenize{#1}\relax\else~(#1)\fi}%
-\begin{list}{}{}\item[]}{%
-\qed
-\end{list}}
-
-\renewenvironment{cases}{\begin{description}}{\end{description}\ignorespacesafterend}
-\newcommand{\case}[1][]{\item[Case] #1}
-\newcommand{\scase}[1][]{\item[Sub-case] #1}
-\newcommand{\sscase}[1][]{\item[SubSub-case] #1}
-
-%% TODO Or these
-%\newsavebox{\DetailsBox}%
-%\newenvironment{details}[1][]{%
-%\ifthenelse{\boolean{ShowDetailsFlag}}{}{#1 \begin{lrbox}{\DetailsBox}\begin{minipage}{\textwidth}}%
-%}{%
-%\ifthenelse{\boolean{ShowDetailsFlag}}{}{\end{minipage}\end{lrbox}}%
-%}%
-
-%% \renewcommand{\thefigure}{\thesection.\arabic{figure}}
-
-% % Shading
-% \newlength{\ShadeLen}
-% \newcommand{\shade}[2]{%
-% \settoheight{\ShadeLen}{$\bnfalt$}
-% \colorbox[gray]{#1}{\mbox{\rule{0pt}{\ShadeLen}#2}}}
 
 %% Meta Language
 \newcommand{\metafont}[1]{\mathrm{#1}}
