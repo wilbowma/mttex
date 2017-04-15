@@ -1,6 +1,6 @@
 \documentclass{article}
 
-\usepackage{mttex}
+\usepackage[magicref]{mttex}
 
 \newcommand{\newtmetavar}{\newmetavar{\tfontsym}{\tcolor}{t}}
 \newcommand{\newsmetavar}{\newmetavar{\sfontsym}{\scolor}{s}}
@@ -255,5 +255,24 @@
 Meow
 
 \section{Meow}
+\label{sec:meow}
+
+\begin{lemma}[Foo] \label{lem:foo} \end{lemma}
+\begin{lemma} \label{lem:anon} \end{lemma}
+
+Should be ``Foo'': \nameref{lem:foo}
+Should be ``'': \nameref{lem:anon}
+Should be ``Foo'' without a hyperlink: \nameref*{lem:foo}
+
+\fullrefNoStar{lem:foo}
+%\fullref{lem:foo} produces ``Lemma 1 (Foo)''.
+%\fullref{lem:anon} produces ``Lemma 2''
+%\fullref[Bar]{lem:anon} produces ``Lemma 2 (Bar)''
+%\fullref[]{lem:foo} produces ``Lemma 1''
+%
+%\fullref*{Lemma}{lem:foo} produces ``Lemma 1 (Foo)''.
+%\fullref*{Thing}{lem:foo} produces ``Thing 1 (Foo)''.
+%\fullref*[]{Thing}{lem:foo} produces ``Thing 1''.
+
 
 \end{document}
