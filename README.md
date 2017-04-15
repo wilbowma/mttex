@@ -61,7 +61,6 @@ This package includes several packages not available on CTAN, and
 requires several that are on CTAN.
 
 The following packages included in this package.
-* `mathpartir`
 * `unlist`
 
 The following packages are required and available on CTAN. Many of these
@@ -80,6 +79,7 @@ are included in standard LaTeX installations.
 * `mathrsfs`
 * `amsthm`
 * `titlecaps`
+* `mathpartir`
 
 The following packages are required due to ACM recommendation and
 available on CTAN. These are included in standard LaTeX installations.
