@@ -4,6 +4,7 @@
 
 \RequirePackage{mathpartir}
 % Local packages
+\RequirePackage{stack}
 
 % CTAN packages
 \RequirePackage{todonotes}
@@ -280,24 +281,6 @@
 \newenvironment{falignS}{
 \begin{nop}\footnotesize\begin{align*}}{
 \end{align}\end{nop}\ignorespacesafterend}
-
-% Stack formatting
-\newenvironment{stackAux}[2]{%
-\setlength{\arraycolsep}{0pt}
-\begin{array}[#1]{#2}}{
-\end{array}\ignorespacesafterend}
-\newenvironment{stackCC}{
-\begin{stackAux}{c}{c}}{\end{stackAux}\ignorespacesafterend}
-\newenvironment{stackCL}{
-\begin{stackAux}{c}{l}}{\end{stackAux}\ignorespacesafterend}
-\newenvironment{stackTL}{
-\begin{stackAux}{t}{l}}{\end{stackAux}\ignorespacesafterend}
-\newenvironment{stackTR}{
-\begin{stackAux}{t}{r}}{\end{stackAux}\ignorespacesafterend}
-\newenvironment{stackBC}{
-\begin{stackAux}{b}{c}}{\end{stackAux}\ignorespacesafterend}
-\newenvironment{stackBL}{
-\begin{stackAux}{b}{l}}{\end{stackAux}\ignorespacesafterend}
 
 %% Theorems
 \newcommand{\athmbody}[1]{#1}
