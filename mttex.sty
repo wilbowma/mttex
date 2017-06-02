@@ -233,23 +233,6 @@
 \newcommand{\inlinemath}[1]{\(#1\)}
 \newcommand{\nonbreaking}{\mbox}
 
-% Text fonts
-\newcommand{\tbf}[1]{\textbf{#1}}
-\newcommand{\trm}[1]{\textrm{#1}}
-\newcommand{\tnl}[1]{\small{\trm{#1}}}
-
-% Math fonts
-\newcommand{\mbb}[1]{\mathbb{#1}}
-\newcommand{\mbf}[1]{\mathbf{#1}}
-\renewcommand{\mit}[1]{\mathit{#1}}
-\newcommand{\mrm}[1]{\mathrm{#1}}
-\newcommand{\mtt}[1]{\mathtt{#1}}
-\newcommand{\mcal}[1]{\mathcal{#1}}
-\newcommand{\mfrak}[1]{\mathfrak{#1}}
-\newcommand{\msf}[1]{\mathsf{#1}}
-\newcommand{\mscr}[1]{\mathscr{#1}}
-\renewcommand{\b}{\boldsymbol}
-
 % Text mode
 \newenvironment{nop}{\ifvmode\nointerlineskip\fi}{\ignorespacesafterend}
 
@@ -385,10 +368,10 @@
 \newcommand{\eg}{\emph{e.g.}}
 \newcommand{\etc}{\emph{etc.}}
 \newcommand{\bump}{\hspace{3.5pt}}
-\newcommand{\fresh}[1]{(\mit{fresh}\:#1)}
-\newcommand{\where}[1]{\mrm{where}\:#1}
+\newcommand{\fresh}[1]{(\mathit{fresh}\:#1)}
+\newcommand{\where}[1]{\mathrm{where}\:#1}
 
-\newcommand{\lang}[1]{\mrm{\trm{#1}}}
+\newcommand{\lang}[1]{\mathrm{\textrm{#1}}}
 
 %% Standard symbols
 
@@ -687,7 +670,7 @@
 % #4 : A list of name/symbol pairs, separated literally by a /.
 %
 % Usage:
-%   \newmetavarsS{\tfont}{\tcolor}{t}{x/x,e/e,v/v,alpha/\b{\alpha}}
+%   \newmetavarsS{\tfont}{\tcolor}{t}{x/x,e/e,v/v,alpha/\boldsymbol{\alpha}}
 %   \newcommand{\newsmetavarsS}{\newmetavarsS{\sfontsym}{\scolor}{s}}
 %   \newsmetavarsS{\alpha/\alpha, ty/\sigma}
 \newcommand{\newmetavarsS}[4]{
@@ -1545,8 +1528,8 @@
 
 
 %% Contextual equivalence
-\newcommand{\ctxeqvsym}{\approx^{\mit{ctx}}}
-\newcommand{\ciueqvsym}{\approx^{\mit{ciu}}}
+\newcommand{\ctxeqvsym}{\approx^{\mathit{ctx}}}
+\newcommand{\ciueqvsym}{\approx^{\mathit{ciu}}}
 
 % \ciueqvjudg formats a c.i.u. equivalence judgment.
 %
@@ -1567,9 +1550,9 @@
 \newcommand{\ctxeqvjudg}[4]{\judg{#1}{#2 \mathrel{\ctxeqvsym} #3}{#4}}
 
 %% Logical Relations
-\newcommand{\lratomsym}{\mrm{Atom}}
-\newcommand{\lratomvalsym}{\mrm{Atom}^{\mrm{val}}}
-\newcommand{\lrrelsym}{\mrm{Rel}}
+\newcommand{\lratomsym}{\mathrm{Atom}}
+\newcommand{\lratomvalsym}{\mathrm{Atom}^{\mathrm{val}}}
+\newcommand{\lrrelsym}{\mathrm{Rel}}
 
 % \lr formats a logical relation set.
 %
@@ -1694,7 +1677,7 @@
 \newcommand{\tfont}[1]{\tcolor{\mathbf{#1}}}
 
 \newcommand{\sfontsym}[1]{\sfont{#1}}
-\newcommand{\tfontsym}[1]{\tfont{\b{#1}}}
+\newcommand{\tfontsym}[1]{\tfont{\boldsymbol{#1}}}
 
 \newcommand{\scal}[1]{\sfontsym{\mathcal{#1}}}
 \newcommand{\tcal}[1]{\tfontsym{\mathcal{#1}}}

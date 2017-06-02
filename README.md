@@ -25,7 +25,6 @@ that "defs.tex" was practically empty.
 * [Automagic Title-case](#automagic-title-case)
 * [TODO and Comments](#todo-and-comments)
 * [Label References](#label-references)
-* [Font Shorthand](#font-shorthand)
 * [Theorem Environment](#thm-environments)
 * [Math Environments](#math-environments)
 * [Standard Source/Target Macros](#standard-source-target-macros)
@@ -255,27 +254,6 @@ referneced.
 \fullref*{Lemma}{lem:foo} produces "Lemma 1 (Foo)".
 \fullref*{Thing}{lem:foo} produces "Thing 1 (Foo)".
 \fullref*[]{Thing}{lem:foo} produces "Thing 1".
-```
-
-## Font Shorthand
-This package provides the following shorthand for fonts:
-```latex
-% Text fonts
-\newcommand{\tbf}[1]{\textbf{#1}}
-\newcommand{\trm}[1]{\textrm{#1}}
-\newcommand{\tnl}[1]{\small{\trm{#1}}}
-
-% Math fonts
-\newcommand{\mbb}[1]{\mathbb{#1}}
-\newcommand{\mbf}[1]{\mathbf{#1}}
-\renewcommand{\mit}[1]{\mathit{#1}}
-\newcommand{\mrm}[1]{\mathrm{#1}}
-\newcommand{\mtt}[1]{\mathtt{#1}}
-\newcommand{\mcal}[1]{\mathcal{#1}}
-\newcommand{\mfrak}[1]{\mathfrak{#1}}
-\newcommand{\msf}[1]{\mathsf{#1}}
-\newcommand{\mscr}[1]{\mathscr{#1}}
-\renewcommand{\b}{\boldsymbol}
 ```
 
 ## Theorem Environments
