@@ -68,13 +68,9 @@ If you want to use different options, require them before requiring `mttex`.
 * `hyperref`
 * `ifthen`
 * `latexsym`
-* `amsmath`
-* `amssymb`
-* `stmaryrd`
 * `amsbsy`
-* `upgreek`
+* `stmaryrd`
 * `url`
-* `mathrsfs`
 * `amsthm`
 * `titlecaps`
 * `mathpartir`
