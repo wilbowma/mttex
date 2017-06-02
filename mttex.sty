@@ -16,7 +16,6 @@
 
 \RequirePackage{url}
 
-\RequirePackage{amsthm}
 \RequirePackage{titlecaps}
 \RequirePackage{hyperref}
 
@@ -277,66 +276,10 @@
 \newenvironment{stackBL}{
 \begin{stackAux}{b}{l}}{\end{stackAux}\ignorespacesafterend}
 
-%% Theorems
-\newcommand{\athmbody}[1]{#1}
-% Could not make athmbodyapce work, for somereason
-\newcommand{\athmbodyspace}{}
-\newcommand{\athmhead}{\bfseries}
-\newcommand{\athmheadpunct}{}
-\newcommand{\athmheadspace}{\newline}
-
-\newtheoremstyle{athm}{\topsep}{\topsep}%
-     {\athmbody}%         Body font
-     {}%         Indent amount (empty = no indent, \parindent = para indent)
-     {\athmhead}% Thm head font
-     {\athmheadpunct}%        Punctuation after thm head
-     {\newline}%     Space after thm head (\newline = linebreak)
-     {\thmname{#1}\thmnumber{ #2}\thmnote{~\,(#3)}}%         Thm head spec
-
-\theoremstyle{athm}
-\newtheorem{theorem}{Theorem}[section]
-\newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{conjecture}[theorem]{Conjecture}
-\newtheorem{corollary}[theorem]{Corollary}
-\newtheorem{definition}[theorem]{Definition}
-
-\newenvironment{theoremS}[2][]
-{\renewcommand{\thetheorem}{#2}
-\begin{theorem}[#1]}
-{\end{theorem}\ignorespacesafterend}
-
-\newenvironment{lemmaS}[2][]
-{\renewcommand{\thetheorem}{#2}
-\begin{lemma}[#1]}
-{\end{lemma}\ignorespacesafterend}
-
-\renewenvironment{proof}[1][]{%
-\noindent%
-\textbf{Proof\if\relax\detokenize{#1}\relax\else~(#1)\fi}%
-\begin{list}{}{}\item[]}{%
-\qed
-\end{list}}
-
 \renewenvironment{cases}{\begin{description}}{\end{description}\ignorespacesafterend}
 \newcommand{\case}[1][]{\item[Case] #1}
 \newcommand{\scase}[1][]{\item[Sub-case] #1}
 \newcommand{\sscase}[1][]{\item[SubSub-case] #1}
-
-%% TODO Or these
-%\newsavebox{\DetailsBox}%
-%\newenvironment{details}[1][]{%
-%\ifthenelse{\boolean{ShowDetailsFlag}}{}{#1 \begin{lrbox}{\DetailsBox}\begin{minipage}{\textwidth}}%
-%}{%
-%\ifthenelse{\boolean{ShowDetailsFlag}}{}{\end{minipage}\end{lrbox}}%
-%}%
-
-%% \renewcommand{\thefigure}{\thesection.\arabic{figure}}
-
-% % Shading
-% \newlength{\ShadeLen}
-% \newcommand{\shade}[2]{%
-% \settoheight{\ShadeLen}{$\bnfalt$}
-% \colorbox[gray]{#1}{\mbox{\rule{0pt}{\ShadeLen}#2}}}
 
 %% Meta Language
 \newcommand{\metafont}[1]{\mathrm{#1}}

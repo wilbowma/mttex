@@ -25,7 +25,6 @@ that "defs.tex" was practically empty.
 * [Automagic Title-case](#automagic-title-case)
 * [TODO and Comments](#todo-and-comments)
 * [Label References](#label-references)
-* [Theorem Environment](#thm-environments)
 * [Math Environments](#math-environments)
 * [Standard Source/Target Macros](#standard-source-target-macros)
 * [Meta-Language Macros](#meta-language-macros)
@@ -70,7 +69,6 @@ If you want to use different options, require them before requiring `mttex`.
 * `amsbsy`
 * `stmaryrd`
 * `url`
-* `amsthm`
 * `titlecaps`
 * `mathpartir`
 
@@ -255,33 +253,6 @@ referneced.
 \fullref*{Thing}{lem:foo} produces "Thing 1 (Foo)".
 \fullref*[]{Thing}{lem:foo} produces "Thing 1".
 ```
-
-## Theorem Environments
-This package provides environments for theorems, lemmas, conjectures, corollaries, and definitions
-These are all generated and styled using amsthm:
-```latex
-\newtheoremstyle{athm}{\topsep}{\topsep}%
-     {\athmbody}      % Body font
-     {}               % Indent amount (empty = no indent, \parindent = para indent)
-     {\athmhead}      % Thm head font
-     {\athmheadpunct} % Punctuation after thm head
-     {\athmheadspace} % Space after thm head
-     {\thmname{#1}\thmnumber{ #2}\thmnote{~\,(#3)}} % Thm head spec
-
-\newtheorem{theorem}{Theorem}[section]
-\newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{conjecture}[theorem]{Conjecture}
-\newtheorem{corollary}[theorem]{Corollary}
-\newtheorem{definition}[theorem]{Definition}
-```
-
-If you want to redefine the default style, you can renew the following commands:
-```latex
-\newcommand{\athmbody}[1]{#1}
-\newcommand{\athmhead}{\bfseries}
-\newcommand{\athmheadpunct}{}
-\newcommand{\athmheadspace}{\newline}
- ```
 
 ## Math Environments
 This package provides the following extra math environments:
