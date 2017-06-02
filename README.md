@@ -88,7 +88,7 @@ This package defines the following options:
   option is specified. This option prevents only `\todo` macros from
   being omitted.
 * `nosigplan` -- This option disables ACM/SIGPLAN specific features, such as `natbib`
-  citation style.
+  citation style. You'll want this option to use the new `acmart` style.
 * `techrpt` -- This option enables features formatting a technical appendix, such as
   `\usepackage{fullpage}`
 * `paper` -- This option disables features for formatting a technical appendix. This
