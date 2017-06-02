@@ -11,15 +11,10 @@
 
 \RequirePackage{ifthen}
 
-\RequirePackage{latexsym,amsmath,amssymb}
-\RequirePackage{stmaryrd}
-%% stmry doesn't have a bold defined, so define bold to be normal
-\SetSymbolFont{stmry}{bold}{U}{stmry}{m}{n}
-
 \RequirePackage{amsbsy}
-\RequirePackage{upgreek}
+\RequirePackage[only,llbracket,rrbracket]{stmaryrd}
+
 \RequirePackage{url}
-\RequirePackage{mathrsfs}
 
 \RequirePackage{amsthm}
 \RequirePackage{titlecaps}
@@ -844,7 +839,7 @@
 % #1 : A formatting macro for symbols, such as \tfontsym
 % #2 : The pre-formatted type-variable to bind
 % #3 : The pre-formatted result in which the type-variable is bound
-\newcommand{\@muty}[3]{\@quantifier{#1}{\upmu}{#2}{.} #3}
+\newcommand{\@muty}[3]{\@quantifier{#1}{\mu}{#2}{.} #3}
 
 % \muty is like \@muty but provides a standard interface.
 %
@@ -1006,7 +1001,7 @@
 % #3 : The pre-formatted type of the variable.
 % #4 : The pre-formatted body of the function.
 \newcommand{\@fune}[4]{%
-  \mathopen{#1{\uplambda (}}%
+  \mathopen{#1{\lambda (}}%
   {#2} \maththinbin{#1{:}} {#3}% \mathbin{:} spacing would be a bit too large
   \mathclose{#1{).}}%
   \mathpunct{}#4}
@@ -1028,7 +1023,7 @@
 % #4 : The pre-formatted type of the variable.
 % #5 : The pre-formatted body of the function.
 \newcommand{\@polyfune}[5]{
-  \mathopen{#1{\uplambda}}%
+  \mathopen{#1{\lambda}}%
   \mathopen{#1{[}}%
   #2%
   \mathclose{#1{]}}%
@@ -1055,7 +1050,7 @@
 % #1 : A formatting macro for symbols, such as \tfontsym.
 % #2 : The pre-formatted type variable the abstraction binds.
 % #3 : The pre-formatted the body of the abstract.
-\newcommand{\@abstre}[3]{\@quantifier{#1}{\Uplambda}{#2}{.} #3}
+\newcommand{\@abstre}[3]{\@quantifier{#1}{\Lambda}{#2}{.} #3}
 
 % \abstre is like \@abstre but provides a standard interface.
 %
