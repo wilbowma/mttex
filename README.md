@@ -69,7 +69,7 @@ If you want to use different options, require them before requiring `mttex`.
 * `amsbsy`
 * `stmaryrd`
 * `url`
-* `titlecaps`
+* `titlecaps` (not loaded when `notitlecaps` specified)
 * `mathpartir`
 
 The following packages are required due to ACM recommendation and
@@ -89,6 +89,7 @@ This package defines the following options:
   being omitted.
 * `nosigplan` -- This option disables ACM/SIGPLAN specific features, such as `natbib`
   citation style. You'll want this option to use the new `acmart` style.
+* `notitlecaps` -- This option disables automagic title-case in title and section headings.
 * `techrpt` -- This option enables features formatting a technical appendix, such as
   `\usepackage{fullpage}`
 * `paper` -- This option disables features for formatting a technical appendix. This
