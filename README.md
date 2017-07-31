@@ -91,7 +91,8 @@ This package defines the following options:
   citation style. You'll want this option to use the new `acmart` style.
 * `notitlecaps` -- This option disables automagic title-case in title and section headings.
 * `techrpt` -- This option enables features formatting a technical appendix, such as
-  `\usepackage{fullpage}`
+  `\usepackage{fullpage}`. Do not use this option for submissions that are page limited, as it plays
+  tricks to fit more on one page that are disallowed by many publishers.
 * `paper` -- This option disables features for formatting a technical appendix. This
   option is on by default.
 * `balance` -- This option balances the column on the last page.
