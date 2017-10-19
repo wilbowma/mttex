@@ -43,9 +43,10 @@
 
 %% ACM/SIGPLAN format
 \newif\ifsecc@sigplan
-\secc@sigplantrue
+\secc@sigplanfalse
 
 \DeclareOption{nosigplan}{\secc@sigplanfalse}
+\DeclareOption{sigplan}{\secc@sigplantrue}
 
 %% balance the last page?
 \newif\ifsecc@balance

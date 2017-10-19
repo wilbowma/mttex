@@ -87,8 +87,8 @@ This package defines the following options:
 * `todo` -- Normally, the `\todo` macro is omitted when the `omit`
   option is specified. This option prevents only `\todo` macros from
   being omitted.
-* `nosigplan` -- This option disables ACM/SIGPLAN specific features, such as `natbib`
-  citation style. You'll want this option to use the new `acmart` style.
+* `sigplan` -- This option enables old ACM/SIGPLAN specific features, such as `natbib`
+  citation style. Don't use this if you're using `acmart`.
 * `notitlecaps` -- This option disables automagic title-case in title and section headings.
 * `techrpt` -- This option enables features formatting a technical appendix, such as
   `\usepackage{fullpage}`. Do not use this option for submissions that are page limited, as it plays
