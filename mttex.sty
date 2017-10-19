@@ -186,13 +186,6 @@
 }
 
 %% Misc commands <<<
-
-\newcommand{\secref}[1]{\S\ref{#1}}
-\newcommand{\figref}[1]{Figure~\ref{#1}}
-\newcommand{\lemref}[1]{Lemma~\ref{#1}}
-\newcommand{\thmref}[1]{Theorem~\ref{#1}}
-\newcommand{\corref}[1]{Corollary~\ref{#1}}
-
 %% More automatic "reference stuff"
 
 \makeatletter
@@ -225,6 +218,17 @@
   \newcommand{\shortref}[1]{\@fullrefNoStar{#1}}
   \newcommand{\fullrefnamed}{\@fullrefStar}
 
+  \newcommand{\secref}[1]{\!\fullref[]{#1}}
+  \newcommand{\figref}[1]{\!\fullref[]{#1}}
+  \newcommand{\lemref}[1]{\!\fullref[]{#1}}
+  \newcommand{\thmref}[1]{\!\fullref[]{#1}}
+  \newcommand{\corref}[1]{\!\fullref[]{#1}}
+\else
+  \newcommand{\secref}[1]{\S\ref{#1}}
+  \newcommand{\figref}[1]{Figure~\ref{#1}}
+  \newcommand{\lemref}[1]{Lemma~\ref{#1}}
+  \newcommand{\thmref}[1]{Theorem~\ref{#1}}
+  \newcommand{\corref}[1]{Corollary~\ref{#1}}
 \fi
 \makeatother
 
