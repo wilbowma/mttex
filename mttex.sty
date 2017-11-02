@@ -211,8 +211,8 @@
 }
 
   \newcommand{\@fullrefNoStar}[2][\magicstring]{\@fullref{#1}{\Cref*{#2}}{#2}}
-  \newcommand{\@fullrefStar}[3][\magicstring]{\@fullref{#1}{#2 \ref*{#3}}{#3}}
-  \newcommand{\fullref}{ \@ifstar \@fullrefStar \@fullrefNoStar }
+  \newcommand{\@fullrefStar}[3][\magicstring]{\@fullref{#1}{#2\ref*{#3}}{#3}}
+  \newcommand{\fullref}{\@ifstar\@fullrefStar\@fullrefNoStar}
   % here for backwards compatibility
   \newcommand{\nameonlyref}{\nameref}
   \newcommand{\fullrefnoname}[1]{\@fullrefNoStar[]{#1}}
