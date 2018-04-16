@@ -242,29 +242,6 @@
 % Text mode
 \newenvironment{nop}{\ifvmode\nointerlineskip\fi}{\ignorespacesafterend}
 
-% Math mode
-\newenvironment{sdisplaymath}{
-\begin{nop}\small\begin{displaymath}}{
-\end{displaymath}\end{nop}\ignorespacesafterend}
-\newenvironment{fdisplaymath}{
-\begin{nop}\footnotesize\begin{displaymath}}{
-\end{displaymath}\end{nop}\ignorespacesafterend}
-\newenvironment{smathpar}{
-\begin{nop}\small\begin{mathpar}}{
-\end{mathpar}\end{nop}\ignorespacesafterend}
-\newenvironment{fmathpar}{
-\begin{nop}\footnotesize\begin{mathpar}}{
-\end{mathpar}\end{nop}\ignorespacesafterend}
-\newenvironment{alignS}{
-\begin{nop}\begin{align}}{
-\end{align}\end{nop}\ignorespacesafterend}
-\newenvironment{salignS}{
-\begin{nop}\small\begin{align}}{
-\end{align}\end{nop}\ignorespacesafterend}
-\newenvironment{falignS}{
-\begin{nop}\footnotesize\begin{align*}}{
-\end{align}\end{nop}\ignorespacesafterend}
-
 % Stack formatting
 \newenvironment{stackAux}[2]{%
 \setlength{\arraycolsep}{0pt}

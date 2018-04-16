@@ -25,7 +25,7 @@ that "defs.tex" was practically empty.
 * [Automagic Title-case](#automagic-title-case)
 * [TODO and Comments](#todo-and-comments)
 * [Label References](#label-references)
-* [Math Environments](#math-environments)
+* [Stack Environments](#stack-environments)
 * [Standard Source/Target Macros](#standard-source-target-macros)
 * [Meta-Language Macros](#meta-language-macros)
 * [Language Symbol Macros](#language-symbol-macros)
@@ -256,47 +256,7 @@ referneced.
 \fullref*[]{Thing}{lem:foo} produces "Thing 1".
 ```
 
-## Math Environments
-This package provides the following extra math environments:
-
-### Math Paragraph and Math Display
-```latex
-\newenvironment{sdisplaymath}
-Like the displaymath environment, but makes everything \small.
-```
-
-```latex
-\newenvironment{fdisplaymath}
-Like the displaymath environment, but makes everything \footnotesize.
-```
-
-```latex
-\newenvironment{smathpar}
-Like mathpar, but makes everything \small.
-```
-
-```latex
-\newenvironment{fmathpar}
-Like mathpar, but makes everything \footnotesize.
-```
-
-### Align Environments
-```latex
-\newenvironment{alignS}
-Like align, but ignores space after the end of the environment
-```
-
-```latex
-\newenvironment{salignS}
-Like alignS, but but makes everything \small
-```
-
-```latex
-\newenvironment{falignS}
-Like alignS, but but makes everything \footnotesize
-```
-
-### Stack Environments
+## Stack Environments
 The stack environments format each line by stacking them atop each
 other, similar to the array environment with one column.
 
