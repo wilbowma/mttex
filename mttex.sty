@@ -1330,6 +1330,280 @@
 % #5 : A pre-formatted list of branch expressions.
 \newcommand{\dcasee}[2]{\@dcasee{#2}{#1}}
 
+% \starty formats the type *
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+\newcommand{\starty}[2]{#2{\star}}
+
+% \boxty formats the type \square
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+\newcommand{\boxty}[2]{#1{\square}}
+
+% \dpaire formats a dependent pair expression.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : A pre-formatted expression for the first component of the pair.
+% #4 : A pre-formatted expression for the second component of the pair.
+% #5 : A pre-formatted expression for the type annotation.
+\newcommand{\dpaire}[5]{%
+  \mathopen{#1{\langle}}%
+  #3%
+  \mathpunct{#1{,}}%
+  #4%
+  \mathclose{{#1{\rangle}}}
+  \kwbin{#2{as}}%
+  #5%
+}
+
+% \fste formats a first projection of a pair.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : A pre-formatted expression for the pair to project.
+\newcommand{\fste}[3]{%
+  \kwopen{#2{fst}}#3%
+}
+
+% \snde formats a second projection of a pair.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : A pre-formatted expression for the pair to project.
+\newcommand{\snde}[3]{%
+  \kwopen{#2{snd}}#3%
+}
+
+% \@aexistty formats an existential type, whose type variables require annotations
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : The pre-formatted type-variable to bind
+% #3 : The pre-formatted type of the type-variable.
+% #4 : The pre-formatted result in which the type-variable is bound.
+\renewcommand{\@aexistty}[4]{
+  \kwopen{#1{\exists}}%
+  {#2} \mathbin{:} {#3}%
+  \mathclose{.}%
+  \mathpunct{}#4}
+
+% \aexistty is like \@aexistty but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : The pre-formatted variable the function binds.
+% #4 : The pre-formatted type of the variable.
+% #5 : The pre-formatted body of the function.
+\renewcommand{\existty}[2]{\@existty{#1}}
+
+% \@nexistty formats an n-ary existential type
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : The pre-formatted list of bindings
+\newcommand{\@nexistty}[2]{
+  \kwopen{#1{\exists}}%
+  #2%
+}
+
+% \nexistty is like \@nexistty but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : The pre-formatted list of bindings.
+\newcommand{\nexistty}[2]{\@nexistty{#1}}
+
+% \@npity formats an n-ary dependent function type.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : The pre-formatted variable declarations
+% #3 : The pre-formatted result type
+\newcommand{\@npity}[3]{
+  \kwopen{#1{\Pi}}%
+  #2
+  \mathclose{.}%
+  \mathpunct{}#3}
+
+% \npity is like \@npity but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : The pre-formatted variable declarations.
+% #4 : The pre-formatted body of the function.
+\newcommand{\npity}[2]{\@npity{#1}}
+
+%% nary functions
+\newcommand{\@nfune}[3]{%
+  \kwopen{#1{\uplambda}}%
+  #2
+  \mathclose{.}%
+  \mathpunct{}#3}
+
+\newcommand{\nfune}[2]{\@nfune{#1}}
+
+% dependent n-ary pairs
+% \@dnpaire formats a dependent n-ary pair expression.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : A pre-formatted list of expressions.
+% #4 : A pre-formatted type annotation.
+\newcommand{\@dnpaire}[4]{%
+  \mathopen{#1{\langle}}%
+  #3%
+  \mathclose{{#1{\rangle}}}%
+  \kwbin{#2{as}}%
+  #4%
+}
+
+% \dnpaire is like \@dnpaire but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : A pre-formatted list of expressions.
+% #5 : A pre-formatted type annotation.
+\newcommand{\dnpaire}[2]{\@dnpaire{#1}{#2}}
+
+% \@packoe is like \@packe, but *o*mits the type annotations on the end.
+
+% #1 : A formatting macro for text, such as \tfont.
+% #2 : A formatting macro for symbols, such as \tfontsym.
+% #3 : A pre-formatted type witness.
+% #4 : A pre-formatted value witness.
+\newcommand{\@packoe}[4]{%
+  \kwopen{#1{pack}}%
+  \@paire{#2}{#3}{#4}%
+}
+
+% \packoe is like \@packoe, but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : A pre-formatted type witness.
+% #4 : A pre-formatted value witness.
+\newcommand{\packoe}[2]{\@packoe{#2}{#1}}
+
+% \@npaire formats a pair expression.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A pre-formatted expression for the n elements of the pair
+% TODO Would be nice to automagically mathpunct all the commas.
+\newcommand{\@npaire}[2]{%
+  \mathopen{#1{\langle}}%
+  #2%
+  \mathclose{{#1{\rangle}}}%
+}
+
+% \npaire is like \@npaire but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : A pre-formatted expression for the n elements of the pair
+\newcommand{\npaire}[2]{\@npaire{#1}}
+
+% \@npacke formats an n-ary pack expression
+%
+% #1 : A formatting macro for text, such as \tfont.
+% #2 : A formatting macro for symbols, such as \tfontsym.
+% #3 : A pre-formatted list of witnesses.
+% #4 : A pre-formatted existential type abstracting the witness type.
+\newcommand{\@npacke}[4]{%
+  \kwopen{#1{pack}}%
+  \@npaire{#2}{#3}%
+  \kwbin{#1{as}}%
+  #4%
+}
+
+% \npacke is like \@npacke but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : A pre-formatted list of witnesses.
+% #4 : A pre-formatted existential type abstracting the witness type.
+\newcommand{\npacke}[2]{\@npacke{#2}{#1}}
+
+% \@npackoe formats an n-ary pack expression, omitting the type annotation.
+%
+% #1 : A formatting macro for text, such as \tfont.
+% #2 : A formatting macro for symbols, such as \tfontsym.
+% #3 : A pre-formatted list of witnesses.
+\newcommand{\@npackoe}[3]{%
+  \kwopen{#1{pack}}%
+  \@npaire{#2}{#3}%
+}
+
+% \npackoe is like \@npackoe but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : A pre-formatted list of witnesses.
+\newcommand{\npackoe}[2]{\@npackoe{#2}{#1}}
+
+% \@unpacke formats an n-ary unpack expression
+%
+% #1 : A formatting macro for text, such as \tfont.
+% #2 : A formatting macro for symbols, such as \tfontsym.
+% #3 : A pre-formatted list of variables.
+% #4 : A pre-formatted existential witness expression.
+% #5 : A pre-formatted expression in which to bind the existential.
+\newcommand{\@nunpacke}[5]{%
+  \kwopen{#1{unpack}}%
+  \npaire{#2}{#1}{#3}%
+  \mathbin{#2{=}}%
+  #4%
+  \kwbin{#1{in}}%
+  #5
+}
+
+% \nunpacke is like \@nunpacke but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : A pre-formatted list of variables.
+% #4 : A pre-formatted existential witness expression.
+% #5 : A pre-formatted expression in which to bind the existential.
+\newcommand{\nunpacke}[2]{\@nunpacke{#2}{#1}}
+
+% \@nsigmaty formats a dependent pair type.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym
+% #2 : The pre-formatted list of bindings.
+\newcommand{\@nsigmaty}[2]{
+  \kwopen{#1{\Sigma}}{#2}%
+}
+
+% \nsigmaty is like \@nsigmaty but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : The pre-formatted list of bindings.
+\newcommand{\nsigmaty}[2]{\@nsigmaty{#1}}
+
+% \@nfixe formats an n-ary recursive function expression.
+%
+% #1 : A formatting macro for symbols, such as \tfont.
+% #2 : A formatting macro for symbols, such as \tfontsym.
+% #3 : The per-formatted name of the recursive function.
+% #4 : The pre-formatted list of variables the function binds.
+% #5 : The pre-formatted type of the recursive function.
+% #6 : The pre-formatted body of the function.
+\newcommand{\@nfixe}[6]{%
+  \kwopen{#1{fix}}%
+  {#3} (#4) \mathbin{:} {#5}
+  \mathclose{.}%
+  \mathpunct{}#6}
+
+% \nfixe is like \@nfixe but provides a standard interface.
+%
+% #1 : A formatting macro for symbols, such as \tfontsym.
+% #2 : A formatting macro for text, such as \tfont.
+% #3 : The per-formatted name of the recursive function.
+% #4 : The pre-formatted list of variables the function binds.
+% #5 : The pre-formatted type of the recursive function.
+% #6 : The pre-formatted body of the function.
+\newcommand{\nfixe}[2]{\@nfixe{#2}{#1}}
+
 % \newconstr generates a macro for formatting a language construct.
 %
 % #1 : A formatting macro for symbols, such as \tfontsym
@@ -1593,6 +1867,40 @@
   ^{\color{out}#2}\endgroup
 }
 \makeatother
+
+% -------------
+% CIC Stuff
+
+% \ind formats an inductive declarations
+% #1 : A pre-formatted name for the inductive.
+% #2 : A pre-formatted meta-expression representing the number of parameters.
+% #3 : A pre-formatted expression for the type of the inductive type.
+% #4 : A pre-formatted local environment expression representing the constructor declarations.
+\newcommand{\ind}[4]{#1\mathbin{:}\mathopen{[}#2\mathclose{]}#3\mathbin{:=}#4}
+
+% branch type computation
+\newcommand{\brty}[2]{\{#1\}^{#2}}
+
+% annotated branch type
+\newcommand{\abrty}[3]{\{#1\mathbin{:}#2\}^{#3}}
+
+% allowable elimination sorts judgment.
+\newcommand{\aesjudg}[2]{[#1\mathpunct{\mid}#2]}
+
+% allowable elimination sorts, annotated, judgment.
+\newcommand{\aesajudg}[3]{[#1\mathbin{:}#2\mathpunct{\mid}#3]}
+
+% recursive position
+\newcommand{\recpos}[2]{RP (#1,#2)}
+
+% terminates judgment
+\newcommand{\terminates}[2]{\wf{#1}{#2\text{ terminates}}}
+
+% guard condition
+% based on Gim{\'{e}}nez
+\newcommand{\guardjudg}[5]{\mathcal{D}_{#4} (#1,#2,#3,#5)}
+
+% ----------
 
 \newcommand{\scolor}[1]{\mathcolor{blue}{#1}}
 \newcommand{\tcolor}[1]{\mathcolor{red}{#1}}
