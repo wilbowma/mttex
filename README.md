@@ -297,10 +297,9 @@ aligns the column horizontially.
 ```
 
 ### Cases and Subcases
-This package redefines the `cases` environment, and provides cases and
-subcases. This helps format nested proofs.
+This package provides cases and subcases for use in itemize environments.
+This helps format nested proofs.
 ```latex
-\renewenvironment{cases}
 \newcommand{\case}[1][]
 \newcommand{\scase}[1][]
 \newcommand{\sscase}[1][]
