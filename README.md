@@ -396,6 +396,7 @@ while the target should be in a bold, red, serif font.
 \newcommand{\funarrow}{\rightarrow}
 \newcommand{\ctxarrow}{\Rightarrow}
 
+\newcommand{\bnflabel}[1]{\mbox{\textit{#1}}}
 \newcommand{\bnfalt}{{\bf \,\,\mid\,\,}}
 \newcommand{\bnfdef}{{\bf ::=}}
 \newcommand{\bnfadd}{{\bf +::=}}
