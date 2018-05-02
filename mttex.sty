@@ -1384,7 +1384,7 @@
 % #2 : The pre-formatted type-variable to bind
 % #3 : The pre-formatted type of the type-variable.
 % #4 : The pre-formatted result in which the type-variable is bound.
-\renewcommand{\@aexistty}[4]{
+\newcommand{\@aexistty}[4]{
   \kwopen{#1{\exists}}%
   {#2} \mathbin{:} {#3}%
   \mathclose{.}%
@@ -1397,7 +1397,7 @@
 % #3 : The pre-formatted variable the function binds.
 % #4 : The pre-formatted type of the variable.
 % #5 : The pre-formatted body of the function.
-\renewcommand{\existty}[2]{\@existty{#1}}
+\newcommand{\aexistty}[2]{\@aexistty{#1}}
 
 % \@nexistty formats an n-ary existential type
 %
