@@ -75,6 +75,12 @@
 
 \DeclareOption{notitlecaps}{\secc@titlecapsfalse}
 
+%nocompress ?
+\newif\ifsecc@compress
+\secc@compresstrue
+
+\DeclareOption{nocompress}{\secc@compressfalse}
+
 \ProcessOptions\relax
 
 \ifsecc@sigplan
@@ -96,6 +102,14 @@
     \section*{\refname\@mkboth{\MakeUppercase{\refname}}{\MakeUppercase{\refname}}}
   }
   \fi
+\fi
+
+\ifsecc@compress
+  \pdfminorversion=5
+  \pdfcompresslevel=9
+  \pdfobjcompresslevel=2
+\else
+  \relax
 \fi
 \makeatother
 

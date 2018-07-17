@@ -99,6 +99,8 @@ This package defines the following options:
 * `magicref` -- This option defines `\fullref` and friends, which magically determine which of
   `\lemref`, `\thmref`, `\secref`, etc to use. This option requires the `nameref` and `cleveref`
   packages. See [Labels and References][] for more info.
+* `nocompress` -- Disables PDF compression, making your PDFs larger. Compression
+  may not work with old versions of `pdflatex`, or non-PDF builds.
 
 ## How to Read
 Each documented macro starts with the name of the macro and an interface
