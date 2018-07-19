@@ -243,7 +243,7 @@
 % TODO: Document
 \newcommand{\judgmath}[1]{\(#1\)}
 \newcommand{\judgshape}[2][]{\begin{flushleft}\fbox{\judgmath{#2}~#1}\end{flushleft}}
-\newcommand{\inlinemath}[1]{\(#1\)}
+\newcommand{\inlinemath}[1]{\ensuremath{#1}}
 \newcommand{\im}{\inlinemath}
 \newcommand{\nonbreaking}{\mbox}
 \newcommand{\rulename}[1]{[{\scshape #1}]}
@@ -398,7 +398,7 @@
 %   \newcommand{\txone}{\txmetavar{1}{}{}}
 %   \newcommand{\txonepr}{\txmetavar{1}{}{1}}
 \newcommand{\metavar}[5]{
-  #1\@super{#3}{#4}{#5}\@sub{#2}%
+  \inlinemath{#1\@super{#3}{#4}{#5}\@sub{#2}}%
 }
 
 \makeatother
@@ -681,937 +681,514 @@
 
 %%% ----------------- Standard language features ----------------------
 
-%% ----------------------- Standard types ----------------------------
+%% --------------- Macros for defining new lang exprs ----------------
+% \newcommand{\newtype}{tag}[args]{\langfont \langsymfont}
+% => \newcommand{\tagty}[tag+2]{\def\langfont{#1}\def\langsymfont{#2}\def\body[3]{body...}}
+% \newcommand{\newexpr}{tag}[args]{\langfont \langsymfont}
 
-% \@funty formats a function type.
-%
-% #1 : A formatting macro for symbols, such as \tfontsym
-% #2 : The pre-formatted argument to the function
-% #3 : The pre-formatted result of the function
-\newcommand{\@funty}[3]{#2 \mathbin{#1{\funarrow}} #3}
-
-% \funty is like \@funty but provides a interface.
-%
-% #1 : A formatting macro for symbols, such as \tfontsym
-% #2 : A formatting macro for text, such as \tfont
-% #3 : The pre-formatted argument to the function
-% #4 : The pre-formatted result of the function
-\newcommand{\funty}[2]{\@funty{#1}}
-
-% \@polyfunty formats a polymorphic function type
-%
-% #1 : A formatting macro for symbols, such as \tfontsym
-% #2 : The pre-formatted type-variable to bind
-% #3 : The pre-formatted argument to the function
-% #4 : The pre-formatted result of the function
-\newcommand{\@polyfunty}[4]{%
-  \mathopen{#1{\forall}}%
-  \mathopen{#1{[}}%
-  #2%
-  \mathclose{#1{].}}\mathpunct{}%
-  #3%
-  \mathbin{#1{\funarrow}}%
-  #4%
+% State passing is easier and more efficient than closures
+% TODO: Make suffix and prefix parameters, like fonts.
+% TODO: Make more font parameters, ala issue #40
+\newcommand{\newtype}[3]{
+  \expandafter\newcommand\csname @#1ty\endcsname[#2]{%
+    \inlinemath{#3}%
+  }%
+  \expandafter\newcommand\csname #1ty\endcsname[2]{%
+    \def\langsymfont{##1}%
+    \def\langfont{##2}%
+    \csname @#1ty\endcsname%
+  }%
 }
 
-% \polyfunty is like \@polyfunty but provides a standard interface.
-%
-% #1 : A formatting macro for symbols, such as \tfontsym
-% #2 : A formatting macro for text, such as \tfont
-% #3 : The pre-formatted type-variable to bind
-% #4 : The pre-formatted argument to the function
-% #5 : The pre-formatted result of the function
-\newcommand{\polyfunty}[2]{\@polyfunty{#1}}
+% TODO copy paste modify (s/ty/e/) of the above; should abstract by making suffix a parameter
+\newcommand{\newexpr}[3]{
+  \expandafter\newcommand\csname @#1e\endcsname[#2]{%
+    \inlinemath{#3}%
+  }%
+  \expandafter\newcommand\csname #1e\endcsname[2]{%
+    \def\langsymfont{##1}%
+    \def\langfont{##2}%
+    \csname @#1e\endcsname%
+  }%
+}
 
-% \@forallty formats a polymorphic type.
-%
-% #1 : A formatting macro for symbols, such as \tfontsym
-% #2 : The pre-formatted type-variable to bind
-% #3 : The pre-formatted result in which the type-variable is bound
-\newcommand{\@forallty}[3]{\@quantifier{#1}{\forall}{#2}{.} #3}
+%% ----------------------- Standard types ----------------------------
 
-% \forallty is like \@forallty, but provides a standard interface
-%
-% #1 : A formatting macro for symbols, such as \tfontsym
-% #2 : A formatting macro for text, such as \tfont
-% #3 : The pre-formatted type-variable to bind
-% #4 : The pre-formatted result in which the type-variable is bound
-\newcommand{\forallty}[2]{\@forallty{#1}}
+% All the following macros itself should only be used through the \newlanguage
+% macros.
+% All types defined by \newtype{<tag>}{n} generate a macro \<prefix><tag>ty with n
+% arguments, where prefixe and formatting is given by the current language.
 
-% \@existty formats an existential type.
+% type `fun` formats a function type
 %
-% #1 : A formatting macro for symbols, such as \tfontsym
-% #2 : The pre-formatted type-variable to bind
-% #3 : The pre-formatted result in which the type-variable is bound
-\newcommand{\@existty}[3]{\@quantifier{#1}{\exists}{#2}{.} #3}
+% #1 : The pre-formatted argument to the function
+% #2 : The pre-formatted result of the function
+\newtype{fun}{2}{#1 \mathbin{\langsymfont{\to}} #2}
 
-% \existty is like \@existty but provides a standard interface.
+% \<prefix>polyfunty formats a polymorphic function type
 %
-% #1 : A formatting macro for symbols, such as \tfontsym
-% #2 : A formatting macro for text, such as \tfont
-% #3 : The pre-formatted type-variable to bind
-% #4 : The pre-formatted result in which the type-variable is bound
-\newcommand{\existty}[2]{\@existty{#1}}
+% #1 : The pre-formatted type-variable to bind
+% #2 : The pre-formatted argument to the function
+% #3 : The pre-formatted result of the function
+\newtype{polyfun}{3}{%
+  \mathopen{\langsymfont{\forall}}%
+  \mathopen{\langsymfont{[}}%
+  #1%
+  \mathclose{\langsymfont{].}}\mathpunct{}%
+  #2%
+  \mathbin{\langsymfont{\funarrow}}%
+  #3%
+}
 
-% \@muty formats a recursive type.
+% type `forall` formats a polymorphic type.
 %
-% #1 : A formatting macro for symbols, such as \tfontsym
-% #2 : The pre-formatted type-variable to bind
-% #3 : The pre-formatted result in which the type-variable is bound
-\newcommand{\@muty}[3]{\@quantifier{#1}{\mu}{#2}{.} #3}
+% #1 : The pre-formatted type-variable to bind
+% #2 : The pre-formatted result in which the type-variable is bound
+\newtype{forall}{2}{\@quantifier{\langfontsym}{\forall}{#1}{.} #2}
 
-% \muty is like \@muty but provides a standard interface.
+% type `exist` formats an existential type.
 %
-% #1 : A formatting macro for symbols, such as \tfontsym
-% #2 : A formatting macro for text, such as \tfont
-% #3 : The pre-formatted type-variable to bind
-% #4 : The pre-formatted result in which the type-variable is bound
-\newcommand{\muty}[2]{\@muty{#1}}
+% #1 : The pre-formatted type-variable to bind
+% #2 : The pre-formatted result in which the type-variable is bound
+\newtype{exist}{2}{\@quantifier{\langsymfont}{\exists}{#1}{.} #2}
 
-% \@pity formats a dependent function type.
+% type `mu` formats a recursive type.
 %
-% #1 : A formatting macro for symbols, such as \tfontsym
-% #2 : The pre-formatted variable to bind
-% #3 : The pre-formatted argument type
-% #4 : The pre-formatted result type
-\newcommand{\@pity}[4]{
-  \kwopen{#1{\Pi}}%
-  {#2} \mathbin{:} {#3}%
+% #1 : The pre-formatted type-variable to bind
+% #2 : The pre-formatted result in which the type-variable is bound
+\newcommand{\@muty}[3]{\@quantifier{\langsymfont}{\mu}{#1}{.} #2}
+
+% type `pi` formats a dependent function type.
+%
+% #1 : The pre-formatted variable to bind
+% #2 : The pre-formatted argument type
+% #3 : The pre-formatted result type
+\newtype{pi}{3}{%
+  \kwopen{\langsymfont{\Pi}}%
+  {#1} \mathbin{:} {#2}%
   \mathclose{.}%
-  \mathpunct{}#4}
+  \mathpunct{}#3%
+}
 
-% \pity is like \@pity but provides a standard interface.
+% type `sigma` formats a dependent pair type.
 %
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : The pre-formatted variable the function binds.
-% #4 : The pre-formatted type of the variable.
-% #5 : The pre-formatted body of the function.
-\newcommand{\pity}[2]{\@pity{#1}}
-
-% \@sigmaty formats a dependent pair type.
-%
-% #1 : A formatting macro for symbols, such as \tfontsym
-% #2 : The pre-formatted variable to bind.
-% #3 : The pre-formatted type of the variable.
-% #4 : The pre-formatted result type.
-\newcommand{\@sigmaty}[4]{
-  \kwopen{#1{\Sigma}}%
-  {#2} \mathbin{:} {#3}%
+% #1 : The pre-formatted variable to bind.
+% #2 : The pre-formatted type of the variable.
+% #3 : The pre-formatted result type.
+\newtype{sigma}{3}{
+  \kwopen{\langsymfont{\Sigma}}%
+  {#1} \mathbin{:} {#2}%
   \mathclose{.}%
-  \mathpunct{}#4}
+  \mathpunct{}#3%
+}
 
-% \sigmaty is like \@sigmaty but provides a standard interface.
+% type `unit` formats a unit type.
+\newtype{unit}{0}{\langsymfont{1}}
+
+% type `void` formats a void type.
+\newtype{void}{1}{\langsymfont{0}}
+
+% type `bool` formats a bool type.
+\newtype{bool}{0}{\langfont{bool}}
+
+% type `type` formats a type of types Type (i.e., a universe).
 %
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : The pre-formatted variable the function binds.
-% #4 : The pre-formatted type of the variable.
-% #5 : The pre-formatted body of the function.
-\newcommand{\sigmaty}[2]{\@sigmaty{#1}}
-
-
-% \@unitty formats a unit type.
-%
-% #1 : A formatting macro for text, such as \tfont
-\newcommand{\@unitty}[1]{#1{1}}
-
-% \unitty is like \@unitty but provides a standard interface.
-%
-% #1 : A formatting macro for symbols, such as \tfontsym
-% #2 : A formatting macro for text, such as \tfont
-\newcommand{\unitty}[2]{\@unitty{#2}}
-
-% \@voidty formats a void type.
-%
-% #1 : A formatting macro for text, such as \tfont
-\newcommand{\@voidty}[1]{#1{0}}
-
-% \voidty is like \@voidty but provides a standard interface.
-%
-% #1 : A formatting macro for symbols, such as \tfontsym
-% #2 : A formatting macro for text, such as \tfont
-\newcommand{\voidty}[2]{\@voidty{#2}}
-
-% \@boolty formats a bool type.
-%
-% #1 : A formatting macro for text, such as \tfont
-\newcommand{\@boolty}[1]{#1{bool}}
-
-% \boolty is like \@boolty but provides a standard interface
-%
-% #1 : A formatting macro for symbols, such as \tfontsym
-% #2 : A formatting macro for text, such as \tfont
-\newcommand{\boolty}[2]{\@boolty{#2}}
-
-% \@typety formats a type of types, or universe (Type).
-%
-% #1 : A formatting macros for text, such as \tfont.
-% #2 : A pre-formatted universe level, which defaults to i.
-\newcommand{\@typety}[2]{\kwopen{#1{Type}}_{#2}}
-
-% \typety is like \@typety but provides a standard interface.
-%
-% #1 : A formatting macros for symbols, such as \tfontsym
-% #2 : A formatting macros for text, such as \tfont.
-% #3 : A pre-formatted universe level, which defaults to i.
-\newcommand{\typety}[3]{\@typety{#2}{#3}}
+% #1 : A pre-formatted universe level, which defaults to i.
+\newtype{type}{1}{\kwopen{\langfont{Type}}_{#1}}
 
 %% TODO: Might need a combinator for defining simple keyword's like Prop and Set?
 
-% \@propty formats the type Prop, as in CIC's impredicative universe Prop.
-%
-% #1 : A formatting macros for text, such as \tfont.
-\newcommand{\@propty}[1]{\kwopen{#1{Prop}}}
+% type `prop` formats the type Prop, as in CIC's impredicative universe Prop.
+\newtype{prop}{0}{\kwopen{\langfont{Prop}}}
 
-% \propty is like \@propty but provides a standard interface.
-%
-% #1 : A formatting macros for symbols, such as \tfontsym
-% #2 : A formatting macros for text, such as \tfont.
-\newcommand{\propty}[2]{\@propty{#2}}
+% type `set` formats the type Set, as in CIC's predicative universe Set.
+\newtype{set}{0}{\kwopen{\langfont{Set}}}
 
-% \@setty formats the type Set, as in CIC's predicative universe Set.
-%
-% #1 : A formatting macros for text, such as \tfont.
-\newcommand{\@setty}[1]{\kwopen{#1{Set}}}
+% type `star` formats the type *
+\newtype{star}{0}{\langsymfont{\star}}
 
-% \setty is like \@setty but provides a standard interface.
-%
-% #1 : A formatting macros for symbols, such as \tfontsym
-% #2 : A formatting macros for text, such as \tfont.
-\newcommand{\setty}[2]{\@setty{#2}}
+% type `box` formats the type \square
+\newtype{box}{0}{\langsymfont{\square}}
 
-% \@pairty formats a pair type.
+% type `pair` formats a pair type.
 %
-% #1 : A formatting macro for symbols, such as \tfontsym
-% #2 : The pre-formatted type for the first component of the pair
-% #3 : The pre-formatted type for the second component of the pair
-\newcommand{\@pairty}[3]{#2 \mathbin{#1{\times}} #3}
+% #1 : The pre-formatted type for the first component of the pair
+% #2 : The pre-formatted type for the second component of the pair
+\newtype{pair}{2}{#1 \mathbin{\langsymfont{\times}} #2}
 
-% \pairty is like \@pairty but provides a standard interface.
+% type `sum` formats a sum type.
 %
-% #1 : A formatting macro for symbols, such as \tfontsym
-% #2 : A formatting macro for text, such as \tfont
-% #3 : The pre-formatted type for the first component of the pair
-% #4 : The pre-formatted type for the second component of the pair
-\newcommand{\pairty}[2]{\@pairty{#1}}
+% #1 : The pre-formatted type for the first component of the sum
+% #2 : The pre-formatted type for the second component of the sum
+\newtype{sum}{2}{#1 \mathbin{\langsymfont{\plus}} #2}
 
-% \@sumty formats a sum type.
+% type `aexist` formats an existential type, whose type variables require annotations
 %
-% #1 : A formatting macro for symbols, such as \tfontsym
-% #2 : The pre-formatted type for the first component of the sum
-% #3 : The pre-formatted type for the second component of the sum
-\newcommand{\@sumty}[3]{#2 \mathbin{#1{\plus}} #3}
+% #1 : The pre-formatted type-variable to bind
+% #2 : The pre-formatted type of the type-variable.
+% #3 : The pre-formatted result in which the type-variable is bound.
+\newtype{aexist}{3}{
+  \kwopen{\langsymfont{\exists}}%
+  {#1} \mathbin{:} {#2}%
+  \mathclose{.}%
+  \mathpunct{}#3%
+}
 
-% \sumty is like \@sumty but provides a standard interface.
+% type `nexist` formats an n-ary existential type
 %
-% #1 : A formatting macro for symbols, such as \tfontsym
-% #2 : A formatting macro for text, such as \tfont
-% #3 : The pre-formatted type for the first component of the sum
-% #4 : The pre-formatted type for the second component of the sum
-\newcommand{\sumty}[2]{\@sumty{#1}}
+% #1 : The pre-formatted list of bindings
+\newtype{nexist}{1}{
+  \kwopen{\langsymfont{\exists}}%
+  #1%
+}
 
-%% Standard expression
-
-% \@fune formats a function expression.
+% type `npi` formats an n-ary dependent function type.
 %
-% #1 : A formatting macro for symbols, such as \tfontsym.
+% #1 : The pre-formatted variable declarations
+% #2 : The pre-formatted result type
+\newtype{npi}{2}{
+  \kwopen{\langsymfont{\Pi}}%
+  #1
+  \mathclose{.}%
+  \mathpunct{}#2%
+}
+
+% type `nsigma` formats an n-ary dependent pair type.
+%
+% #1 : The pre-formatted list of bindings.
+\newtype{nsigma}{1}{
+  \kwopen{\langsymfont{\Sigma}}{#1}%
+}
+
+%% ----------------------- Standard exprs ----------------------------
+
+% expression `fun` formats a function expression.
+%
+% #1 : The pre-formatted variable the function binds.
+% #2 : The pre-formatted type of the variable.
+% #3 : The pre-formatted body of the function.
+\newexpr{fun}{3}{%
+  \mathopen{\langsymfont{\lambda (}}%
+  {#1} \maththinbin{\langsymfont{:}} {#2}% \mathbin{:} spacing would be a bit too large
+  \mathclose{\langsymfont{).}}%
+  \mathpunct{}#3%
+}
+
+% expression `polyfun` formats a polymorphic function expression.
+%
+% #1 : The pre-formatted type variable the function binds.
 % #2 : The pre-formatted variable the function binds.
 % #3 : The pre-formatted type of the variable.
 % #4 : The pre-formatted body of the function.
-\newcommand{\@fune}[4]{%
-  \mathopen{#1{\lambda (}}%
-  {#2} \maththinbin{#1{:}} {#3}% \mathbin{:} spacing would be a bit too large
-  \mathclose{#1{).}}%
-  \mathpunct{}#4}
-
-% \fune is like \@fune but provides a standard interface.
-%
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : The pre-formatted variable the function binds.
-% #4 : The pre-formatted type of the variable.
-% #5 : The pre-formatted body of the function.
-\newcommand{\fune}[2]{\@fune{#1}}
-
-% \@polyfune formats a polymorphic function expression.
-%
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : The pre-formatted type variable the function binds.
-% #3 : The pre-formatted variable the function binds.
-% #4 : The pre-formatted type of the variable.
-% #5 : The pre-formatted body of the function.
-\newcommand{\@polyfune}[5]{
-  \mathopen{#1{\lambda}}%
-  \mathopen{#1{[}}%
+\newexpr{polyfun}{4}{
+  \mathopen{\langsymfont{\lambda}}%
+  \mathopen{\langsymfont{[}}%
+  #1%
+  \mathclose{\langsymfont{]}}%
+  \mathopen{\langsymfont{(}}%
   #2%
-  \mathclose{#1{]}}%
-  \mathopen{#1{(}}%
+  \maththinbin{\langsymfont{:}}%
   #3%
-  \maththinbin{#1{:}}%
+  \mathclose{\langsymfont{).}}\mathpunct{}%
   #4%
-  \mathclose{#1{).}}\mathpunct{}%
-  #5%
 }
 
-% \polyfune is like \@polyfune but provides a standard interface.
+% expression `abstr` formats an polymorphic abstraction expression.
 %
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : The pre-formatted type variable the function binds.
-% #4 : The pre-formatted variable the function binds.
-% #5 : The pre-formatted type of the variable.
-% #6 : The pre-formatted body of the function.
-\newcommand{\polyfune}[2]{\@polyfune{#1}}
+% #1 : The pre-formatted type variable the abstraction binds.
+% #2 : The pre-formatted the body of the abstract.
+\newexpr{abstr}{2}{\@quantifier{\langsymfont}{\Lambda}{#1}{.} #2}
 
-% \@abstre formats an polymorphic abstraction expression.
+% expression `inst` formats an instantiation expression.
 %
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : The pre-formatted type variable the abstraction binds.
-% #3 : The pre-formatted the body of the abstract.
-\newcommand{\@abstre}[3]{\@quantifier{#1}{\Lambda}{#2}{.} #3}
+% #1 : The pre-formatted polymorphic abstraction to instantiate.
+% #2 : The pre-formatted type with which to instantiate the abstraction.
+\newexpr{inst}{2}{\@thickinfix{#1} \mathopen{\langsymfont{[}} #2 \mathclose{\langsymfont{]}}}
 
-% \abstre is like \@abstre but provides a standard interface.
-%
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : The pre-formatted type variable the abstraction binds.
-% #4 : The pre-formatted the body of the abstract.
-\newcommand{\abstre}[2]{\@abstre{#1}}
-
-% \@inste formats an instantiation expression.
-%
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : The pre-formatted polymorphic abstraction to instantiate.
-% #3 : The pre-formatted type with which to instantiate the abstraction.
-\newcommand{\@inste}[3]{\@thickinfix{#2} \mathopen{#1{[}} #3 \mathclose{#1{]}}}
-
-% \inste is like \@inste but provides a standard interface.
-%
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : The pre-formatted polymorphic abstraction to instantiate.
-% #4 : The pre-formatted type with which to instantiate the abstraction.
-\newcommand{\inste}[2]{\@inste{#1}}
-
-% \@app formats an application expression.
+% expression `app` formats an application expression.
 %
 % #1 : The pre-formatted function.
 % #2 : The pre-formatted argument.
-\newcommand{\@appe}[2]{#1\ #2}
+\newexpr{app}{2}{#1\ #2}
 
-% \appe is like \@appe but provides a standard interface.
+% expression `papp` formats a polymorphic function application expression.
 %
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : The pre-formatted function.
-% #4 : The pre-formatted argument.
-\newcommand{\appe}[2]{\@appe}
+% #1 : A pre-formatted polymorphic function expression.
+% #2 : A pre-formatted type with which to instantiate.
+% #3 : A pre-formatted argument to the function.
+\newexpr{papp}{3}{\@thickinfix{\@inste{#1}{#2}} #3}
 
-% \@pappe formats a polymorphic function application expression.
+% expression `if` formats an if expression
 %
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A pre-formatted polymorphic function expression.
-% #3 : A pre-formatted type with which to instantiate.
-% #4 : A pre-formatted argument to the function.
-\newcommand{\@pappe}[4]{\@thickinfix{\@inste{#1}{#2}{#3}} #4}
+% #1 : A pre-formatted discriminant expression.
+% #2 : A pre-formatted consequent expression.
+% #3 : A pre-formatted alternate expression.
+\newexpr{if}{3}{\kwopen{\langfont{if}} #1 \kwbin{\langfont{then}} #2 \kwbin{\langfont{else}} #3}
 
-% \pappe is like \@pappe but provides a standard interface.
+% expression `pack` formats a pack expression
 %
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : A pre-formatted polymorphic function expression.
-% #4 : A pre-formatted type with which to instantiate.
-% #5 : A pre-formatted argument to the function.
-\newcommand{\pappe}[2]{\@pappe{#1}}
-
-% \@ife formats an if expression
-%
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A pre-formatted discriminant expression.
-% #3 : A pre-formatted consequent expression.
-% #4 : A pre-formatted alternate expression.
-\newcommand{\@ife}[4]{\kwopen{#1{if}} #2 \kwbin{#1{then}} #3 \kwbin{#1{else}} #4}
-
-% \ife is like \@ife but provides a standard interface.
-%
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : A pre-formatted discriminant expression.
-% #4 : A pre-formatted consequent expression.
-% #5 : A pre-formatted alternate expression.
-\newcommand{\ife}[2]{\@ife{#2}}
-
-% \@packe formats a pack expression
-%
-% #1 : A formatting macro for text, such as \tfont.
-% #2 : A formatting macro for symbols, such as \tfontsym.
-% #3 : A pre-formatted type witness.
-% #4 : A pre-formatted value witness.
-% #5 : A pre-formatted existential type abstracting the witness type.
-\newcommand{\@packe}[5]{%
-  \kwopen{#1{pack}}%
-  \@paire{#2}{#3}{#4}%
-  \kwbin{#1{as}}%
-  #5%
-}
-
-% \packe is like \@packe but provides a standard interface.
-%
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : A pre-formatted type witness.
-% #4 : A pre-formatted value witness.
-% #5 : A pre-formatted existential type abstracting the witness type.
-\newcommand{\packe}[2]{\@packe{#2}{#1}}
-
-% \@unpacke formats an unpack expression
-%
-% #1 : A formatting macro for text, such as \tfont.
-% #2 : A formatting macro for symbols, such as \tfontsym.
-% #3 : A pre-formatted type variable.
-% #4 : A pre-formatted value variable.
-% #5 : A pre-formatted existential witness expression.
-% #6 : A pre-formatted expression in which to bind the existential.
-\newcommand{\@unpacke}[6]{%
-  \kwopen{#1{unpack}}%
-  \@paire{#2}{#3}{#4}%
-  \mathbin{=}%
-  #5%
-  \kwbin{#1{in}}%
-  #6
-}
-
-% \unpacke is like \@unpacke but provides a standard interface.
-%
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : A pre-formatted type variable.
-% #4 : A pre-formatted expression variable.
-% #5 : A pre-formatted existential witness expression.
-% #6 : A pre-formatted expression in which to bind the existential.
-\newcommand{\unpacke}[2]{\@unpacke{#2}{#1}}
-
-% \@lete formats a let expression
-%
-% #1 : A formatting macro for text, such as \tfont.
-% #2 : A formatting macro for symbols, such as \tfontsym.
-% #3 : A pre-formatted expression variable.
-% #4 : A pre-formatted expression to bind.
-% #5 : A pre-formatted body expression for the let.
-\newcommand{\@lete}[5]{%
-  \kwopen{#1{let}}%
+% #1 : A pre-formatted type witness.
+% #2 : A pre-formatted value witness.
+% #3 : A pre-formatted existential type abstracting the witness type.
+\newexpr{pack}{3}{%
+  \kwopen{\langfont{pack}}%
+  \@paire{#1}{#2}%
+  \kwbin{\langfont{as}}%
   #3%
-  \mathbin{#2{=}}%
+}
+
+% expression `unpack` formats an unpack expression
+%
+% #1 : A pre-formatted type variable.
+% #2 : A pre-formatted value variable.
+% #3 : A pre-formatted existential witness expression.
+% #4 : A pre-formatted expression in which to bind the existential.
+\newexpr{unpack}{4}{%
+  \kwopen{\langfont{unpack}}%
+  \@paire{#1}{#2}%
+  \mathbin{=}%
+  #3%
+  \kwbin{\langfont{in}}%
   #4%
-  \kwbin{#1{in}}%
-  #5}
-
-% \lete is like \@lete but provides a standard interface
-%
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : A pre-formatted expression variable.
-% #4 : A pre-formatted expression to bind.
-% #5 : A pre-formatted body expression for the let.
-\newcommand{\lete}[2]{\@lete{#2}{#1}}
-
-% \@alete formats a let expression with an annotation on the bound expression.
-%
-% #1 : A formatting macro for text, such as \tfont.
-% #2 : A formatting macro for symbols, such as \tfontsym.
-% #3 : A pre-formatted expression variable.
-% #4 : A pre-formatted expression to bind.
-% #5 : A pre-formatted annotation for bound expression.
-% #6 : A pre-formatted body expression for the let.
-\newcommand{\@alete}[6]{%
-  \kwopen{#1{let}}%
-  #3%
-  \mathbin{=}%
-  #4
-  \mathbin{:}
-  #5%
-  \kwbin{#1{in}}%
-  #6}
-
-% \alete is like \@alete but provides a standard interface
-%
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : A pre-formatted expression variable.
-% #4 : A pre-formatted expression to bind.
-% #5 : A pre-formatted annotation for bound expression.
-% #6 : A pre-formatted body expression for the let.
-\newcommand{\alete}[2]{\@alete{#2}{#1}}
-
-% \@folde formats a fold expression.
-%
-% #1 : A formatting macro for text, such as \tfont.
-% #2 : A pre-formatted mu type.
-% #3 : A pre-formatted expression of isorecursive type.
-\newcommand{\@folde}[3]{\kwinfix{#1{fold}_{#2}} #3}
-
-% \folde is like \@folde but provides a standard interface.
-%
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : A pre-formatted mu type.
-% #4 : A pre-formatted expression of isorecursive type.
-\newcommand{\folde}[2]{\@folde{#2}}
-
-% \@unfolde formats an unfold expression
-%
-% #1 : A formatting macro for text, such as \tfont.
-% #2 : A pre-formatted expression of isorecursive type.
-\newcommand{\@unfolde}[2]{\kwinfix{#1{unfold}} #2}
-
-% \unfolde is like \@unfolde but provides a standard interface.
-%
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : A pre-formatted expression of isorecursive type.
-\newcommand{\unfolde}[2]{\@unfolde{#2}}
-
-% \@unite formats a unit expression.
-%
-% #1 : A formatting macro for symbols, such as \tfontsym.
-\newcommand{\@unite}[1]{#1{\langle}#1{\rangle}}
-
-% \@fixe formats a recursive function expression.
-%
-% #1 : A formatting macro for symbols, such as \tfont.
-% #2 : A formatting macro for symbols, such as \tfontsym.
-% #3 : The pre-formatted variable the function binds.
-% #4 : The pre-formatted type of the variable.
-% #5 : The pre-formatted body of the function.
-\newcommand{\@fixe}[5]{%
-  \kwopen{#1{fix}}%
-  {#3} \mathbin{:} {#4}% \mathbin{:} spacing would be a bit too large
-  \mathclose{.}%
-  \mathpunct{}#5}
-
-% \fixe is like \@fixe but provides a standard interface.
-%
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : The pre-formatted variable the function binds.
-% #4 : The pre-formatted type of the variable.
-% #5 : The pre-formatted body of the function.
-\newcommand{\fixe}[2]{\@fixe{#2}{#1}}
-
-% \unite is like \@unite but provides a standard interface.
-%
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-\newcommand{\unite}[2]{\@unite{#1}}
-
-% \@truee formats a true expression
-%
-% #1 : A formatting macro for text, such as \tfont.
-\newcommand{\@truee}[1]{#1{true}}
-
-% \truee is like \@truee but provides a standard interface.
-%
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-\newcommand{\truee}[2]{\@truee{#2}}
-
-% \@falsee formats a false expression
-%
-% #1 : A formatting macro for text, such as \tfont.
-\newcommand{\@falsee}[1]{#1{false}}
-
-% \falsee is like \@falsee but provides a standard interface.
-%
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-\newcommand{\falsee}[2]{\@falsee{#2}}
-
-% \@paire formats a pair expression.
-%
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A pre-formatted expression for the first component of the pair.
-% #3 : A pre-formatted expression for the second component of the pair.
-\newcommand{\@paire}[3]{%
-  \mathopen{#1{\langle}}%
-  #2%
-  \mathpunct{#1{,}}%
-  #3%
-  \mathclose{{#1{\rangle}}}%
 }
 
-% \paire is like \@paire but provides a standard interface.
+% expression `let` formats a let expression
 %
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : A pre-formatted expression for the first component of the pair.
-% #4 : A pre-formatted expression for the second component of the pair.
-\newcommand{\paire}[2]{\@paire{#1}}
+% #1 : A pre-formatted expression variable.
+% #2 : A pre-formatted expression to bind.
+% #3 : A pre-formatted body expression for the let.
+\newexpr{let}{3}{%
+  \kwopen{\langfont{let}}%
+  #1%
+  \mathbin{=}%
+  #2%
+  \kwbin{\langfont{in}}%
+  #3}
 
-% \@prje formats a projection expression.
+% expression `alet` formats a let expression with an annotation on the bound expression.
 %
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : An unformatted natural number, either 1 or 2, indicating which
+% #1 : A pre-formatted expression variable.
+% #2 : A pre-formatted expression to bind.
+% #3 : A pre-formatted annotation for bound expression.
+% #4 : A pre-formatted body expression for the let.
+\newexpr{alet}{4}{%
+  \kwopen{\langfont{let}}%
+  #1%
+  \mathbin{=}%
+  #2
+  \mathbin{:}
+  #3%
+  \kwbin{\langfont{in}}%
+  #4}
+
+% expression `fold` formats a fold expression.
+%
+% #1 : A pre-formatted mu type.
+% #2 : A pre-formatted expression of isorecursive type.
+\newexpr{fold}{2}{\kwinfix{\langfont{fold}_{#1}} #2}
+
+% expression `unfold` formats an unfold expression
+%
+% #1 : A pre-formatted expression of isorecursive type.
+\newexpr{unfold}{1}{\kwinfix{\langfont{unfold}} #1}
+
+% expression `unit` formats a unit expression.
+\newexpr{unit}{0}{\langsymfont{\langle}\langsymfont{\rangle}}
+
+% expression `fix` formats a recursive function expression.
+%
+% #1 : The pre-formatted variable the function binds.
+% #2 : The pre-formatted type of the variable.
+% #3 : The pre-formatted body of the function.
+\newexpr{fix}{3}{%
+  \kwopen{\langfont{fix}}%
+  {#1} \mathbin{:} {#2}% \mathbin{:} spacing would be a bit too large
+  \mathclose{.}%
+  \mathpunct{}#3}
+
+% expression `true` formats a true expression
+\newexpr{true}{0}{\langfont{true}}
+
+% expression `false` formats a false expression
+\newexpr{false}{0}{\langfont{false}}
+
+% expression `pair` formats a pair expression.
+%
+% #1 : A pre-formatted expression for the first component of the pair.
+% #2 : A pre-formatted expression for the second component of the pair.
+\newexpr{pair}{2}{%
+  \mathopen{\langsymfont{\langle}}%
+  #1%
+  \mathpunct{\langsymfont{,}}%
+  #2%
+  \mathclose{\langsymfont{\rangle}}%
+}
+
+% expression `prj` formats a projection expression.
+%
+% #1 : An index, such as 1 or 2, indicating which
 %   component of the pair to project.
-% #4 : A pre-formatted pair expression to project.
-\newcommand{\@prje}[4]{\kwinfix{#1{\pi}_{#2{#3}}} #4}
+% #2 : A pre-formatted pair expression to project.
+\newexpr{prj}{2}{\kwinfix{\langsymfont{\pi}_{#1}} #2}
 
-% \prje is like \@prje but provides a standard interface.
+% expression `sum` formats a sum expression.
 %
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : An unformatted natural number, either 1 or 2, indicating which
-%   component of the pair to project.
-% #4 : A pre-formatted pair expression to project.
-\newcommand{\prje}{\@prje}
-
-% \@sume formats a sum expression.
-%
-% #1 : A formatting macro for text, such as \tfont.
-% #2 : An unformatted natural number, either 1 or 2, indicating into which
+% #1 : An index, such as 1 or 2, indicating into which
 %   side of the sum to inject the expression. 1 indicates left, 2
 %   indicates right.
-% #3 : A pre-formatted expression to inject into a sum.
-\newcommand{\@sume}[3]{\kwinfix{#1{inj}_{#1{#2}}} #3}
+% #2 : A pre-formatted expression to inject into a sum.
+\newexpr{sum}{2}{\kwinfix{\langfont{inj}_{#1}} #2}
 
-% \sume is like \@sume but provides a standard interface.
+% expression `case` formats a case expression.
 %
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : An unformatted natural number, either 1 or 2, indicating into which
-%   side of the sum to inject the expression. 1 indicates left, 2
-% #4 : A pre-formatted expression to inject into a sum.
-\newcommand{\sume}[2]{\@sume{#2}}
-
-% \@casee formats a case expression.
-%
-% #1 : A formatting macro for text, such as \tfont.
-% #2 : A formatting macro for symbols, such as \tfontsym.
-% #3 : A pre-formatted discriminant expression.
-% #4 : A pre-formatted variable to bind in the left branch.
-% #5 : A pre-formatted expression for the left branch.
-% #6 : A pre-formatted variable to bind in the right branch.
-% #7 : A pre-formatted expression for the right branch.
-\newcommand{\@casee}[7]{%
-  \kwopen{#1{case}}%
-  #3%
-  \kwbin{#1{of}}%
-  #4 \mathpunct{#2{.}} #5%
-  \maththickbin{#2{|}}%
-  #6 \mathpunct{#2{.}} #7
+% #1 : A pre-formatted discriminant expression.
+% #2 : A pre-formatted variable to bind in the left branch.
+% #3 : A pre-formatted expression for the left branch.
+% #4 : A pre-formatted variable to bind in the right branch.
+% #5 : A pre-formatted expression for the right branch.
+\newexpr{case}{5}{%
+  \kwopen{\langfont{case}}%
+  #1%
+  \kwbin{\langfont{of}}%
+  #2 \mathpunct{.} #3%
+  \maththickbin{\langsymfont{|}}%
+  #4 \mathpunct{.} #5%
 }
 
-% \casee is like \@casee but provides a standard interface
+% expression `dcase` formats a dependent case analysis expression, like that of CIC's.
 %
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : A pre-formatted discriminant expression.
-% #4 : A pre-formatted variable to bind in the left branch.
-% #5 : A pre-formatted expression for the left branch.
-% #6 : A pre-formatted variable to bind in the right branch.
-% #7 : A pre-formatted expression for the right branch.
-\newcommand{\casee}[2]{\@casee{#2}{#1}}
-
-% \@dcasee formats a dependent case analysis expression, like that of CIC's.
-%
-% #1 : A formatting macro for text, such as \tfont.
-% #2 : A formatting macro for symbols, such as \tfontsym.
-% #3 : A pre-formatted discriminant expression.
-% #4 : A pre-formatted motive.
-% #5 : A pre-formatted list of branch expressions.
-\newcommand{\@dcasee}[5]{%
-  \kwopen{#1{case}}%
-  #3%
+% #1 : A pre-formatted discriminant expression.
+% #2 : A pre-formatted motive.
+% #3 : A pre-formatted list of branch expressions.
+\newexpr{dcase}{3}{%
+  \kwopen{\langfont{case}}%
+  #1%
   \mathpunct{,}%
-  #4%
+  #2%
   \mathpunct{,}%
-  \mathopen{(} #5%
+  \mathopen{(} #3%
   \mathclose{)}
 }
 
-% \dcasee is like \@dcasee but provides a standard interface
+% expression `dpaire` formats a dependent pair expression.
 %
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : A pre-formatted discriminant expression.
-% #4 : A pre-formatted motive
-% #5 : A pre-formatted list of branch expressions.
-\newcommand{\dcasee}[2]{\@dcasee{#2}{#1}}
-
-% \starty formats the type *
-%
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-\newcommand{\starty}[2]{#2{\star}}
-
-% \boxty formats the type \square
-%
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-\newcommand{\boxty}[2]{#1{\square}}
-
-% \dpaire formats a dependent pair expression.
-%
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : A pre-formatted expression for the first component of the pair.
-% #4 : A pre-formatted expression for the second component of the pair.
-% #5 : A pre-formatted expression for the type annotation.
-\newcommand{\dpaire}[5]{%
-  \mathopen{#1{\langle}}%
+% #1 : A pre-formatted expression for the first component of the pair.
+% #2 : A pre-formatted expression for the second component of the pair.
+% #3 : A pre-formatted expression for the type annotation.
+\newexpr{dpair}{3}{%
+  \mathopen{\langsymfont{\langle}}%
+  #1%
+  \mathpunct{,}%
+  #2%
+  \mathclose{\langsymfont{\rangle}}
+  \kwbin{\langfont{as}}%
   #3%
-  \mathpunct{#1{,}}%
-  #4%
-  \mathclose{{#1{\rangle}}}
-  \kwbin{#2{as}}%
-  #5%
 }
 
-% \fste formats a first projection of a pair.
+% expression `fst` formats a first projection of a pair.
 %
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : A pre-formatted expression for the pair to project.
-\newcommand{\fste}[3]{%
-  \kwopen{#2{fst}}#3%
+% #1 : A pre-formatted expression for the pair to project.
+\newexpr{fst}{1}{%
+  {\kwopen{\langfont{fst}}#1}%
 }
 
-% \snde formats a second projection of a pair.
+% expression `snd` formats a second projection of a pair.
 %
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : A pre-formatted expression for the pair to project.
-\newcommand{\snde}[3]{%
-  \kwopen{#2{snd}}#3%
+% #1 : A pre-formatted expression for the pair to project.
+\newexpr{snd}{1}{%
+  {\kwopen{\langfont{snd}}#1}%
 }
 
-% \@aexistty formats an existential type, whose type variables require annotations
+%% expression `nfun` formats an n-ary function.
 %
-% #1 : A formatting macro for symbols, such as \tfontsym
-% #2 : The pre-formatted type-variable to bind
-% #3 : The pre-formatted type of the type-variable.
-% #4 : The pre-formatted result in which the type-variable is bound.
-\newcommand{\@aexistty}[4]{
-  \kwopen{#1{\exists}}%
-  {#2} \mathbin{:} {#3}%
+% #1 : The pre-formatted variable declarations.
+% #2 : The pre-formatted body of the function.
+\newexpr{nfun}{2}{%
+  \kwopen{\langsymfont{\lambda}}%
+  #1%
   \mathclose{.}%
-  \mathpunct{}#4}
+  \mathpunct{}#2%
+}
 
-% \aexistty is like \@aexistty but provides a standard interface.
+% expression `dnpair` formats a dependent n-ary pair expression.
 %
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : The pre-formatted variable the function binds.
-% #4 : The pre-formatted type of the variable.
-% #5 : The pre-formatted body of the function.
-\newcommand{\aexistty}[2]{\@aexistty{#1}}
-
-% \@nexistty formats an n-ary existential type
-%
-% #1 : A formatting macro for symbols, such as \tfontsym
-% #2 : The pre-formatted list of bindings
-\newcommand{\@nexistty}[2]{
-  \kwopen{#1{\exists}}%
+% #1 : A pre-formatted list of expressions.
+% #2 : A pre-formatted type annotation.
+\newexpr{dnpair}{2}{%
+  \mathopen{\langsymfont{\langle}}%
+  #1%
+  \mathclose{{\langsymfont{\rangle}}}%
+  \kwbin{\langfont{as}}%
   #2%
 }
 
-% \nexistty is like \@nexistty but provides a standard interface.
+% expression `packo` is like `pack` but *o*mits the type annotations on the end.
 %
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : The pre-formatted list of bindings.
-\newcommand{\nexistty}[2]{\@nexistty{#1}}
+% #1 : A pre-formatted type witness.
+% #2 : A pre-formatted value witness.
+\newexpr{packo}{2}{%
+  \kwopen{\langfont{pack}}%
+  \@paire{#2}{#1}%
+}
 
-% \@npity formats an n-ary dependent function type.
+% expression `npair` formats an n-ary pair expression, also known as a list.
 %
-% #1 : A formatting macro for symbols, such as \tfontsym
-% #2 : The pre-formatted variable declarations
-% #3 : The pre-formatted result type
-\newcommand{\@npity}[3]{
-  \kwopen{#1{\Pi}}%
-  #2
-  \mathclose{.}%
-  \mathpunct{}#3}
+% #1 : A pre-formatted expression for the n elements of the pair
+% TODO Would be nice to automagically mathpunct all the commas. should be a simple extension with \foreach parsing
+\newexpr{npair}{1}{%
+  \mathopen{\langsymfont{\langle}}%
+  #1%
+  \mathclose{{\langsymfont{\rangle}}}%
+}
 
-% \npity is like \@npity but provides a standard interface.
+% expression `npack` formats an n-ary pack expression
 %
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : The pre-formatted variable declarations.
+% #1 : A pre-formatted list of witnesses.
+% #2 : A pre-formatted existential type abstracting the witness type.
+\newexpr{npack}{2}{%
+  \kwopen{\langfont{pack}}%
+  \@npaire{#1}%
+  \kwbin{\langfont{as}}%
+  #2%
+}
+
+% expression `npacko` formats an n-ary pack expression, omitting the type annotation.
+%
+% #1 : A pre-formatted list of witnesses.
+\newexpr{npacko}{1}{%
+  \kwopen{\langfont{pack}}%
+  \@npaire{#1}%
+}
+
+% expression `nunpack` formats an n-ary unpack expression
+%
+% #1 : A pre-formatted list of variables.
+% #2 : A pre-formatted existential witness expression.
+% #3 : A pre-formatted expression in which to bind the existential.
+\newexpr{nunpack}{3}{%
+  \kwopen{\langfont{unpack}}%
+  \@npaire{#1}%
+  \mathbin{=}%
+  #2%
+  \kwbin{\langfont{in}}%
+  #3%
+}
+
+% expression `nfix` formats an n-ary recursive function expression.
+%
+% #1 : The per-formatted name of the recursive function.
+% #2 : The pre-formatted list of variables the function binds.
+% #3 : The pre-formatted type of the recursive function.
 % #4 : The pre-formatted body of the function.
-\newcommand{\npity}[2]{\@npity{#1}}
-
-%% nary functions
-\newcommand{\@nfune}[3]{%
-  \kwopen{#1{\uplambda}}%
-  #2
+\newexpr{nfix}{4}{%
+  \kwopen{\langfont{fix}}%
+  {#1} (#2) \mathbin{:} {#3}
   \mathclose{.}%
-  \mathpunct{}#3}
-
-\newcommand{\nfune}[2]{\@nfune{#1}}
-
-% dependent n-ary pairs
-% \@dnpaire formats a dependent n-ary pair expression.
-%
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : A pre-formatted list of expressions.
-% #4 : A pre-formatted type annotation.
-\newcommand{\@dnpaire}[4]{%
-  \mathopen{#1{\langle}}%
-  #3%
-  \mathclose{{#1{\rangle}}}%
-  \kwbin{#2{as}}%
-  #4%
+  \mathpunct{}#4%
 }
 
-% \dnpaire is like \@dnpaire but provides a standard interface.
-%
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : A pre-formatted list of expressions.
-% #5 : A pre-formatted type annotation.
-\newcommand{\dnpaire}[2]{\@dnpaire{#1}{#2}}
-
-% \@packoe is like \@packe, but *o*mits the type annotations on the end.
-
-% #1 : A formatting macro for text, such as \tfont.
-% #2 : A formatting macro for symbols, such as \tfontsym.
-% #3 : A pre-formatted type witness.
-% #4 : A pre-formatted value witness.
-\newcommand{\@packoe}[4]{%
-  \kwopen{#1{pack}}%
-  \@paire{#2}{#3}{#4}%
-}
-
-% \packoe is like \@packoe, but provides a standard interface.
-%
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : A pre-formatted type witness.
-% #4 : A pre-formatted value witness.
-\newcommand{\packoe}[2]{\@packoe{#2}{#1}}
-
-% \@npaire formats a pair expression.
-%
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A pre-formatted expression for the n elements of the pair
-% TODO Would be nice to automagically mathpunct all the commas.
-\newcommand{\@npaire}[2]{%
-  \mathopen{#1{\langle}}%
-  #2%
-  \mathclose{{#1{\rangle}}}%
-}
-
-% \npaire is like \@npaire but provides a standard interface.
-%
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : A pre-formatted expression for the n elements of the pair
-\newcommand{\npaire}[2]{\@npaire{#1}}
-
-% \@npacke formats an n-ary pack expression
-%
-% #1 : A formatting macro for text, such as \tfont.
-% #2 : A formatting macro for symbols, such as \tfontsym.
-% #3 : A pre-formatted list of witnesses.
-% #4 : A pre-formatted existential type abstracting the witness type.
-\newcommand{\@npacke}[4]{%
-  \kwopen{#1{pack}}%
-  \@npaire{#2}{#3}%
-  \kwbin{#1{as}}%
-  #4%
-}
-
-% \npacke is like \@npacke but provides a standard interface.
-%
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : A pre-formatted list of witnesses.
-% #4 : A pre-formatted existential type abstracting the witness type.
-\newcommand{\npacke}[2]{\@npacke{#2}{#1}}
-
-% \@npackoe formats an n-ary pack expression, omitting the type annotation.
-%
-% #1 : A formatting macro for text, such as \tfont.
-% #2 : A formatting macro for symbols, such as \tfontsym.
-% #3 : A pre-formatted list of witnesses.
-\newcommand{\@npackoe}[3]{%
-  \kwopen{#1{pack}}%
-  \@npaire{#2}{#3}%
-}
-
-% \npackoe is like \@npackoe but provides a standard interface.
-%
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : A pre-formatted list of witnesses.
-\newcommand{\npackoe}[2]{\@npackoe{#2}{#1}}
-
-% \@unpacke formats an n-ary unpack expression
-%
-% #1 : A formatting macro for text, such as \tfont.
-% #2 : A formatting macro for symbols, such as \tfontsym.
-% #3 : A pre-formatted list of variables.
-% #4 : A pre-formatted existential witness expression.
-% #5 : A pre-formatted expression in which to bind the existential.
-\newcommand{\@nunpacke}[5]{%
-  \kwopen{#1{unpack}}%
-  \npaire{#2}{#1}{#3}%
-  \mathbin{#2{=}}%
-  #4%
-  \kwbin{#1{in}}%
-  #5
-}
-
-% \nunpacke is like \@nunpacke but provides a standard interface.
-%
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : A pre-formatted list of variables.
-% #4 : A pre-formatted existential witness expression.
-% #5 : A pre-formatted expression in which to bind the existential.
-\newcommand{\nunpacke}[2]{\@nunpacke{#2}{#1}}
-
-% \@nsigmaty formats a dependent pair type.
-%
-% #1 : A formatting macro for symbols, such as \tfontsym
-% #2 : The pre-formatted list of bindings.
-\newcommand{\@nsigmaty}[2]{
-  \kwopen{#1{\Sigma}}{#2}%
-}
-
-% \nsigmaty is like \@nsigmaty but provides a standard interface.
-%
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : The pre-formatted list of bindings.
-\newcommand{\nsigmaty}[2]{\@nsigmaty{#1}}
-
-% \@nfixe formats an n-ary recursive function expression.
-%
-% #1 : A formatting macro for symbols, such as \tfont.
-% #2 : A formatting macro for symbols, such as \tfontsym.
-% #3 : The per-formatted name of the recursive function.
-% #4 : The pre-formatted list of variables the function binds.
-% #5 : The pre-formatted type of the recursive function.
-% #6 : The pre-formatted body of the function.
-\newcommand{\@nfixe}[6]{%
-  \kwopen{#1{fix}}%
-  {#3} (#4) \mathbin{:} {#5}
-  \mathclose{.}%
-  \mathpunct{}#6}
-
-% \nfixe is like \@nfixe but provides a standard interface.
-%
-% #1 : A formatting macro for symbols, such as \tfontsym.
-% #2 : A formatting macro for text, such as \tfont.
-% #3 : The per-formatted name of the recursive function.
-% #4 : The pre-formatted list of variables the function binds.
-% #5 : The pre-formatted type of the recursive function.
-% #6 : The pre-formatted body of the function.
-\newcommand{\nfixe}[2]{\@nfixe{#2}{#1}}
+% TODO: Need some error handling. If a macro given to newlanguage and passed here is undefined, you get an error like
+% "argument of \sfontsym has an extra }", which makes no sense.
 
 % \newconstr generates a macro for formatting a language construct.
 %
