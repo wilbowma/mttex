@@ -8,6 +8,10 @@ inputs and defines new macros, or a macro that can be partially applied
 to produce a new macro. This README provides sections describing various
 aspects of the package.
 
+Note that this is currently a sort of "kitchen sink" package for me.
+The interface is subject to my whims, and eventually I'll reorganize it into a
+proper bunch of packages.
+
 ## Why MTTeX
 Partly because it's a La*TeX* package for type-setting *m*eta-*t*heory, and
 partly because it's pronounced "Empty TeX". This package started because
