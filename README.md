@@ -65,7 +65,6 @@ requires several that are on CTAN.
 The following packages are required and available on CTAN. Many of these
 are included in standard LaTeX installations.
 If you want to use different options, require them before requiring `mttex`.
-* `marginpar`
 * `todo`
 * `letltxmacro`
 * `hyperref`
@@ -161,7 +160,7 @@ To workaround this, use the following pattern:
 ```
 
 ## TODO and Comments
-This package includes the `todo` and `marginpar` packages to TODOs and margin comments.
+This package includes the `todo` packages to TODOs.
 It also provides the following macro for optionally included comments.
 ```latex
 \omitthis[1]
