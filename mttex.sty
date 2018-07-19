@@ -6,7 +6,6 @@
 % Local packages
 
 % CTAN packages
-\RequirePackage{todonotes}
 \RequirePackage{letltxmacro}
 
 \RequirePackage{ifthen}
@@ -27,19 +26,19 @@
 
 %% omitthis
 \newcommand{\omitthis}[1]{#1}
+
+\newif\ifsecc@omit
+\secc@omitfalse
 \DeclareOption{omit}{
   \renewcommand{\omitthis}[1]{}
+  \secc@omittrue
 }
 
 \makeatletter
-%% todo
-\LetLtxMacro{\savedtodo}{\todo}
-
-\renewcommand{\todo}[2][]{\ifvmode\nointerlineskip\fi\omitthis{\savedtodo[#1]{#2}}\ignorespacesafterend}
-
-\DeclareOption{todo}{
-  \renewcommand{\todo}[2][]{\ifvmode\nointerlineskip\fi\savedtodo[#1]{#2}\ignorespacesafterend}
-}
+% todo
+\newif\ifsecc@todo
+\secc@todofalse
+\DeclareOption{todo}{\secc@todotrue}
 
 %% ACM/SIGPLAN format
 \newif\ifsecc@sigplan
@@ -82,6 +81,15 @@
 \DeclareOption{nocompress}{\secc@compressfalse}
 
 \ProcessOptions\relax
+
+\ifsecc@todo
+\else
+  \ifsecc@omit
+    \PassOptionsToPackage{hide}{todo}
+  \fi
+\fi
+\RequirePackage{marginpar}
+\RequirePackage[marginpar]{todo}
 
 \ifsecc@sigplan
   \RequirePackage{natbib}
@@ -185,20 +193,6 @@
 }
 \fi
 \makeatother
-
-\newcommand{\todoleft}[2][]{
-  \reversemarginpar
-  \todo[#1]{#2}
-  \reversemarginpar
-}
-
-\newcommand{\margincomment}[2][color=green!40,nolist]{
-  \todo[#1]{#2}
-}
-
-\newcommand{\inlinecomment}[2][inline,color=green!40,nolist]{
-  \todo[#1]{#2}
-}
 
 %% Misc commands <<<
 %% More automatic "reference stuff"

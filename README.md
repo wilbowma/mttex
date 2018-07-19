@@ -61,7 +61,8 @@ requires several that are on CTAN.
 The following packages are required and available on CTAN. Many of these
 are included in standard LaTeX installations.
 If you want to use different options, require them before requiring `mttex`.
-* `todonotes`
+* `marginpar`
+* `todo`
 * `letltxmacro`
 * `hyperref`
 * `ifthen`
@@ -156,41 +157,13 @@ To workaround this, use the following pattern:
 ```
 
 ## TODO and Comments
-This package provides the following macros for adding TODO comments.
+This package includes the `todo` and `marginpar` packages to TODOs and margin comments.
+It also provides the following macro for optionally included comments.
 ```latex
 \omitthis[1]
 Does not render its argument if the omit option is specified.
   #1 : A comment to potentially omit.
 ```
-
-```latex
-\todo[2][]
-Add a margin comment, and registers the comment into a todo list.
-  #1 : Formatting options for the todo macro. See the todonotes package
-    for more information.
-  #2 : The todo comment
-```
-
-```latex
-\listoftodos
-Formats a list containing all comments added by calls to \todo.
-```
-
-```latex
-\todoleft[2][]
-Like \todo, but adds the comment to the left margin.
-```
-
-```latex
-\margincomment[2][]
-Like \todo, but colors the comment in green and does not add it to the todolist
-```
-
-```latex
-\inlinecomment[2][]
-Like \margincomment, but places the comment inline rather than in the margin.
-```
-
 ## Label References
 This package provides the following macros for referring to sections,
 figures, lemmas, and theorems.
