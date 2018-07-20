@@ -65,13 +65,15 @@ requires several that are on CTAN.
 The following packages are required and available on CTAN. Many of these
 are included in standard LaTeX installations.
 If you want to use different options, require them before requiring `mttex`.
+* `pgffor`
+* `xcolor`
 * `todo`
 * `letltxmacro`
 * `hyperref`
 * `ifthen`
 * `latexsym`
 * `amsbsy`
-* `stmaryrd`
+* `stmaryrd` (only partially loaded to avoid too many fonts)
 * `url`
 * `titlecaps` (not loaded when `notitlecaps` specified)
 * `mathpartir`
