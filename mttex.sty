@@ -682,35 +682,25 @@
 %%% ----------------- Standard language features ----------------------
 
 %% --------------- Macros for defining new lang exprs ----------------
-% \newcommand{\newtype}{tag}[args]{\langfont \langsymfont}
-% => \newcommand{\tagty}[tag+2]{\def\langfont{#1}\def\langsymfont{#2}\def\body[3]{body...}}
-% \newcommand{\newexpr}{tag}[args]{\langfont \langsymfont}
-
-% State passing is easier and more efficient than closures
+% NB: State passing is easier and more efficient than closures
+% Looks like I don't need to clear up the definitions after use.
 % TODO: Make suffix and prefix parameters, like fonts.
 % TODO: Make more font parameters, ala issue #40
-\newcommand{\newtype}[3]{
-  \expandafter\newcommand\csname @#1ty\endcsname[#2]{%
-    \inlinemath{#3}%
+
+% \newfeature{suffix}{tag}{args}{def}
+\newcommand{\newfeature}[4]{
+  \expandafter\newcommand\csname @#2#1\endcsname[#3]{%
+    \inlinemath{#4}%
   }%
-  \expandafter\newcommand\csname #1ty\endcsname[2]{%
+  \expandafter\newcommand\csname #2#1\endcsname[2]{%
     \def\langsymfont{##1}%
     \def\langfont{##2}%
-    \csname @#1ty\endcsname%
+    \csname @#2#1\endcsname%
   }%
 }
 
-% TODO copy paste modify (s/ty/e/) of the above; should abstract by making suffix a parameter
-\newcommand{\newexpr}[3]{
-  \expandafter\newcommand\csname @#1e\endcsname[#2]{%
-    \inlinemath{#3}%
-  }%
-  \expandafter\newcommand\csname #1e\endcsname[2]{%
-    \def\langsymfont{##1}%
-    \def\langfont{##2}%
-    \csname @#1e\endcsname%
-  }%
-}
+\newcommand{\newtype}{\newfeature{ty}}
+\newcommand{\newexpr}{\newfeature{e}}
 
 %% ----------------------- Standard types ----------------------------
 
