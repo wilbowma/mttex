@@ -245,7 +245,7 @@
 % TODO: Document
 \newcommand{\judgmath}[1]{\(#1\)}
 \newcommand{\judgshape}[2][]{\begin{flushleft}\fbox{\judgmath{#2}~#1}\end{flushleft}}
-\newcommand{\inlinemath}[1]{\ensuremath{#1}}
+\newcommand{\inlinemath}[1]{\(#1\)}
 \newcommand{\im}{\inlinemath}
 \newcommand{\nonbreaking}{\mbox}
 \newcommand{\rulename}[1]{[{\scshape #1}]}
@@ -400,7 +400,7 @@
 %   \newcommand{\txone}{\txmetavar{1}{}{}}
 %   \newcommand{\txonepr}{\txmetavar{1}{}{1}}
 \newcommand{\metavar}[5]{
-  \inlinemath{#1\@super{#3}{#4}{#5}\@sub{#2}}%
+  #1\@super{#3}{#4}{#5}\@sub{#2}%
 }
 
 \makeatother
@@ -691,7 +691,7 @@
 % \newfeature{suffix}{tag}{args}{def}
 \newcommand{\newfeature}[4]{
   \expandafter\newcommand\csname @#2#1\endcsname[#3]{%
-    \inlinemath{#4}%
+    #4%
   }%
   \expandafter\newcommand\csname #2#1\endcsname[2]{%
     \def\langsymfont{##1}%
