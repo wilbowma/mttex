@@ -46,8 +46,8 @@
 \newif\ifsecc@sigplan
 \secc@sigplanfalse
 
-\DeclareOption{nosigplan}{\secc@sigplanfalse}
 \DeclareOption{sigplan}{\secc@sigplantrue}
+\DeclareOption{nosigplan}{\secc@sigplanfalse}
 
 %% balance the last page?
 \newif\ifsecc@balance
@@ -92,12 +92,6 @@
 \fi
 \RequirePackage[marginpar]{todo}
 
-\ifsecc@sigplan
-  \RequirePackage{natbib}
-  \bibpunct{[}{]}{,}{n}{}{,}
-  \let\cite=\citep
-\fi
-
 \ifsecc@balance
   \RequirePackage{flushend}
 \fi
@@ -105,12 +99,6 @@
 \ifsecc@techrpt
   \RequirePackage{fullpage}
   \renewcommand{\baselinestretch}{1.0}
-\else
-  \ifsecc@sigplan
-  \renewcommand{\bibsection}{
-    \section*{\refname\@mkboth{\MakeUppercase{\refname}}{\MakeUppercase{\refname}}}
-  }
-  \fi
 \fi
 
 \ifsecc@compress
